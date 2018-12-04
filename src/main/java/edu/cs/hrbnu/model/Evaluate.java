@@ -1,7 +1,7 @@
 package edu.cs.hrbnu.model;
 
 public class Evaluate {
-    private int id;
+    private String id;
     private String courseId;
     private String evaluateContent;
     private double evaluateScore;
@@ -10,11 +10,11 @@ public class Evaluate {
      * */
     private String flag;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

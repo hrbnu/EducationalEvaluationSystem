@@ -3,7 +3,7 @@ package edu.cs.hrbnu.model;
 import java.util.List;
 
 public class Student {
-    private String StudentId;
+    private String studentId;
     private String password;
     private List<Course> courseList;
     private int classId;
@@ -17,11 +17,11 @@ public class Student {
     private boolean graduation;
 
     public String getStudentId() {
-        return StudentId;
+        return studentId;
     }
 
     public void setStudentId(String studentId) {
-        StudentId = studentId;
+        studentId = studentId;
     }
 
     public String getPassword() {

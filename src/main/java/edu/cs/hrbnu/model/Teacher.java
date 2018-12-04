@@ -9,7 +9,7 @@ public class Teacher {
     private String teacherName;
     private String title;
     private String myselfEvaluateContent;
-    private String myselfEvaluateScore;
+    private double myselfEvaluateScore;
 
     /**
      *  互帮互助部分
@@ -70,11 +70,11 @@ public class Teacher {
         this.myselfEvaluateContent = myselfEvaluateContent;
     }
 
-    public String getMyselfEvaluateScore() {
+    public double getMyselfEvaluateScore() {
         return myselfEvaluateScore;
     }
 
-    public void setMyselfEvaluateScore(String myselfEvaluateScore) {
+    public void setMyselfEvaluateScore(double myselfEvaluateScore) {
         this.myselfEvaluateScore = myselfEvaluateScore;
     }
 
