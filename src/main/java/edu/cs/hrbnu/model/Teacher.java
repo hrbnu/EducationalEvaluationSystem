@@ -19,16 +19,16 @@ public class Teacher {
     private String helpTeacherId;
     private String accepterTeacherId;
 
-    private int teacherType;
+    /**
+     *  教师类型，从上到下分别确定是否为：
+     *  一般教师、领导、督导
+     * */
+    private boolean teacherType;
+    private boolean leaderType;
+    private boolean monitorType;
+
     private Date lastLoginTime;
     private String idCard;
-
-    /**
-     *  删除分数-需要单独考虑依赖
-     *  evaluateHistory评价删除
-     *  增加标志位
-     *  增加身份证号
-     * */
 
     public String getTeacherId() {
         return teacherId;
@@ -110,12 +110,28 @@ public class Teacher {
         this.accepterTeacherId = accepterTeacherId;
     }
 
-    public int getTeacherType() {
+    public boolean isTeacherType() {
         return teacherType;
     }
 
-    public void setTeacherType(int teacherType) {
+    public void setTeacherType(boolean teacherType) {
         this.teacherType = teacherType;
+    }
+
+    public boolean isLeaderType() {
+        return leaderType;
+    }
+
+    public void setLeaderType(boolean leaderType) {
+        this.leaderType = leaderType;
+    }
+
+    public boolean isMonitorType() {
+        return monitorType;
+    }
+
+    public void setMonitorType(boolean monitorType) {
+        this.monitorType = monitorType;
     }
 
     public Date getLastLoginTime() {
