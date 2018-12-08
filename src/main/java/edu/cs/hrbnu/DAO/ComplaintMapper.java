@@ -7,3 +7,5 @@ import java.util.List;
 public interface ComplaintMapper {
     List<Complaint> getAllComplaint() throws Exception;
 }
+
+// test
