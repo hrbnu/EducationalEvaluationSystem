@@ -10,7 +10,9 @@
         <result property="myselfEvaluateScore" column="myselfEvaluateScore" javaType="Double" />
         <result property="helpTeacherName" column="helpTeacherName" javaType="String" />
         <result property="accepterTeacherName" column="accepterTeacherName" javaType="String" />
-        <result property="teacherType" column="teacherType" javaType="String" />
+        <result property="teacherType" column="teacherType" javaType="Boolean" />
+        <result property="leaderType" column="leaderType" javaType="Boolean" />
+        <result property="monitorType" column="monitorType" javaType="Boolean" />
         <result property="lastLoginTime" column="lastLoginTime" javaType="Date" />
         <result property="idCard" column="idCard" javaType="String" />
     </resultMap>
