@@ -6,10 +6,13 @@ public class Evaluate {
     private String evaluateContent;
     private double evaluateScore;
     /**
-     *  标志位，学生的评价还是教师、督导的评价
+     *  标志位，学生的评价还是教师、督导的评价  1学生 2教师 3督导
      * */
     private String flag;
 
+
+    // 学号或者工号
+    private String flagId;
     public String getId() {
         return id;
     }
@@ -29,7 +32,13 @@ public class Evaluate {
     public String getEvaluateContent() {
         return evaluateContent;
     }
+    public String getFlagId() {
+        return flagId;
+    }
 
+    public void setFlagId(String flagId) {
+        this.flagId = flagId;
+    }
     public void setEvaluateContent(String evaluateContent) {
         this.evaluateContent = evaluateContent;
     }
