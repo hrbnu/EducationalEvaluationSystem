@@ -4,8 +4,9 @@
         <title>$Title$</title>
     </head>
     <body>
-        <p>hello word</p>
-        <a href="/test">eee</a>
-        <p>test</p>
+        <form action="/admin/addStudentByExcel" method="post" enctype="multipart/form-data">
+            <input type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <input type="submit" name="submit" value="submit">
+        </form>
     </body>
 </html>

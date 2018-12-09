@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.cs.hrbnu.mapper.CourseMapper">
+<mapper namespace="edu.cs.hrbnu.DAO.CourseMapper">
     <resultMap id="courseResultMap" type="edu.cs.hrbnu.model.Course">
         <id property="courseId" column="courseId" javaType="String" />
         <result property="courseName" column="courseName" javaType="String" />

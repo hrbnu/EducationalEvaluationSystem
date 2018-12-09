@@ -3,6 +3,9 @@ package edu.cs.hrbnu.service;
 import edu.cs.hrbnu.model.Administrator;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.model.Teacher;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletRequest;
 
 public interface AdministratorService {
 
@@ -19,7 +22,7 @@ public interface AdministratorService {
     /**
      *  excel导入学生信息
      * */
-    void importStudentByExcel();
+    boolean importStudentByExcel(String filePath);
 
     /**
      *  单条添加学生信息
@@ -39,7 +42,7 @@ public interface AdministratorService {
     /**
      * excel插入课程表
      * */
-    void importCourseByExcel();
+    boolean importCourseByExcel();
 
     /**
      * 单独修改某班级课程表
@@ -59,7 +62,7 @@ public interface AdministratorService {
     /**
      * excel导入教师
      * */
-    void importTeacherByExcel();
+    boolean importTeacherByExcel();
 
     /**
      * 单条插入教师信息

@@ -19,7 +19,7 @@
     </select>
 
     <insert id="insertStudent" useGeneratedKeys="true" keyProperty="id">
-        insert into student (studentId,password,classId,idCard,name,grade,department,graduation)
+        insert ignore student (studentId,password,classId,idCard,name,grade,department,graduation)
         values (#{studentId},#{password},#{classId},#{idCard},#{name},#{grade},#{department},#{graduation})
     </insert>
 </mapper>
