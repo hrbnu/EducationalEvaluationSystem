@@ -3,6 +3,8 @@ package edu.cs.hrbnu.service;
 import edu.cs.hrbnu.model.Administrator;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.model.Teacher;
+import edu.cs.hrbnu.model.Weight;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
@@ -51,13 +53,15 @@ public interface AdministratorService {
 
     /**
      * 修改评分标准
+     * @param weight 
      * */
-    void updateGrading();
+    void updateGrading(Weight weight);
 
     /**
      * 管理员期末总评
+     * @param weight 
      * */
-    void generalComment();
+    void generalComment(Weight weight);
 
     /**
      * excel导入教师

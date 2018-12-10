@@ -13,6 +13,10 @@ public class Course {
      * 课程属性：专业必修课等
      * */
     private String classification;
+    private String courseClass;
+    private String startTime;
+    private String endTime;
+    private int learnTime;
 
     public String getCourseId() {
         return courseId;

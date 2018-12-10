@@ -13,4 +13,10 @@
         from student_course
         where id=#{id}
     </select>
+    
+     <select id="getHistoryCourseIdByStudentId" resultMap="studentCourseResultMap">
+        select studentId
+        from student_course
+        where courseId=#{CourseId}
+    </select>
 </mapper>
