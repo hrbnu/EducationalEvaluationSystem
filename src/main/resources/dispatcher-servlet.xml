@@ -17,6 +17,8 @@
 
     <context:component-scan base-package="edu.cs.hrbnu.controller" />
     <context:component-scan base-package="edu.cs.hrbnu.service.impl" />
+    
+    <context:property-placeholder location="classpath:config.properties" file-encoding="utf-8" />
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/view/" />
