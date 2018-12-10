@@ -17,5 +17,6 @@
     <select id="getAllTeacherEvaluateProblem" resultMap="evaluateProblemResultMap">
         select *
         from evaluateProblem
+        where forWho=0
     </select>
 </mapper>
