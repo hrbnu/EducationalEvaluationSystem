@@ -1,6 +1,7 @@
 package edu.cs.hrbnu.service;
 
 import edu.cs.hrbnu.model.Course;
+import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Student;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public interface StudentService {
 	/**
 	 * 评价当前课程
 	 */
-	void evaluateCurrentCourse(String studentId,String courseId);
+	List<EvaluateProblem> evaluateCurrentCourse(String studentId, String courseId);
 	
 	/**
      * 投诉
