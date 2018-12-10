@@ -25,4 +25,12 @@ public class StudentController {
         return new ModelAndView("evalu/evalu");
     }
 
+    @RequestMapping("/eval")
+    public ModelAndView evaluation1(Model model, Student student, Course course) {
+        List<EvaluateProblem> listEvaluateProblem = studentService.evaluateCurrentCourse(student.getStudentId(), course.getCourseId());
+        model.addAttribute("listEvaluateProblem", listEvaluateProblem);
+        return new ModelAndView("evalu/evalu");
+    }
+
+
 }
