@@ -1,9 +1,11 @@
 package edu.cs.hrbnu.service.impl;
 
 import edu.cs.hrbnu.DAO.CourseMapper;
+import edu.cs.hrbnu.DAO.EvaluateProblemMapper;
 import edu.cs.hrbnu.DAO.StudentCourseMapper;
 import edu.cs.hrbnu.DAO.StudentMapper;
 import edu.cs.hrbnu.model.Course;
+import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class StudentServiceImpl implements StudentService{
     private StudentCourseMapper studentCourseMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private EvaluateProblemMapper evaluateProblemMapper;
 
     @Override
     public Student login(String studentId, String password){
@@ -119,8 +123,15 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void evaluateCurrentCourse(String studentId,String courseId){
+    public List<EvaluateProblem> evaluateCurrentCourse(String studentId,String courseId){
         // TODO
+        List<EvaluateProblem> listStudentEvaluateProblem = null;
+        try{
+            listStudentEvaluateProblem = evaluateProblemMapper.getAllStudentEvaluateProblem();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listStudentEvaluateProblem;
     }
 
     @Override
