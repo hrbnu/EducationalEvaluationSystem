@@ -14,22 +14,40 @@
 </head>
 <body>
 <form action="" method="get">
-    您喜欢的水果？<br /><br />
-    <label><input name="Fruit" type="checkbox" value="" />苹果 </label>
-    <label><input name="Fruit" type="checkbox" value="" />桃子 </label>
-    <label><input name="Fruit" type="checkbox" value="" />香蕉 </label>
-    <label><input name="Fruit" type="checkbox" value="" />梨 </label>
+    您最喜欢水果？<br /><br />
+    <label><input name="Fruit" type="radio" value="" />苹果 </label>
+    <label><input name="Fruit" type="radio" value="" />桃子 </label>
+    <label><input name="Fruit" type="radio" value="" />香蕉 </label>
+    <label><input name="Fruit" type="radio" value="" />梨 </label>
+    <label><input name="Fruit" type="radio" value="" />其它 </label>
 </form>
 
+
 <div>
-    <c:forEach var="evaluateProblem" items="${requestScope.get('listEvaluateProblem')}" varStatus="status">
-        <div>
-            <p>${evaluateProblem.id}</p>
-            <p>${evaluateProblem.evaluateProblemContent}</p>
-            <p>${evaluateProblem.forWho}</p>
-            <p>${evaluateProblem.score}</p>
-        </div>
-    </c:forEach>
+    <form action="" method="get">
+        <c:forEach var="evaluateProblem" items="${requestScope.get('listEvaluateProblem')}" varStatus="status">
+
+            <%--<p>${evaluateProblem.forWho}</p>--%>
+            <p>${evaluateProblem.id}、${evaluateProblem.evaluateProblemContent}, 请打分，谢谢！</p><br />
+            <label>
+                <input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.6}" />${evaluateProblem.score * 0.6}分
+            </label>
+            <label>
+                <input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.7}" />${evaluateProblem.score * 0.7}分
+            </label>
+            <label>
+                <input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.8}" />${evaluateProblem.score * 0.8}分
+            </label>
+            <label>
+                <input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.9}" />${evaluateProblem.score * 0.9}分
+            </label>
+            <label>
+                <input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 1.0}" />${evaluateProblem.score * 1.0}分
+            </label>
+        </c:forEach>
+        <br />
+        <input name="submit" type="submit">
+    </form>
 </div>
 </body>
 </html>
