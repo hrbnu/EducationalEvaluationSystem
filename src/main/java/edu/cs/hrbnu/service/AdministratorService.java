@@ -66,7 +66,7 @@ public interface AdministratorService {
     /**
      * excel导入教师
      * */
-    boolean importTeacherByExcel();
+    boolean importTeacherByExcel(String filePath);
 
     /**
      * 单条插入教师信息

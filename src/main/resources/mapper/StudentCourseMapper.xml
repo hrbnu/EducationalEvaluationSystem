@@ -14,7 +14,7 @@
         where id=#{id}
     </select>
     
-     <select id="getHistoryCourseIdByStudentId" resultMap="studentCourseResultMap">
+     <select id="getStudentIdByCourseId" resultMap="studentCourseResultMap">
         select studentId
         from student_course
         where courseId=#{CourseId}
