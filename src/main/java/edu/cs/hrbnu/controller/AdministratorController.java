@@ -44,29 +44,4 @@ public class AdministratorController {
         }
         return new ModelAndView("wrong");
     }
-
-    @RequestMapping("addTeacherByExcel")
-    public ModelAndView addTeacherByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile){
-        if(!multipartFile.isEmpty()){
-            String path = request.getServletContext().getRealPath("/");
-            String[] s = path.split("out");
-            path = s[0];
-            path += "src/main/webapp/excel";
-            String name = multipartFile.getOriginalFilename();
-            File file = new File(path,name);
-            try{
-                multipartFile.transferTo(file);
-            }catch (Exception ex){
-                ex.printStackTrace();
-                return new ModelAndView("wrong");
-            }
-
-            String filePath = path+"/"+name;
-            boolean flag = administratorService.importTeacherByExcel(filePath);
-            if(flag){
-                return new ModelAndView("success");
-            }
-        }
-        return new ModelAndView("wrong");
-    }
 }

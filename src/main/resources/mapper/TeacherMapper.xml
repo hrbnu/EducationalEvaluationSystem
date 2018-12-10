@@ -22,9 +22,4 @@
         from admin
         where id=#{id}
     </select>
-
-    <insert id="insertTeacher" useGeneratedKeys="true" keyProperty="id">
-        insert ignore teacher (teacherId,password,teacherName,teacherType,leaderType,monitorType,lastLoginTime,idCard)
-        values (#{teacherId},#{password},#{teacherName},#{teacherType},#{leaderType},#{monitorType},#{lastLoginTime},#{idCard})
-    </insert>
 </mapper>
