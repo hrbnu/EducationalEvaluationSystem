@@ -1,10 +1,12 @@
 package edu.cs.hrbnu.service.impl;
 
 import edu.cs.hrbnu.DAO.StudentMapper;
+import edu.cs.hrbnu.DAO.TeacherMapper;
 import edu.cs.hrbnu.model.Administrator;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.service.AdministratorService;
+import edu.cs.hrbnu.uitl.ExcelUitl;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -27,12 +29,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 @Service("administratorService")
 public class AdministratorServiceImpl implements AdministratorService {
     @Autowired
     StudentMapper studentMapper;
+    @Autowired
+    TeacherMapper teacherMapper;
 
     @Override
     public void login(Administrator administrator){
@@ -46,27 +51,10 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     @Override
     public boolean importStudentByExcel(String filePath) {
-        // TODO ing
-        File file = new File(filePath);
-        InputStream inputStream = null;
-        try{
-            inputStream = new FileInputStream(file);
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
+        // 获取Workbook
+        Workbook workbook = ExcelUitl.getWorkbook(filePath);
+        if(workbook == null) return false;
 
-        // 看是xls格式还是xlsx格式
-        char species = filePath.charAt(filePath.length()-1);
-        Workbook workbook = null;
-        try{
-            if(species == 's'){
-                workbook = new HSSFWorkbook(inputStream);
-            }else{
-                workbook = new XSSFWorkbook(inputStream);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         Sheet sheet = workbook.getSheetAt(0);
         int begin = sheet.getFirstRowNum()+1;
         int end = sheet.getLastRowNum();
@@ -111,8 +99,48 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    public boolean importTeacherByExcel(){
-        // TODO
+    public boolean importTeacherByExcel(String filePath){
+        // 获取Workbook
+        Workbook workbook = ExcelUitl.getWorkbook(filePath);
+        if(workbook == null) return false;
+
+        Sheet sheet = workbook.getSheetAt(0);
+        int begin = sheet.getFirstRowNum()+1;
+        int end = sheet.getLastRowNum();
+        for(int i = begin;i <= end;i++){
+            Row row = sheet.getRow(i);
+            Teacher teacher = new Teacher();
+            if(row == null) continue;
+
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setGroupingUsed(false);
+
+            teacher.setTeacherId(nf.format(row.getCell(0).getNumericCellValue()));
+            teacher.setTeacherName(row.getCell(1).getStringCellValue());
+            teacher.setIdCard(row.getCell(5).getStringCellValue());
+
+            // 3种教师类型判定y为true，n为false
+            String flags = "";
+            for(int j = 2;j < 5;j++){
+                flags += row.getCell(j).getStringCellValue();
+            }
+            teacher.setTeacherType(flags.charAt(0) == 'y');
+            teacher.setLeaderType(flags.charAt(1) == 'y');
+            teacher.setMonitorType(flags.charAt(2) == 'y');
+
+            // 补充属性
+            String defaultPassword = teacher.getIdCard().substring(12,18);
+            teacher.setPassword(defaultPassword);
+            Date initDate = new Date(0);
+            teacher.setLastLoginTime(initDate);
+
+            try{
+                teacherMapper.insertTeacher(teacher);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                return false;
+            }
+        }
 
         return true;
     }
