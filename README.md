@@ -1,3 +1,31 @@
+-------------------------------update 18.12.10-----------------------------------------------------------------------------
+
+pom.xml对于部分机器可能存在build没有配置导致override报错，需要加入：
+
+```
+<build>
+        <finalName>educational_evaluation_system</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>utf8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+同时由于没有idea配置文件，可能会出现导入后tomcat文件运行后不成功问题，需要
+Artifacts中找到对应的Output Layout下的classes的右边的Available Elements先第一个单机右键put into output root解决。
+会出现这个错误原因在于确实相关spring包在输出位置。
+
+author: yaque
+time: 2018-12-10
 
 -------------------------------update 18.12.7-----------------------------------------------------------------------------
 
