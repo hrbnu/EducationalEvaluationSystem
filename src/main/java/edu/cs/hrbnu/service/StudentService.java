@@ -42,11 +42,15 @@ public interface StudentService {
 	 * 评价历史课程
 	 */
 	void evaluateHistoryCourses(String studentId,String courseId);
-	
+
+	/*
+	* 获取评价问题*/
+	List<EvaluateProblem> getEvaluateProblem();
+
 	/**
 	 * 评价当前课程
 	 */
-	List<EvaluateProblem> evaluateCurrentCourse(String studentId, String courseId);
+	void evaluateCurrentCourse(String studentId, String courseId);
 	
 	/**
      * 投诉
