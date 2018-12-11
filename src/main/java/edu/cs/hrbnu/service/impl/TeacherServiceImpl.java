@@ -9,6 +9,7 @@ import edu.cs.hrbnu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service("teacherService")
@@ -42,14 +43,42 @@ public class TeacherServiceImpl implements TeacherService {
         // TODO
     }
 
+    //重置密码
     @Override
-    public void reset(Teacher teacher){
-        // TODO
+    public boolean reset(Teacher teacher){
+        boolean isSuccess = false;
+        try {
+            Teacher teacherInformation = teacherMapper.getTeacherInformation(teacher);
+            if(teacherInformation != null){
+                Teacher teacherRest = new Teacher();
+                teacherRest.setTeacherId(teacherInformation.getTeacherId());
+                teacherRest.setPassword(teacherInformation.getIdCard().substring(12));
+                teacherMapper.resetTeacherPassword(teacherRest);
+                isSuccess = true;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return isSuccess;
     }
 
+    //更新密码
     @Override
-    public void updatePassword(Teacher teacher){
-        // TODO
+    public boolean updatePassword(String teacherId, String oldPassword, String newPassword){
+        boolean isSuccess = false;
+        try{
+            String password = teacherMapper.validateTeacherIdAndPassword(teacherId);
+            if(password.equals(oldPassword)){
+                HashMap<String,Object> map = new HashMap<String, Object>();
+                map.put("teacherId",teacherId);
+                map.put("password",newPassword);
+                teacherMapper.updateTeacherPasswordById(map);
+                isSuccess = true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return isSuccess;
     }
 
     @Override

@@ -27,4 +27,26 @@
         insert ignore teacher (teacherId,password,teacherName,teacherType,leaderType,monitorType,lastLoginTime,idCard)
         values (#{teacherId},#{password},#{teacherName},#{teacherType},#{leaderType},#{monitorType},#{lastLoginTime},#{idCard})
     </insert>
+    <!-- 更新教师密码 -->
+    <update id="updateTeacherPasswordById">
+        update teacher
+        set password = #{password}
+        where teacherId = #{teacherId}
+    </update>
+    <select id="validateTeacherIdAndPassword" parameterType="java.lang.String" resultType="java.lang.String">
+        select password
+        from teacher
+        where teacherId = #{teacherId}
+    </select>
+    <!-- 重置教师密码 -->
+    <update id="resetTeacherPassword" parameterType="Teacher">
+        update teacher
+        set password = #{password}
+        where teacherId = #{teacherId}
+    </update>
+    <select id="getTeacherInformation" parameterType="Teacher" resultType="Teacher">
+        select *
+        from teacher
+        where teacherId = #{teacherId} and idCard = #{idCard}
+    </select>
 </mapper>

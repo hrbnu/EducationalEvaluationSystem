@@ -22,4 +22,26 @@
         insert ignore student (studentId,password,classId,idCard,name,grade,department,graduation)
         values (#{studentId},#{password},#{classId},#{idCard},#{name},#{grade},#{department},#{graduation})
     </insert>
+    <!-- 更新学生密码 -->
+    <update id="updateStudentPasswordById">
+        update student
+        set password = #{password}
+        where studentId = #{studentId}
+    </update>
+    <select id="validateStudentIdAndPassword" parameterType="String" resultType="java.lang.String">
+        select password
+        from student
+        where studentId = #{studentId}
+    </select>
+    <!-- 重置学生密码 -->
+    <update id="resetStudentPassword" parameterType="Student">
+        update student
+        set password = #{password}
+        where studentId = #{studentId}
+    </update>
+    <select id="getStudentInfo" parameterType="Student" resultType="Student">
+        select *
+        from student
+        where studentId = #{studentId} and idCard = #{idCard}
+    </select>
 </mapper>

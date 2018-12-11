@@ -20,16 +20,18 @@ public interface TeacherService {
      * */
 	void logout();
 
-    /**
-     *  重置密码
-     * */
-    void reset(Teacher teacher);
+	/**
+	 *  重置密码
+	 * */
+	//由void改成了boolean
+	boolean reset(Teacher teacher);
 
-    /**
-     * 更新密码
-     * @return
-     * */
-    void updatePassword(Teacher teacher);
+	/**
+	 * 更新密码
+	 * @return
+	 * */
+	//由void改成了boolean
+	boolean updatePassword(String teacherId, String oldPassword, String newPassword);
 
 	/**
 	 * 查看自己评价信息
