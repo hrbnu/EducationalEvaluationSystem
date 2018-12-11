@@ -8,5 +8,8 @@
             <input type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
             <input type="submit" name="submit" value="submit">
         </form>
+
+        <a href="view/student.jsp">学生页面</a>
+        <a href="view/teacher.jsp">教师页面</a>
     </body>
 </html>

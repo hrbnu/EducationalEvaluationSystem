@@ -9,6 +9,7 @@ import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("studentService")
@@ -43,18 +44,42 @@ public class StudentServiceImpl implements StudentService{
         return student;
     }
 
+    //更新密码 通过学号、旧密码和新密码
     @Override
-    public void updatePassword(String studentId,String password){
-
-        /**
-         *  TODO : 最早写的一点，仅作参考
-         * */
-
+    public boolean updatePassword(String studentId,String oldPassword,String newPassword){
+        boolean isSuccess = false;
         try{
-            studentMapper.updateStudentPasswordById(studentId,password);
+            String password = studentMapper.validateStudentIdAndPassword(studentId);
+            if(password.equals(oldPassword)){
+                HashMap<String,Object> map = new HashMap<String, Object>();
+                map.put("studentId",studentId);
+                map.put("password",newPassword);
+                studentMapper.updateStudentPasswordById(map);
+                isSuccess = true;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
+        return isSuccess;
+    }
+
+    //重置密码  通过学号和身份证号验证
+    @Override
+    public boolean reset(Student student){
+        boolean isSuccess = false;
+        try {
+            Student studentInformation = studentMapper.getStudentInfo(student);
+            if(studentInformation != null){
+                Student studentRest = new Student();
+                studentRest.setStudentId(studentInformation.getStudentId());
+                studentRest.setPassword(studentInformation.getIdCard().substring(12));
+                studentMapper.resetStudentPassword(studentRest);
+                isSuccess = true;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return isSuccess;
     }
 
     @Override
@@ -156,8 +181,5 @@ public class StudentServiceImpl implements StudentService{
         // TODO
     }
 
-    @Override
-    public void reset(Student student){
-        // TODO
-    }
+
 }
