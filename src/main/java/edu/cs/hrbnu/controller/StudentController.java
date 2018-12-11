@@ -22,7 +22,7 @@ public class StudentController {
 
     @RequestMapping("/evalu")
     public ModelAndView evaluation(Model model, Student student, Course course) {
-        List<EvaluateProblem> listEvaluateProblem = studentService.evaluateCurrentCourse(student.getStudentId(), course.getCourseId());
+        List<EvaluateProblem> listEvaluateProblem = studentService.getEvaluateProblem();
         model.addAttribute("listEvaluateProblem", listEvaluateProblem);
         return new ModelAndView("evalu/evalu");
     }
@@ -30,7 +30,7 @@ public class StudentController {
     @RequestMapping("/evaluScoreCaculate")
     public ModelAndView evaluationScoreCaculate(HttpServletRequest request, Model model, Student student, Course course) {
         double thisCourseCores = 0.0;
-        List<EvaluateProblem> listEvaluateProblem = studentService.evaluateCurrentCourse(student.getStudentId(), course.getCourseId());
+        List<EvaluateProblem> listEvaluateProblem = studentService.getEvaluateProblem();
         for (EvaluateProblem evaluateProblem:listEvaluateProblem) {
             thisCourseCores = thisCourseCores + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
         }
