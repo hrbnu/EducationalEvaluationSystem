@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -26,9 +28,12 @@ public class StudentController {
     }
 
     @RequestMapping("/evaluScoreCaculate")
-    public ModelAndView evaluationScoreCaculate(Model model, Student student, Course course) {
+    public ModelAndView evaluationScoreCaculate(HttpServletRequest request, Model model, Student student, Course course) {
+        double thisCourseCores = 0.0;
         List<EvaluateProblem> listEvaluateProblem = studentService.evaluateCurrentCourse(student.getStudentId(), course.getCourseId());
-        model.addAttribute("listEvaluateProblem", listEvaluateProblem);
+        for (EvaluateProblem evaluateProblem:listEvaluateProblem) {
+            thisCourseCores = thisCourseCores + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
+        }
         return new ModelAndView("success");
     }
 
