@@ -148,7 +148,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public List<EvaluateProblem> evaluateCurrentCourse(String studentId,String courseId){
+    public List<EvaluateProblem> getEvaluateProblem() {
         // TODO
         List<EvaluateProblem> listStudentEvaluateProblem = null;
         try{
@@ -157,6 +157,11 @@ public class StudentServiceImpl implements StudentService{
             e.printStackTrace();
         }
         return listStudentEvaluateProblem;
+    }
+
+    @Override
+    public void evaluateCurrentCourse(Student student, String courseId, double courseScores, String evaluateContent) {
+
     }
 
     @Override
