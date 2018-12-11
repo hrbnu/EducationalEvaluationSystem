@@ -28,7 +28,6 @@ public class TeacherController {
         }
         return modelAndView;
     }
-
     @RequestMapping("/updatePassword")
     public ModelAndView updatePassword(Teacher teacher, @RequestParam("newPassword") String newPassword){
         boolean isSuccess = teacherService.updatePassword(teacher.getTeacherId(),teacher.getPassword(),newPassword);
