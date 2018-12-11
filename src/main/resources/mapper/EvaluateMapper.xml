@@ -20,4 +20,9 @@
         select *
         from evaluate
     </select>
+
+    <insert id="insertEvaluate" parameterType="Evaluate">
+        INSERT INTO evaluate(courseId, evaluateContent, evaluateScore, flag, flagId)
+        VALUE (#{courseId},#{evaluateContent}, #{evaluateScore}, #{flag}, #{flagId})
+    </insert>
 </mapper>

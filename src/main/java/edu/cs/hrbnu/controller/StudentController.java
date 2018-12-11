@@ -28,13 +28,19 @@ public class StudentController {
     }
 
     @RequestMapping("/evaluScoreCaculate")
-    public ModelAndView evaluationScoreCaculate(HttpServletRequest request, Model model, Student student, Course course) {
-        double thisCourseCores = 0.0;
+    public ModelAndView evaluationScoreCaculate(@RequestParam("otherContent")String evaluateContent, HttpServletRequest request, Model model, String studentId, String courseId) {
+        double thisCourseScore = 0.0;
         List<EvaluateProblem> listEvaluateProblem = studentService.getEvaluateProblem();
         for (EvaluateProblem evaluateProblem:listEvaluateProblem) {
-            thisCourseCores = thisCourseCores + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
+            thisCourseScore = thisCourseScore + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
         }
-        return new ModelAndView("success");
+        studentId = "2018080234";
+        courseId = "201803001";
+        if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent) == 0){
+            return new ModelAndView("wrong");
+        }else {
+            return new ModelAndView("success");
+        }
     }
 
 }

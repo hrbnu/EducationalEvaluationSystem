@@ -1,10 +1,8 @@
 package edu.cs.hrbnu.service.impl;
 
-import edu.cs.hrbnu.DAO.CourseMapper;
-import edu.cs.hrbnu.DAO.EvaluateProblemMapper;
-import edu.cs.hrbnu.DAO.StudentCourseMapper;
-import edu.cs.hrbnu.DAO.StudentMapper;
+import edu.cs.hrbnu.DAO.*;
 import edu.cs.hrbnu.model.Course;
+import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.service.StudentService;
@@ -23,6 +21,8 @@ public class StudentServiceImpl implements StudentService{
     private CourseMapper courseMapper;
     @Autowired
     private EvaluateProblemMapper evaluateProblemMapper;
+    @Autowired
+    private EvaluateMapper evaluateMapper;
 
     @Override
     public Student login(String studentId, String password){
@@ -135,8 +135,20 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void evaluateCurrentCourse(Student student, String courseId, double courseScores, String evaluateContent) {
-
+    public int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent) {
+        Evaluate evaluate = new Evaluate();
+        evaluate.setCourseId(courseId);
+        evaluate.setEvaluateContent(evaluateContent);
+        evaluate.setEvaluateScore(courseScores);
+        evaluate.setFlag("1");
+        evaluate.setFlagId(studentId);
+        try {
+            evaluateMapper.insertEvaluate(evaluate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
     @Override
