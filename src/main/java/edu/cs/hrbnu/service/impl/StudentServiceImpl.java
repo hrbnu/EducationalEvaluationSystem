@@ -135,7 +135,7 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void evaluateCurrentCourse(String studentId, String courseId) {
+    public void evaluateCurrentCourse(Student student, String courseId, double courseScores, String evaluateContent) {
 
     }
 
