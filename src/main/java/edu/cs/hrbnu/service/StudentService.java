@@ -50,7 +50,7 @@ public interface StudentService {
 	/**
 	 * 评价当前课程
 	 */
-	void evaluateCurrentCourse(String studentId, String courseId);
+	void evaluateCurrentCourse(Student student, String courseId, double courseScores, String evaluateContent);
 	
 	/**
      * 投诉
