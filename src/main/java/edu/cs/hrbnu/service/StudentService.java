@@ -19,15 +19,13 @@ public interface StudentService {
     void logout(Student student);
 
 	/**
-	 * 更新密码
+	 * 更新密码 由void改成了boolean
 	 */
-	//由void改成了boolean
 	boolean updatePassword(String studentId,String oldPassword,String newPassword);
 
 	/**
-	 *  重置密码
+	 *  重置密码 由void改成了boolean
 	 * */
-	//由void改成了boolean
 	boolean reset(Student student);
 
     /**

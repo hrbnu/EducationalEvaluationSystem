@@ -12,6 +12,7 @@
     确认重置：<input type="submit" name="submit" value="submit">
     <font color="red">${resetMessage}<br></font>
 </form>
+
 <%-- 教师更改密码 --%>
 <form action="${pageContext.request.contextPath }/teacher/updatePassword" method="post">
     <h3>更改密码</h3>

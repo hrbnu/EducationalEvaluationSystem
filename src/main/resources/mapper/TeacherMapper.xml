@@ -27,6 +27,7 @@
         insert ignore teacher (teacherId,password,teacherName,teacherType,leaderType,monitorType,lastLoginTime,idCard)
         values (#{teacherId},#{password},#{teacherName},#{teacherType},#{leaderType},#{monitorType},#{lastLoginTime},#{idCard})
     </insert>
+
     <!-- 更新教师密码 -->
     <update id="updateTeacherPasswordById">
         update teacher

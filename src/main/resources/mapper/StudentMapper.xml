@@ -22,6 +22,7 @@
         insert ignore student (studentId,password,classId,idCard,name,grade,department,graduation)
         values (#{studentId},#{password},#{classId},#{idCard},#{name},#{grade},#{department},#{graduation})
     </insert>
+
     <!-- 更新学生密码 -->
     <update id="updateStudentPasswordById">
         update student
@@ -44,4 +45,5 @@
         from student
         where studentId = #{studentId} and idCard = #{idCard}
     </select>
+
 </mapper>

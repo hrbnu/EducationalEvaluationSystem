@@ -21,16 +21,14 @@ public interface TeacherService {
 	void logout();
 
 	/**
-	 *  重置密码
+	 *  重置密码 由void改成了boolean
 	 * */
-	//由void改成了boolean
 	boolean reset(Teacher teacher);
 
 	/**
-	 * 更新密码
+	 * 更新密码 由void改成了boolean
 	 * @return
 	 * */
-	//由void改成了boolean
 	boolean updatePassword(String teacherId, String oldPassword, String newPassword);
 
 	/**

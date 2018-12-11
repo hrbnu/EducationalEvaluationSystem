@@ -11,6 +11,7 @@ public interface StudentMapper {
 	Student getStudentById(String studentId) throws Exception;
 	void updateStudentPasswordById(String studentId,String password) throws Exception;
 	int insertStudent(Student student) throws Exception;
+
 	//更新密码
 	void updateStudentPasswordById(HashMap<String,Object> map) throws Exception;
 	//更新密码前先验证用户名和密码是否匹配

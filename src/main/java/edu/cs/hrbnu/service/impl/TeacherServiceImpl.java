@@ -80,7 +80,6 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return isSuccess;
     }
-
     @Override
     public List<Evaluate> otherEvaluate(String teacherId){
 
