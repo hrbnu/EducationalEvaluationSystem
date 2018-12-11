@@ -37,4 +37,32 @@ public class StudentController {
         return new ModelAndView("success");
     }
 
+    @RequestMapping(value = "/reset")
+    public ModelAndView reset(Student student){
+        boolean isSuccess = studentService.reset(student);
+        ModelAndView modelAndView = new ModelAndView();
+        if(isSuccess){
+            modelAndView.setViewName("success");
+        } else {
+            String resetMessage = "学号或身份证号错误";
+            modelAndView.addObject("resetMessage",resetMessage);
+            modelAndView.setViewName("student");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("/updatePassword")
+    public ModelAndView updatePassword(Student student,@RequestParam("newPassword") String newPassword){
+        boolean isSuccess = studentService.updatePassword(student.getStudentId(),student.getPassword(),newPassword);
+        ModelAndView modelAndView = new ModelAndView();
+        if(isSuccess){
+            modelAndView.setViewName("success");
+        } else {
+            String updateMessage = "学号或密码错误";
+            modelAndView.addObject("updateMessage",updateMessage);
+            modelAndView.setViewName("student");
+        }
+        return modelAndView;
+    }
+
 }
