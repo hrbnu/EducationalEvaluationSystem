@@ -18,11 +18,18 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @RequestMapping("/eval")
+    @RequestMapping("/evalu")
     public ModelAndView evaluation(Model model, Student student, Course course) {
         List<EvaluateProblem> listEvaluateProblem = studentService.evaluateCurrentCourse(student.getStudentId(), course.getCourseId());
         model.addAttribute("listEvaluateProblem", listEvaluateProblem);
         return new ModelAndView("evalu/evalu");
+    }
+
+    @RequestMapping("/evaluScoreCaculate")
+    public ModelAndView evaluationScoreCaculate(Model model, Student student, Course course) {
+        List<EvaluateProblem> listEvaluateProblem = studentService.evaluateCurrentCourse(student.getStudentId(), course.getCourseId());
+        model.addAttribute("listEvaluateProblem", listEvaluateProblem);
+        return new ModelAndView("success");
     }
 
 }
