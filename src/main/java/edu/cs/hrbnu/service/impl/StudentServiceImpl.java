@@ -1,14 +1,12 @@
 package edu.cs.hrbnu.service.impl;
 
 import edu.cs.hrbnu.DAO.*;
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.EvaluateProblem;
-import edu.cs.hrbnu.model.Student;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +22,8 @@ public class StudentServiceImpl implements StudentService{
     private EvaluateProblemMapper evaluateProblemMapper;
     @Autowired
     private EvaluateMapper evaluateMapper;
+    @Autowired
+    private ComplaintMapper complaintMapper;
 
     @Override
     public Student login(String studentId, String password){
@@ -147,6 +147,7 @@ public class StudentServiceImpl implements StudentService{
         // TODO
     }
 
+    /*该方法用于获取数据库中的存放的用于学生给老师评分时的标准*/
     @Override
     public List<EvaluateProblem> getEvaluateProblem() {
         // TODO
@@ -159,6 +160,7 @@ public class StudentServiceImpl implements StudentService{
         return listStudentEvaluateProblem;
     }
 
+    /*yaque 私有方法，勿动。用于向数据库中写入一次学生的评价*/
     @Override
     public int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent) {
         Evaluate evaluate = new Evaluate();
@@ -176,9 +178,22 @@ public class StudentServiceImpl implements StudentService{
         return 1;
     }
 
+    /*yaque的私有方法 勿动。用于向数据库中写入一次学生的投诉*/
     @Override
-    public void complaint(Student student,Course course,String message){
+    public int complaint(String studentId, String courseId, String complaintContent){
         // TODO
+        Complaint complaint = new Complaint();
+        complaint.setStudentId(studentId);
+        complaint.setCourseId(courseId);
+        complaint.setMessage(complaintContent);
+        complaint.setComplaintTime(new Date());
+        try {
+            complaintMapper.insertComplaintContent(complaint);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
 

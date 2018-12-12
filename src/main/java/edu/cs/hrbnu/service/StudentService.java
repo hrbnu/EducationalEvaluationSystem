@@ -55,5 +55,5 @@ public interface StudentService {
 	/**
      * 投诉
      * */
-	void complaint(Student student,Course course,String message);
+	int complaint(String studentId, String courseId, String complaintContent);
 }	

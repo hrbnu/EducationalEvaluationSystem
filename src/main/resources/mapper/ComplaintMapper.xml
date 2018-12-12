@@ -7,6 +7,11 @@
         <result property="message" column="message" javaType="String" />
         <result property="complaintTime" column="complaintTime" javaType="Date" />
     </resultMap>
+    
+    <insert id="insertComplaintContent" parameterType="Complaint">
+        insert into complaint(studentId, courseId, message, complaintTime)
+        VALUE (#{studentId}, #{courseId}, #{message}, #{complaintTime})
+    </insert>
 
     <select id="getAllComplaint" resultMap="complaintResultMap">
         select *
