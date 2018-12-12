@@ -36,4 +36,9 @@
         from course
         where teacherId=#{teacherId}
     </select>
+
+    <insert id="insertCourse" useGeneratedKeys="true" keyProperty="id">
+        insert ignore course (courseId,courseName,teacherId,semester,classification,courseClass,startTime,endTime,learnTime)
+        values (#{courseId},#{courseName},#{teacherId},#{semester},#{classification},#{courseClass},#{startTime},#{endTime},#{learnTime})
+    </insert>
 </mapper>

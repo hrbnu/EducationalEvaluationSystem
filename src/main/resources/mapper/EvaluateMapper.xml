@@ -8,7 +8,6 @@
         <result property="evaluateContent" column="evaluateContent" javaType="String" />
         <result property="evaluateScore" column="evaluateScore" javaType="Double" />
         <result property="flag" column="flag" javaType="String" />
-
     </resultMap>
 
     <select id="getOtherEvaluateById" resultMap="evaluateResultMap">
@@ -26,4 +25,9 @@
         select *
         from evaluate
     </select>
+
+    <insert id="insertEvaluate" parameterType="Evaluate">
+        INSERT INTO evaluate(courseId, evaluateContent, evaluateScore, flag, flagId)
+        VALUE (#{courseId},#{evaluateContent}, #{evaluateScore}, #{flag}, #{flagId})
+    </insert>
 </mapper>

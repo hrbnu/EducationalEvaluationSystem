@@ -28,7 +28,9 @@
 <%--</select>--%>
 
 <div>
-    <form action="${path}/student/evaluScoreCaculate" method="post">
+    <form action="${path}/student/evaluScoreCaculate" method="get">
+        <input type="hidden" name="studentId" value="${studentId}" />
+        <input type="hidden" name="courseId" value="${courseId}" />
         <c:forEach var="evaluateProblem" items="${requestScope.get('listEvaluateProblem')}" varStatus="status">
             <label>${evaluateProblem.id}、${evaluateProblem.evaluateProblemContent}, 请打分，谢谢！</label>
             <label>${evaluateProblem.score}</label>

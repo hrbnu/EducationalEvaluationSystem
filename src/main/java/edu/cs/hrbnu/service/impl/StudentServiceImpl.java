@@ -1,16 +1,13 @@
 package edu.cs.hrbnu.service.impl;
 
-import edu.cs.hrbnu.DAO.CourseMapper;
-import edu.cs.hrbnu.DAO.EvaluateProblemMapper;
-import edu.cs.hrbnu.DAO.StudentCourseMapper;
-import edu.cs.hrbnu.DAO.StudentMapper;
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.EvaluateProblem;
-import edu.cs.hrbnu.model.Student;
+import edu.cs.hrbnu.DAO.*;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service("studentService")
@@ -23,6 +20,10 @@ public class StudentServiceImpl implements StudentService{
     private CourseMapper courseMapper;
     @Autowired
     private EvaluateProblemMapper evaluateProblemMapper;
+    @Autowired
+    private EvaluateMapper evaluateMapper;
+    @Autowired
+    private ComplaintMapper complaintMapper;
 
     @Override
     public Student login(String studentId, String password){
@@ -43,18 +44,42 @@ public class StudentServiceImpl implements StudentService{
         return student;
     }
 
+    //更新密码 通过学号、旧密码和新密码
     @Override
-    public void updatePassword(String studentId,String password){
-
-        /**
-         *  TODO : 最早写的一点，仅作参考
-         * */
-
+    public boolean updatePassword(String studentId,String oldPassword,String newPassword){
+        boolean isSuccess = false;
         try{
-            studentMapper.updateStudentPasswordById(studentId,password);
+            String password = studentMapper.validateStudentIdAndPassword(studentId);
+            if(password.equals(oldPassword)){
+                HashMap<String,Object> map = new HashMap<String, Object>();
+                map.put("studentId",studentId);
+                map.put("password",newPassword);
+                studentMapper.updateStudentPasswordById(map);
+                isSuccess = true;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
+        return isSuccess;
+    }
+
+    //重置密码  通过学号和身份证号验证
+    @Override
+    public boolean reset(Student student){
+        boolean isSuccess = false;
+        try {
+            Student studentInformation = studentMapper.getStudentInfo(student);
+            if(studentInformation != null){
+                Student studentRest = new Student();
+                studentRest.setStudentId(studentInformation.getStudentId());
+                studentRest.setPassword(studentInformation.getIdCard().substring(12));
+                studentMapper.resetStudentPassword(studentRest);
+                isSuccess = true;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return isSuccess;
     }
 
     @Override
@@ -122,8 +147,9 @@ public class StudentServiceImpl implements StudentService{
         // TODO
     }
 
+    /*该方法用于获取数据库中的存放的用于学生给老师评分时的标准*/
     @Override
-    public List<EvaluateProblem> evaluateCurrentCourse(String studentId,String courseId){
+    public List<EvaluateProblem> getEvaluateProblem() {
         // TODO
         List<EvaluateProblem> listStudentEvaluateProblem = null;
         try{
@@ -134,13 +160,41 @@ public class StudentServiceImpl implements StudentService{
         return listStudentEvaluateProblem;
     }
 
+    /*yaque 私有方法，勿动。用于向数据库中写入一次学生的评价*/
     @Override
-    public void complaint(Student student,Course course,String message){
-        // TODO
+    public int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent) {
+        Evaluate evaluate = new Evaluate();
+        evaluate.setCourseId(courseId);
+        evaluate.setEvaluateContent(evaluateContent);
+        evaluate.setEvaluateScore(courseScores);
+        evaluate.setFlag("1");
+        evaluate.setFlagId(studentId);
+        try {
+            evaluateMapper.insertEvaluate(evaluate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
+    /*yaque的私有方法 勿动。用于向数据库中写入一次学生的投诉*/
     @Override
-    public void reset(Student student){
+    public int complaint(String studentId, String courseId, String complaintContent){
         // TODO
+        Complaint complaint = new Complaint();
+        complaint.setStudentId(studentId);
+        complaint.setCourseId(courseId);
+        complaint.setMessage(complaintContent);
+        complaint.setComplaintTime(new Date());
+        try {
+            complaintMapper.insertComplaintContent(complaint);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
+
+
 }
