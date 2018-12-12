@@ -44,7 +44,7 @@ public interface AdministratorService {
     /**
      * excel插入课程表
      * */
-    boolean importCourseByExcel();
+    boolean importCourseByExcel(String filePath);
 
     /**
      * 单独修改某班级课程表

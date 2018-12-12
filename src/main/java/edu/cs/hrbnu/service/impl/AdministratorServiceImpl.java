@@ -120,8 +120,41 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
 
     @Override
-    public boolean importCourseByExcel(){
-        // TODO
+    public boolean importCourseByExcel(String filePath){
+        Workbook workbook = ExcelUitl.getWorkbook(filePath);
+        if(workbook == null) return false;
+
+        Sheet sheet = workbook.getSheetAt(0);
+        int begin = sheet.getFirstRowNum()+1;
+        int end = sheet.getLastRowNum();
+        for(int i = begin;i <= end;i++){
+            Row row = sheet.getRow(i);
+            Course course = new Course();
+            if(row == null) continue;
+
+            NumberFormat nf = NumberFormat.getInstance();
+            nf.setGroupingUsed(false);
+
+            course.setCourseId(nf.format(row.getCell(0).getNumericCellValue()));
+            course.setCourseName(row.getCell(1).getStringCellValue());
+            course.setTeacherId(nf.format(row.getCell(2).getNumericCellValue()));
+            course.setSemester(Integer.parseInt(nf.format(row.getCell(3).getNumericCellValue())));
+            course.setClassification(nf.format(row.getCell(4).getNumericCellValue()));
+
+            // 班级这里有点疑问：例如3、4班的课程一样，是否需要对班级也设置成主键？
+            course.setCourseClass(nf.format(row.getCell(5).getNumericCellValue()));
+
+            course.setStartTime(nf.format(row.getCell(6).getNumericCellValue()));
+            course.setEndTime(nf.format(row.getCell(7).getNumericCellValue()));
+            course.setLearnTime(Integer.parseInt(nf.format(row.getCell(8).getNumericCellValue())));
+
+            try{
+                courseMapper.insertCourse(course);
+            }catch (Exception ex){
+                ex.printStackTrace();
+                return false;
+            }
+        }
 
         return true;
     }

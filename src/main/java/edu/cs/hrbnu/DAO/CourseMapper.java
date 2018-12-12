@@ -10,4 +10,5 @@ public interface CourseMapper {
     Course getCourseById(String id) throws Exception;
     List<Course> getAllCourses() throws Exception;
     int updateCourseScoreByCourseId(@Param("courseId") String courseId,@Param("score") double score) throws Exception;
+    int insertCourse(Course course) throws Exception;
 }
