@@ -65,4 +65,36 @@ public class Course {
     public void setClassification(String classification) {
         this.classification = classification;
     }
+
+    public String getCourseClass() {
+        return courseClass;
+    }
+
+    public void setCourseClass(String courseClass) {
+        this.courseClass = courseClass;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getLearnTime() {
+        return learnTime;
+    }
+
+    public void setLearnTime(int learnTime) {
+        this.learnTime = learnTime;
+    }
 }
