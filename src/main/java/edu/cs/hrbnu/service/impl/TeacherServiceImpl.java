@@ -1,8 +1,10 @@
 package edu.cs.hrbnu.service.impl;
 
+import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
 import edu.cs.hrbnu.DAO.TeacherMapper;
 import edu.cs.hrbnu.model.Complaint;
+import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.service.TeacherService;
@@ -17,7 +19,8 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
     @Autowired
     private EvaluateMapper evaluateMapper;
-
+    @Autowired
+    private CourseMapper courseMapper;
     @Override
     public Teacher login(String teacherId, String password){
 
@@ -53,21 +56,32 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Evaluate> otherEvaluate(String teacherId){
+    public List<Evaluate> otherEvaluate(String courseId){
 
         /**
-         *  TODO : 最早写的一点，仅作参考
+         *  教师查看自己的评价
          * */
 
         List<Evaluate> evaluateList = null;
         try {
-            evaluateList = evaluateMapper.getOtherEvaluateById(teacherId);
+            evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
         }catch (Exception e){
             e.printStackTrace();
         }
+
         return evaluateList;
     }
+    @Override
+    public List<Course> getCourseByTeahcer(String teacherId){
+        List<Course> courseList = null;
+        try{
+            courseList = courseMapper.getCourseByTeacherId(teacherId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        return courseList;
+    }
     @Override
     public void setHelp(String teacherId,String isHelpedTeacherId){
 

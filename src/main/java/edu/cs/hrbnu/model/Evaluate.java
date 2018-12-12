@@ -1,7 +1,11 @@
 package edu.cs.hrbnu.model;
 
 public class Evaluate {
-    private String id;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
     private String courseId;
     private String evaluateContent;
     private double evaluateScore;
@@ -9,17 +13,9 @@ public class Evaluate {
      *  标志位，学生的评价还是教师、督导的评价  1学生 2教师 3督导
      * */
     private String flag;
-
-
     // 学号或者工号
     private String flagId;
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCourseId() {
         return courseId;

@@ -8,6 +8,7 @@
         <result property="evaluateContent" column="evaluateContent" javaType="String" />
         <result property="evaluateScore" column="evaluateScore" javaType="Double" />
         <result property="flag" column="flag" javaType="String" />
+
     </resultMap>
 
     <select id="getOtherEvaluateById" resultMap="evaluateResultMap">
@@ -16,6 +17,11 @@
         where toTeacher=#{id}
     </select>
 
+    <select id="getEvaluateByCourseId" resultMap="evaluateResultMap">
+        select *
+        from evaluate
+        where courseId=#{courseId}
+    </select>
     <select id="getAllTeacherEvaluate" resultMap="evaluateResultMap">
         select *
         from evaluate

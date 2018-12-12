@@ -30,4 +30,10 @@
     	score = #{score}
     	where courseId = #{courseId}
     </update>
+
+    <select id="getCourseByTeacherId" resultMap="courseResultMap">
+        select *
+        from course
+        where teacherId=#{teacherId}
+    </select>
 </mapper>

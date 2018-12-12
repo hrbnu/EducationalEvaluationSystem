@@ -1,6 +1,7 @@
 package edu.cs.hrbnu.service;
 
 import edu.cs.hrbnu.model.Complaint;
+import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.Teacher;
 
@@ -33,10 +34,15 @@ public interface TeacherService {
 
 	/**
 	 * 查看自己评价信息
-	 * @param teacherId
+	 * @param courseId
 	 */
-	List<Evaluate> otherEvaluate(String teacherId);
-	
+	List<Evaluate> otherEvaluate(String courseId);
+
+
+	/**
+	 * 获取教师所授课程
+	 * */
+	List<Course> getCourseByTeahcer(String teacherId);
 	/**
 	 * 设置老师互帮信息
 	 * @param teacherId 帮助者老师的id
