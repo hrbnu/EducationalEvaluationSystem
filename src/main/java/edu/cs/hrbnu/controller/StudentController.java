@@ -20,11 +20,12 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    /*学生的评分相关*/
     @RequestMapping("/evalu")
     public ModelAndView evaluation(Model model, Student student, Course course) {
         List<EvaluateProblem> listEvaluateProblem = studentService.getEvaluateProblem();
         model.addAttribute("listEvaluateProblem", listEvaluateProblem);
-        return new ModelAndView("evalu/evalu");
+        return new ModelAndView("student/evalu");
     }
 
     @RequestMapping("/evaluScoreCaculate")
@@ -42,6 +43,11 @@ public class StudentController {
             return new ModelAndView("success");
         }
     }
+
+    /*学生的投诉*/
+
+
+
 
     @RequestMapping(value = "/reset")
     public ModelAndView reset(Student student){
