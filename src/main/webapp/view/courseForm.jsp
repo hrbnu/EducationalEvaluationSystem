@@ -31,7 +31,7 @@
         <c:forEach items="${courseform}" var="vars">
             <tr>
                 <td>${vars.courseId}</td>
-                <td><a href="/teacher/courseform/${vars.courseId}">${vars.courseName}</a> </td>
+                <td><a href="/teacher/evaluateform/${vars.courseId}">${vars.courseName}</a> </td>
             </tr>
         </c:forEach>
         </tbody>

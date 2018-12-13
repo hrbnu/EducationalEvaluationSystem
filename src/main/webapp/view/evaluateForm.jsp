@@ -24,7 +24,7 @@
         <tr>
             <th>评价信息</th>
             <th>评价分数</th>
-
+            <th>种类</th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +32,16 @@
             <tr>
                 <td>${vars.evaluateContent}</td>
                 <td>${vars.evaluateScore}</td>
+                <c:if test="${vars.flag == 1}">
+                    <td>学生</td>
+                </c:if>
+                <c:if test="${vars.flag == 2}">
+                    <td>教师</td>
+                </c:if>
+                <c:if test="${vars.flag == 3}">
+                    <td>督导</td>
+                </c:if>
+
             </tr>
         </c:forEach>
         </tbody>

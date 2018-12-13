@@ -37,8 +37,10 @@ public interface TeacherService {
 	 * @param courseId
 	 */
 	List<Evaluate> otherEvaluate(String courseId);
-
-
+	/**
+	 * 获取所有教师名字
+	 * */
+	List<Teacher> getAllTeacherName();
 	/**
 	 * 获取教师所授课程
 	 * */

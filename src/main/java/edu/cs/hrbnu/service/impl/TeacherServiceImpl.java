@@ -99,6 +99,8 @@ public class TeacherServiceImpl implements TeacherService {
 
         return evaluateList;
     }
+
+    //得到教师所授课程
     @Override
     public List<Course> getCourseByTeahcer(String teacherId){
         List<Course> courseList = null;
@@ -109,6 +111,18 @@ public class TeacherServiceImpl implements TeacherService {
         }
 
         return courseList;
+    }
+
+    //获取所有教师名字
+    @Override
+    public List<Teacher> getAllTeacherName(){
+        List<Teacher> teacherList = null;
+        try {
+            teacherList = teacherMapper.getTeacherName();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  teacherList;
     }
     @Override
     public void setHelp(String teacherId,String isHelpedTeacherId){

@@ -50,4 +50,11 @@
         from teacher
         where teacherId = #{teacherId} and idCard = #{idCard}
     </select>
+
+    <!-- 查出所有老师的信息 -->
+    <select id="getTeacherName" resultMap="teacherResultMap" >
+        select *
+        from teacher
+
+    </select>
 </mapper>

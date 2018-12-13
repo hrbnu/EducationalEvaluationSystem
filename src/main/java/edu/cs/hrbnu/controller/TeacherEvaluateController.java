@@ -42,8 +42,8 @@ public class TeacherEvaluateController {
 //        request.setAttribute("evaluateform",evaluateList);
 //        return "evaluateForm";
 //    }
-    @RequestMapping("/courseform")
-    public String courseForm(ServletRequest request,String teacherId){
+    @RequestMapping("/courseform/{teacherId}")
+    public ModelAndView courseForm(@PathVariable String teacherId,ServletRequest request){
         /**
          * 根据教师id获取教师所授课程
          * */
@@ -51,16 +51,24 @@ public class TeacherEvaluateController {
         //teacherId = ;
 
         List<Course> courseList = null;
-        courseList = teacherService.getCourseByTeahcer("100101");
+        courseList = teacherService.getCourseByTeahcer(teacherId);
         request.setAttribute("courseform",courseList);
-        return "courseForm";
+        return new ModelAndView("courseForm");
     }
 
-    @RequestMapping("courseform/{courseId}")
-    public ModelAndView test(@PathVariable String courseId,ServletRequest request){
+    @RequestMapping("evaluateform/{courseId}")
+    public ModelAndView allEvaluateForm(@PathVariable String courseId,ServletRequest request){
         List<Evaluate> evaluateList = null;
         evaluateList = teacherService.otherEvaluate(courseId);
         request.setAttribute("evaluateform",evaluateList);
         return new ModelAndView("evaluateForm");
+    }
+
+    @RequestMapping("teacherform")
+    public ModelAndView allTeacherForm(ServletRequest request){
+        List<Teacher> teacherList = null;
+        teacherList = teacherService.getAllTeacherName();
+        request.setAttribute("teacherform",teacherList);
+        return new ModelAndView("teacherForm");
     }
 }

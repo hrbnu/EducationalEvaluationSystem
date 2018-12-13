@@ -3,6 +3,7 @@ package edu.cs.hrbnu.DAO;
 import edu.cs.hrbnu.model.Teacher;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface TeacherMapper {
 	Teacher getTeacherById(String id) throws Exception;
@@ -18,4 +19,5 @@ public interface TeacherMapper {
     void resetTeacherPassword(Teacher teacher) throws Exception;
     //重置密码时先获取教师信息
     Teacher getTeacherInformation(Teacher teacher) throws Exception;
+    List<Teacher> getTeacherName() throws Exception;
 }
