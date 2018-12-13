@@ -25,4 +25,10 @@
         INSERT INTO evaluate(courseId, evaluateContent, evaluateScore, flag, flagId)
         VALUE (#{courseId},#{evaluateContent}, #{evaluateScore}, #{flag}, #{flagId})
     </insert>
+
+    <select id="getEvaluateByCourseId" resultMap="evaluateResultMap">
+        select *
+        from evaluate
+        where courseId=#{id}
+    </select>
 </mapper>

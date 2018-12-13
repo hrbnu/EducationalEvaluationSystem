@@ -1,14 +1,18 @@
 package edu.cs.hrbnu.service.impl;
 
+import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
 import edu.cs.hrbnu.DAO.TeacherMapper;
 import edu.cs.hrbnu.model.Complaint;
+import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +22,8 @@ public class TeacherServiceImpl implements TeacherService {
     private TeacherMapper teacherMapper;
     @Autowired
     private EvaluateMapper evaluateMapper;
+    @Autowired
+    CourseMapper courseMapper;
 
     @Override
     public Teacher login(String teacherId, String password){
@@ -147,8 +153,31 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void exportEvaluateForm(){
-        // TODO
+    public List<Evaluate> exportEvaluateForm(String teacherId){
+        List<Course> courseList = null;
+        try {
+            courseList = courseMapper.getCourseByTeacherId(teacherId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        if(courseList == null || courseList.size() == 0){
+            return null;
+        }
+
+        List<Evaluate> allEvaluate = new ArrayList<>();
+        for(Course course : courseList){
+            String courseId = course.getCourseId();
+            List<Evaluate> evaluateList = null;
+            try{
+                evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            if(evaluateList != null){
+                allEvaluate.addAll(evaluateList);
+            }
+        }
+        return allEvaluate;
     }
 
     @Override

@@ -35,4 +35,10 @@
         insert ignore course (courseId,courseName,teacherId,semester,classification,courseClass,startTime,endTime,learnTime)
         values (#{courseId},#{courseName},#{teacherId},#{semester},#{classification},#{courseClass},#{startTime},#{endTime},#{learnTime})
     </insert>
+
+    <select id="getCourseByTeacherId" resultMap="courseResultMap">
+    	select *
+    	from course
+    	where teacherId=#{id}
+    </select>
 </mapper>
