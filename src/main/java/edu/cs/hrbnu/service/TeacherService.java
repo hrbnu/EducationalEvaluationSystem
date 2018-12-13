@@ -82,7 +82,7 @@ public interface TeacherService {
     /**
      *  浏览投诉自己的投诉信息
      * */
-    Complaint viewMyComplaint();
+    List<Complaint> viewMyComplaint(String courseId);
 
     /**
      *  导出Excel的评价表

@@ -1,5 +1,6 @@
 package edu.cs.hrbnu.service.impl;
 
+import edu.cs.hrbnu.DAO.ComplaintMapper;
 import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
 import edu.cs.hrbnu.DAO.TeacherMapper;
@@ -10,6 +11,7 @@ import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,8 @@ public class TeacherServiceImpl implements TeacherService {
     private EvaluateMapper evaluateMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private ComplaintMapper complaintMapper;
     @Override
     public Teacher login(String teacherId, String password){
 
@@ -167,11 +171,19 @@ public class TeacherServiceImpl implements TeacherService {
         // TODO
         return null;
     }
-
+    //查看自己的投诉
     @Override
-    public Complaint viewMyComplaint(){
-        // TODO
-        return null;
+    public  List<Complaint> viewMyComplaint(String courseId){
+        List<Complaint> complaintList = null;
+        try{
+            complaintList = complaintMapper.getComplaintByCourseId(courseId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return complaintList;
+
+
     }
 
     @Override

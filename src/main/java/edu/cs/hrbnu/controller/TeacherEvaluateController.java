@@ -1,6 +1,8 @@
 package edu.cs.hrbnu.controller;
 
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import edu.cs.hrbnu.model.Complaint;
 import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
 
@@ -58,6 +60,9 @@ public class TeacherEvaluateController {
 
     @RequestMapping("evaluateform/{courseId}")
     public ModelAndView allEvaluateForm(@PathVariable String courseId,ServletRequest request){
+        /**
+         * 根据传入的课程id显示对应课程的评价
+         * */
         List<Evaluate> evaluateList = null;
         evaluateList = teacherService.otherEvaluate(courseId);
         request.setAttribute("evaluateform",evaluateList);
@@ -66,9 +71,23 @@ public class TeacherEvaluateController {
 
     @RequestMapping("teacherform")
     public ModelAndView allTeacherForm(ServletRequest request){
+        /**
+         * 列出所有老师的名单，点击教师名字获取所授课程
+         * */
         List<Teacher> teacherList = null;
         teacherList = teacherService.getAllTeacherName();
         request.setAttribute("teacherform",teacherList);
         return new ModelAndView("teacherForm");
+    }
+
+    @RequestMapping("/complaintform/{courseId}")
+    public ModelAndView allComplaintForm(@PathVariable String courseId,Model model){
+        /**
+         * 根据课程id显示投诉信息
+         * */
+        List<Complaint> complaintList = null;
+        complaintList = teacherService.viewMyComplaint(courseId);
+        model.addAttribute("complatintform",complaintList);
+        return new ModelAndView("complaintForm");
     }
 }

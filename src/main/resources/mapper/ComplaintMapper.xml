@@ -17,4 +17,10 @@
         select *
         from complaint
     </select>
+
+    <select id="getComplaintByCourseId" resultMap="complaintResultMap">
+        select *
+        from complaint
+        where courseId = #{courseId}
+    </select>
 </mapper>
