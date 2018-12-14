@@ -19,23 +19,17 @@
         from course
         where courseId=#{id}
     </select>
-    
+
     <select id="getAllCourses" resultMap="courseResultMap">
     	select *
     	from course
     </select>
-    
+
     <update id="updateCourseScoreByCourseId">
     	update course set
     	score = #{score}
     	where courseId = #{courseId}
     </update>
-
-    <select id="getCourseByTeacherId" resultMap="courseResultMap">
-        select *
-        from course
-        where teacherId=#{teacherId}
-    </select>
 
     <insert id="insertCourse" useGeneratedKeys="true" keyProperty="id">
         insert ignore course (courseId,courseName,teacherId,semester,classification,courseClass,startTime,endTime,learnTime)

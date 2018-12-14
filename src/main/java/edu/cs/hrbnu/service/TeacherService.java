@@ -1,7 +1,6 @@
 package edu.cs.hrbnu.service;
 
 import edu.cs.hrbnu.model.Complaint;
-import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.Teacher;
 
@@ -17,8 +16,8 @@ public interface TeacherService {
 	Teacher login(String teacherId, String password);
 
 	/**
-     *  登出
-     * */
+	 *  登出
+	 * */
 	void logout();
 
 	/**
@@ -34,40 +33,33 @@ public interface TeacherService {
 
 	/**
 	 * 查看自己评价信息
-	 * @param courseId
+	 * @param teacherId
 	 */
-	List<Evaluate> otherEvaluate(String courseId);
-	/**
-	 * 获取所有教师名字
-	 * */
-	List<Teacher> getAllTeacherName();
-	/**
-	 * 获取教师所授课程
-	 * */
-	List<Course> getCourseByTeahcer(String teacherId);
+	List<Evaluate> otherEvaluate(String teacherId);
+
 	/**
 	 * 设置老师互帮信息
 	 * @param teacherId 帮助者老师的id
 	 * @param isHelpedTeacherId 被帮助老师的id
 	 */
 	void setHelp(String teacherId,String isHelpedTeacherId);
-	
+
 	/**
-     * 提交听课申请
-     * @param teacherId 申请老师的id
-     * @param isListenedTeacherId 被请求听课老师的id
-     */
+	 * 提交听课申请
+	 * @param teacherId 申请老师的id
+	 * @param isListenedTeacherId 被请求听课老师的id
+	 */
 	void submitListen(String teacherId,String isListenedTeacherId);
 
 	/**
-     *  确认某老师已听课，由被听课老师手动确认，确认之后才能将评价写入数据库
-     * */
+	 *  确认某老师已听课，由被听课老师手动确认，确认之后才能将评价写入数据库
+	 * */
 	void confirm(Teacher teacher);
 
-    /**
-     *  评价某老师
-     * */
-    void evaluateTeacher(Evaluate evaluate);
+	/**
+	 *  评价某老师
+	 * */
+	void evaluateTeacher(Evaluate evaluate);
 
 	/**
 	 * 浏览所有老师评价信息
@@ -79,18 +71,18 @@ public interface TeacherService {
 	 */
 	List<Complaint> viewAllComplaint();
 
-    /**
-     *  浏览投诉自己的投诉信息
-     * */
-    List<Complaint> viewMyComplaint(String courseId);
+	/**
+	 *  浏览投诉自己的投诉信息
+	 * */
+	Complaint viewMyComplaint();
 
-    /**
-     *  导出Excel的评价表
-     * */
+	/**
+	 *  导出Excel的评价表
+	 * */
 	List<Evaluate> exportEvaluateForm(String teacherId);
 
-    /**
-     *  显示未浏览投诉：从上次登录时间开始计算，区间内出现的投诉就是为浏览投诉
-     * */
-    void alertComplaint();
+	/**
+	 *  显示未浏览投诉：从上次登录时间开始计算，区间内出现的投诉就是为浏览投诉
+	 * */
+	void alertComplaint();
 }

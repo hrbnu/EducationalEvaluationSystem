@@ -8,5 +8,5 @@ public interface EvaluateMapper {
     List<Evaluate> getOtherEvaluateById(String id) throws Exception;
     List<Evaluate> getAllTeacherEvaluate() throws Exception;
     int insertEvaluate(Evaluate evaluate) throws Exception;
-    List<Evaluate> getEvaluateByCourseId(String courseId) throws Exception;
+    List<Evaluate> getEvaluateByCourseId(String id) throws Exception;
 }
