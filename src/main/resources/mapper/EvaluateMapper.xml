@@ -31,4 +31,15 @@
         from evaluate
         where courseId=#{id}
     </select>
+    <select id="getEvaluateScoreByStudentIdAndCourseId" resultMap="evaluateResultMap">
+	    select evaluateScore
+	    from evaluate
+	    where flagId=#{studentId} and courseId=#{courseId}
+    </select>
+
+	<select id="getEealuateScoreByCourseIdAndFlag" resultMap="evaluateResultMap">
+		select evaluateScore
+		from evaluate
+		where flag=#{flag} and courseId=#{courseId} 
+	</select>
 </mapper>

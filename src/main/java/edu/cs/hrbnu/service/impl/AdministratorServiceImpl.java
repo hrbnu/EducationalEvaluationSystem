@@ -1,43 +1,33 @@
 package edu.cs.hrbnu.service.impl;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import edu.cs.hrbnu.DAO.CourseMapper;
+import edu.cs.hrbnu.DAO.EvaluateMapper;
 import edu.cs.hrbnu.DAO.StudentCourseMapper;
 import edu.cs.hrbnu.DAO.StudentMapper;
 import edu.cs.hrbnu.DAO.TeacherMapper;
 import edu.cs.hrbnu.model.Administrator;
 import edu.cs.hrbnu.model.Course;
+import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.Student;
+import edu.cs.hrbnu.model.StudentCourse;
 import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.model.Weight;
 import edu.cs.hrbnu.service.AdministratorService;
 import edu.cs.hrbnu.uitl.ExcelUitl;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.NumberFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 @Service("administratorService")
 public class AdministratorServiceImpl implements AdministratorService {
@@ -66,6 +56,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 	CourseMapper courseMapper;
 	@Autowired
 	StudentCourseMapper studentCourseMapper;
+	@Autowired
+	EvaluateMapper evaluateMapper;
 
     @Override
     public void login(Administrator administrator){
@@ -251,15 +243,17 @@ public class AdministratorServiceImpl implements AdministratorService {
     	 * 自评的分：分/100=myselfEvaluateScore
     	 * 
     	 * */
-    	double finallyScore=0;
+    	
+    	double studentEvaluateScore = 0.5;
+		double teacherEvaluateScore = 0.5;
+		double leaderEvaluateScore = 0.5;
+		double myselfEvaluateScore = 0.5;
+		DecimalFormat dFormat = new DecimalFormat("###.##");
     	if(weight==null){
  //   		System.out.println("空的");
     		//使用默认权值
     		//获取到课程的各类人的总评分
-    		double studentEvaluateScore = 0.5;
-    		double teacherEvaluateScore = 0.5;
-    		double leaderEvaluateScore = 0.5;
-    		double myselfEvaluateScore = 0.5;
+    		
     		//因为.properties文件中存放的都是String类型，所以要进行类型转换
     		studentweight = Double.parseDouble(studentWeight);
     		teacherweight = Double.parseDouble(teacherWeight);
@@ -268,49 +262,202 @@ public class AdministratorServiceImpl implements AdministratorService {
     		try {
     			//得到所有的课程
     			List<Course> lists = courseMapper.getAllCourses();
-    			
+    			List<StudentCourse> studentLists=null;
+    			List<Evaluate> teacherEvaluateLists=null;
+    			List<Evaluate> leaderEvaluateLists=null;
     			//得到学生评价的最后的分
     			for (Course course : lists) {
+    				double finallyScore=0;
+    		    	double studentnum=0;
+    		    	double teachernum=0;
+    		    	double leadernum=0;
     				//得到所有学生的Id
-					List<Student> studentLists = studentCourseMapper.getStudentIdByCourseId(course.getCourseId());
-				}
-    			
-    			//给每一个课程计算最后的评分
-    			for (Course course : lists) {
-    				String courseId =course.getCourseId();
+    				studentLists = studentCourseMapper.getStudentIdByCourseId(course.getCourseId());
+    				if (studentLists.isEmpty()) {
+						studentEvaluateScore=100;
+						studentnum=1;
+					}
+    				//得到学生评价的分
+    				for (StudentCourse studentCourse : studentLists) {
+						List<Evaluate> evaluates = evaluateMapper.getEvaluateScoreByStudentIdAndCourseId(studentCourse.getStudentId(), course.getCourseId());
+						//如果一个学生也没评价  就默认都是满分100
+						if(evaluates.isEmpty()){
+							studentEvaluateScore=studentLists.size()*100;
+							studentnum=studentLists.size();
+						}
+						else {
+							double score=0;
+	    					double num=0;
+							for (Evaluate evaluate : evaluates) {
+								//如果有学生没评价 默认100
+								if (evaluate==null) {
+									score+=100;
+									num++;
+								} 
+								else {
+									score+=evaluate.getEvaluateScore();
+									num++;	
+								}
+							}
+							studentEvaluateScore+=(score/num);
+							studentnum++;
+						}
+					}
+        			//得到同行评价的分
+        			teacherEvaluateLists=evaluateMapper.getEealuateScoreByCourseIdAndFlag(course.getCourseId(), "2");
+        			if(teacherEvaluateLists.isEmpty()){
+        				//如果没有同行评价，就给一个默认100
+        				teacherEvaluateScore+=100;
+        				teachernum++;
+        			}
+        			else {
+        				//有老师评价
+        				for (Evaluate evaluate : teacherEvaluateLists) {
+    						teacherEvaluateScore+=evaluate.getEvaluateScore();
+    						teachernum++;
+    					}
+					}
+        			//得到督导评价的分
+        			leaderEvaluateLists=evaluateMapper.getEealuateScoreByCourseIdAndFlag(course.getCourseId(), "3");
+        			if (leaderEvaluateLists.isEmpty()) {
+						//如果没有督导评价  默认给一个
+        				leaderEvaluateScore+=100;
+        				leadernum++;
+        				
+					} else {
+						for (Evaluate evaluate : leaderEvaluateLists) {
+							leaderEvaluateScore+=evaluate.getEvaluateScore();
+							leadernum++;
+						}
+					}
+        			//得到自评的分
+        			Teacher teacher = teacherMapper.getMyselfEvaluateScoreByCourseId(course.getCourseId());
+        			if(teacher==null){
+        				teacherEvaluateScore=100;
+        			}
+        			else {
+        				myselfEvaluateScore=teacher.getMyselfEvaluateScore();
+					}
+        			myselfEvaluateScore=myselfEvaluateScore/(100);
+        			leaderEvaluateScore=leaderEvaluateScore/(100*leadernum);
+        			teacherEvaluateScore=teacherEvaluateScore/(100*teachernum);
+        			studentEvaluateScore=studentEvaluateScore/(100*studentnum);
+        			//给每一个课程计算最后的评分
     				finallyScore=(studentEvaluateScore*studentweight+teacherEvaluateScore*teacherweight+leaderEvaluateScore*leaderweight+myselfEvaluateScore*myselfweight)*100;
-    				int i = courseMapper.updateCourseScoreByCourseId(courseId, finallyScore);
+    				finallyScore=Double.parseDouble(dFormat.format(finallyScore));
+    				int i = courseMapper.updateCourseScoreByCourseId(course.getCourseId(), finallyScore);	
     			}
+
+    			
+    			
     		} catch (Exception e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
     	}
     	else {
-//			System.out.println("非空");
 	    	//得到权值
 	    	studentweight=weight.getStudentWeight();
 			teacherweight=weight.getTeacherWeight();
 			leaderweight=weight.getLeaderWeight();
 			myselfweight=weight.getMyselfWeight();
-			//获取到课程的各类人的总评分
-			double studentEvaluateScore = 0.6;
-			double teacherEvaluateScore = 0.6;
-			double leaderEvaluateScore = 0.6;
-			double myselfEvaluateScore = 0.6;
 			try {
-				List<Course> lists = courseMapper.getAllCourses();
-				for (Course course : lists) {
-					String courseId =course.getCourseId();
-					finallyScore=(studentEvaluateScore*studentweight+teacherEvaluateScore*teacherweight+leaderEvaluateScore*leaderweight+myselfEvaluateScore*myselfweight)*100;
-					int i = courseMapper.updateCourseScoreByCourseId(courseId, finallyScore);
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
+    			//得到所有的课程
+    			List<Course> lists = courseMapper.getAllCourses();
+    			List<StudentCourse> studentLists=null;
+    			List<Evaluate> teacherEvaluateLists=null;
+    			List<Evaluate> leaderEvaluateLists=null;
+    			//得到学生评价的最后的分
+    			for (Course course : lists) {
+    				double finallyScore=0;
+    		    	double studentnum=0;
+    		    	double teachernum=0;
+    		    	double leadernum=0;
+    				//得到所有学生的Id
+    				studentLists = studentCourseMapper.getStudentIdByCourseId(course.getCourseId());
+    				if (studentLists.isEmpty()) {
+						studentEvaluateScore=100;
+						studentnum=1;
+					}
+    				//得到学生评价的分
+    				for (StudentCourse studentCourse : studentLists) {
+						List<Evaluate> evaluates = evaluateMapper.getEvaluateScoreByStudentIdAndCourseId(studentCourse.getStudentId(), course.getCourseId());
+						//如果一个学生也没评价  就默认都是满分100
+						if(evaluates.isEmpty()){
+							studentEvaluateScore=studentLists.size()*100;
+							studentnum=studentLists.size();
+						}
+						else {
+							double score=0;
+	    					double num=0;
+							for (Evaluate evaluate : evaluates) {
+								//如果有学生没评价 默认100
+								if (evaluate==null) {
+									score+=100;
+									num++;
+								} 
+								else {
+									score+=evaluate.getEvaluateScore();
+									num++;	
+								}
+							}
+							studentEvaluateScore+=(score/num);
+							studentnum++;
+						}
+					}
+        			//得到同行评价的分
+        			teacherEvaluateLists=evaluateMapper.getEealuateScoreByCourseIdAndFlag(course.getCourseId(), "2");
+        			if(teacherEvaluateLists.isEmpty()){
+        				//如果没有同行评价，就给一个默认100
+        				teacherEvaluateScore+=100;
+        				teachernum++;
+        			}
+        			else {
+        				//有老师评价
+        				for (Evaluate evaluate : teacherEvaluateLists) {
+    						teacherEvaluateScore+=evaluate.getEvaluateScore();
+    						teachernum++;
+    					}
+					}
+        			//得到督导评价的分
+        			leaderEvaluateLists=evaluateMapper.getEealuateScoreByCourseIdAndFlag(course.getCourseId(), "3");
+        			if (leaderEvaluateLists.isEmpty()) {
+						//如果没有督导评价  默认给一个
+        				leaderEvaluateScore+=100;
+        				leadernum++;
+        				
+					} else {
+						for (Evaluate evaluate : leaderEvaluateLists) {
+							leaderEvaluateScore+=evaluate.getEvaluateScore();
+							leadernum++;
+						}
+					}
+        			//得到自评的分
+        			Teacher teacher = teacherMapper.getMyselfEvaluateScoreByCourseId(course.getCourseId());
+        			if(teacher==null){
+        				teacherEvaluateScore=100;
+        			}
+        			else {
+        				myselfEvaluateScore=teacher.getMyselfEvaluateScore();
+					}
+        			myselfEvaluateScore=myselfEvaluateScore/(100);
+        			leaderEvaluateScore=leaderEvaluateScore/(100*leadernum);
+        			teacherEvaluateScore=teacherEvaluateScore/(100*teachernum);
+        			studentEvaluateScore=studentEvaluateScore/(100*studentnum);
+        			//给每一个课程计算最后的评分
+    				finallyScore=(studentEvaluateScore*studentweight+teacherEvaluateScore*teacherweight+leaderEvaluateScore*leaderweight+myselfEvaluateScore*myselfweight)*100;
+    				finallyScore=Double.parseDouble(dFormat.format(finallyScore));
+    				int i = courseMapper.updateCourseScoreByCourseId(course.getCourseId(), finallyScore);	
+    			}
+
+    			
+    			
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
     }
+   }
 
     @Override
     public void insertTeacher(Teacher teacher){
