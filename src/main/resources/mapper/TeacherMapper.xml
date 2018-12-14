@@ -57,4 +57,9 @@
         from teacher
 
     </select>
+    <select id="getMyselfEvaluateScoreByCourseId" resultMap="teacherResultMap">
+	    select myselfEvaluateScore
+	    from teacher
+	    where teacherId in (select teacherId from course where courseId=#{courseId}) 
+    </select>
 </mapper>
