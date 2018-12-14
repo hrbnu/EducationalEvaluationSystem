@@ -23,7 +23,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    /*学生的评分相关*/
+    /*学生的评分相关
+    *test ip: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001*/
     @RequestMapping("/evalu")
     public ModelAndView evaluation(Model model, String studentId, String courseId) {
         model.addAttribute("studentId", studentId);
@@ -50,7 +51,9 @@ public class StudentController {
         }
     }
 
-    /*学生的投诉*/
+    /*学生的投诉
+    * test ip:http://localhost:8080/student/complaint?studentId=2016040222&courseId=201603001
+    * 注意测试学生投诉由于表的外键关联，版测试链接美提交一次需要删除一次数据库，下次才可以重新测试*/
     @RequestMapping("/complaint")
     public ModelAndView complaint(Model model, String studentId, String courseId) {
 //        studentId = "2016040888";
