@@ -1,19 +1,16 @@
 package edu.cs.hrbnu.service.impl;
 
-import edu.cs.hrbnu.DAO.ComplaintMapper;
-import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
+import edu.cs.hrbnu.DAO.EvaluateProblemMapper;
 import edu.cs.hrbnu.DAO.TeacherMapper;
 import edu.cs.hrbnu.model.Complaint;
-import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
+import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,9 +21,8 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private EvaluateMapper evaluateMapper;
     @Autowired
-    private CourseMapper courseMapper;
-    @Autowired
-    private ComplaintMapper complaintMapper;
+    EvaluateProblemMapper evaluateProblemMapper;
+
     @Override
     public Teacher login(String teacherId, String password){
 
@@ -89,7 +85,7 @@ public class TeacherServiceImpl implements TeacherService {
         return isSuccess;
     }
     @Override
-    public List<Evaluate> otherEvaluate(String courseId){
+    public List<Evaluate> otherEvaluate(String teacherId){
 
         /**
          *  TODO : 最早写的一点，仅作参考
@@ -97,7 +93,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         List<Evaluate> evaluateList = null;
         try {
-            evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
+            evaluateList = evaluateMapper.getOtherEvaluateById(teacherId);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -131,9 +127,29 @@ public class TeacherServiceImpl implements TeacherService {
         // TODO
     }
 
+    /*该方法用于获取数据库中的存放的用于老师给老师评分时的标准*/
     @Override
-    public void evaluateTeacher(Evaluate evaluate){
+    public List<EvaluateProblem> getEvaluateProblem() {
         // TODO
+        List<EvaluateProblem> listTeacherEvaluateProblem = null;
+        try{
+            listTeacherEvaluateProblem = evaluateProblemMapper.getAllTeacherEvaluateProblem();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listTeacherEvaluateProblem;
+    }
+
+    @Override
+    public int evaluateTeacher(Evaluate evaluate){
+        // TODO
+        try {
+            evaluateMapper.insertEvaluate(evaluate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
     @Override
@@ -149,83 +165,18 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Complaint> viewMyComplaint(String courseId){
-
+    public Complaint viewMyComplaint(){
+        // TODO
         return null;
     }
 
     @Override
-    public List<Evaluate> exportEvaluateForm(String teacherId){
-        List<Course> courseList = null;
-        try {
-            courseList = courseMapper.getCourseByTeacherId(teacherId);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        if(courseList == null || courseList.size() == 0){
-            return null;
-        }
-
-        List<Evaluate> allEvaluate = new ArrayList<>();
-        for(Course course : courseList){
-            String courseId = course.getCourseId();
-            List<Evaluate> evaluateList = null;
-            try{
-                evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
-            if(evaluateList != null){
-                allEvaluate.addAll(evaluateList);
-            }
-        }
-        return allEvaluate;
+    public void exportEvaluateForm(){
+        // TODO
     }
 
     @Override
     public void alertComplaint(){
         // TODO
-    }
-
-
-
-    //获取教师所教授课程
-    @Override
-    public List<Course> getCourseByTeahcer(String teacherId){
-        List<Course> courseList = null;
-        try{
-            courseList = courseMapper.getCourseByTeacherId(teacherId);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return courseList;
-    }
-    //获取所有教师名字
-    @Override
-    public List<Teacher> getAllTeacherName(){
-        /**
-         *  获取教师名字 用来给领导查看所有的教师评价
-         * */
-        List<Teacher> teacherList = null;
-        try{
-            teacherList = teacherMapper.getTeacherName();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return teacherList;
-    }
-
-    @Override
-    public List<Complaint> getComplaintByCourseId(String courseId){
-        List<Complaint> complaintList = null;
-        try{
-            complaintList = complaintMapper.getComplaintByCourseId(courseId);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return complaintList;
     }
 }
