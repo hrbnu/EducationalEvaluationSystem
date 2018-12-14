@@ -20,4 +20,6 @@ public interface TeacherMapper {
     //重置密码时先获取教师信息
     Teacher getTeacherInformation(Teacher teacher) throws Exception;
     List<Teacher> getTeacherName() throws Exception;
+    
+    Teacher getMyselfEvaluateScoreByCourseId(String courseId);
 }
