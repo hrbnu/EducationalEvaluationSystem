@@ -55,6 +55,5 @@
     <select id="getTeacherName" resultMap="teacherResultMap" >
         select *
         from teacher
-
     </select>
 </mapper>

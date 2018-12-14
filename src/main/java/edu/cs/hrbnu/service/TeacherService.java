@@ -1,6 +1,7 @@
 package edu.cs.hrbnu.service;
 
 import edu.cs.hrbnu.model.Complaint;
+import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
 import edu.cs.hrbnu.model.Teacher;
 
@@ -33,9 +34,9 @@ public interface TeacherService {
 
 	/**
 	 * 查看自己评价信息
-	 * @param teacherId
+	 * @param courseId
 	 */
-	List<Evaluate> otherEvaluate(String teacherId);
+	List<Evaluate> otherEvaluate(String courseId);
 
 	/**
 	 * 设置老师互帮信息
@@ -74,7 +75,7 @@ public interface TeacherService {
 	/**
 	 *  浏览投诉自己的投诉信息
 	 * */
-	Complaint viewMyComplaint();
+	List<Complaint> viewMyComplaint(String courseId);
 
 	/**
 	 *  导出Excel的评价表
@@ -85,4 +86,20 @@ public interface TeacherService {
 	 *  显示未浏览投诉：从上次登录时间开始计算，区间内出现的投诉就是为浏览投诉
 	 * */
 	void alertComplaint();
+
+	/**
+     * 通过teacherId 获取当前教师所教授课程
+     * */
+	List<Course> getCourseByTeahcer(String teacherId);
+
+	/**
+     * 获取所有教师名字
+     * */
+	List<Teacher> getAllTeacherName();
+
+	/**
+     * 通过课程Id获取投诉信息
+     * */
+	List<Complaint> getComplaintByCourseId(String courseId);
+
 }

@@ -1,5 +1,6 @@
 package edu.cs.hrbnu.service.impl;
 
+import edu.cs.hrbnu.DAO.ComplaintMapper;
 import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
 import edu.cs.hrbnu.DAO.TeacherMapper;
@@ -23,8 +24,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private EvaluateMapper evaluateMapper;
     @Autowired
-    CourseMapper courseMapper;
-
+    private CourseMapper courseMapper;
+    @Autowired
+    private ComplaintMapper complaintMapper;
     @Override
     public Teacher login(String teacherId, String password){
 
@@ -87,7 +89,7 @@ public class TeacherServiceImpl implements TeacherService {
         return isSuccess;
     }
     @Override
-    public List<Evaluate> otherEvaluate(String teacherId){
+    public List<Evaluate> otherEvaluate(String courseId){
 
         /**
          *  TODO : 最早写的一点，仅作参考
@@ -95,7 +97,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         List<Evaluate> evaluateList = null;
         try {
-            evaluateList = evaluateMapper.getOtherEvaluateById(teacherId);
+            evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -147,8 +149,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Complaint viewMyComplaint(){
-        // TODO
+    public List<Complaint> viewMyComplaint(String courseId){
+
         return null;
     }
 
@@ -183,5 +185,47 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void alertComplaint(){
         // TODO
+    }
+
+
+
+    //获取教师所教授课程
+    @Override
+    public List<Course> getCourseByTeahcer(String teacherId){
+        List<Course> courseList = null;
+        try{
+            courseList = courseMapper.getCourseByTeacherId(teacherId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return courseList;
+    }
+    //获取所有教师名字
+    @Override
+    public List<Teacher> getAllTeacherName(){
+        /**
+         *  获取教师名字 用来给领导查看所有的教师评价
+         * */
+        List<Teacher> teacherList = null;
+        try{
+            teacherList = teacherMapper.getTeacherName();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return teacherList;
+    }
+
+    @Override
+    public List<Complaint> getComplaintByCourseId(String courseId){
+        List<Complaint> complaintList = null;
+        try{
+            complaintList = complaintMapper.getComplaintByCourseId(courseId);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return complaintList;
     }
 }
