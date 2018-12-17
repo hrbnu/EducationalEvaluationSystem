@@ -10,76 +10,119 @@
 <% String appPath = request.getContextPath(); %>
 <html>
 <head>
-    <title>当前课程评价</title>
-</head>
-<body>
-<%--<form action="" method="get">--%>
-    <%--您最喜欢水果？<br /><br />--%>
-    <%--<label><input name="Fruit" type="radio" value="" />苹果 </label>--%>
-    <%--<label><input name="Fruit" type="radio" value="" />桃子 </label>--%>
-    <%--<label><input name="Fruit" type="radio" value="" />香蕉 </label>--%>
-    <%--<label><input name="Fruit" type="radio" value="" />梨 </label>--%>
-    <%--<label><input name="Fruit" type="radio" value="" />其它 </label>--%>
-<%--</form>--%>
-<%--<label>1、普通下拉列表菜单</label>--%>
-<%--<select name="">--%>
-    <%--<option value="0">DIVCSS5</option>--%>
-    <%--<option value="1">DIVCSS5</option>--%>
-<%--</select>--%>
 
-<div>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+    <meta name="renderer" content="webkit">
+
+    <title>当前学期可评价课程</title>
+    <style>
+        .tablebody {
+
+            margin: 20px 30px;
+            text-align: left;
+
+        }
+        .tableHeader {
+
+            height: 35px;
+            line-height: 35px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #646987;
+            background-color: #e3e8ee;
+            padding: 0 30px;
+            text-align: left;
+
+        }
+        .tablebody .row {
+
+            margin-top: 10px;
+            background-color: #fff;
+            height: 70px;
+            line-height: 70px;
+
+        }
+        .row {
+
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .col-xs-1{
+            width: 49.9999999%;
+            float: left;
+        }
+        .col-xs-2 {
+
+            width: 16.66666667%;
+            float: left;
+        }
+        .data-div{
+            margin-bottom: 500px;
+        }
+
+    </style>
+</head>
+<body style="background-color:#eff3f6;">
+
+<div class="data-div">
     <form action="${path}/student/evaluScoreCaculate" method="get">
         <input type="hidden" name="studentId" value="${studentId}" />
         <input type="hidden" name="courseId" value="${courseId}" />
-        <c:forEach var="evaluateProblem" items="${requestScope.get('listEvaluateProblem')}" varStatus="status">
-            <label>${evaluateProblem.id}、${evaluateProblem.evaluateProblemContent}, 请打分，谢谢！</label>
-            <label>${evaluateProblem.score}</label>
-            <select name="${evaluateProblem.id}">
-                <option value="${evaluateProblem.score * 0.1}">${evaluateProblem.score * 0.1}分</option>
-                <option value="${evaluateProblem.score * 0.2}">${evaluateProblem.score * 0.2}分</option>
-                <option value="${evaluateProblem.score * 0.3}">${evaluateProblem.score * 0.3}分</option>
-                <option value="${evaluateProblem.score * 0.4}">${evaluateProblem.score * 0.4}分</option>
-                <option value="${evaluateProblem.score * 0.5}">${evaluateProblem.score * 0.5}分</option>
-                <option value="${evaluateProblem.score * 0.6}">${evaluateProblem.score * 0.6}分</option>
-                <option value="${evaluateProblem.score * 0.7}">${evaluateProblem.score * 0.7}分</option>
-                <option value="${evaluateProblem.score * 0.8}">${evaluateProblem.score * 0.8}分</option>
-                <option value="${evaluateProblem.score * 0.9}">${evaluateProblem.score * 0.9}分</option>
-                <option value="${evaluateProblem.score * 1.0}">${evaluateProblem.score * 1.0}分</option>
-            </select>
-            <br />
-        </c:forEach>
+        <div class="row tableHeader">
+            <div class="col-xs-2 ">
+                序号
+            </div>
+            <div class="col-xs-1">
+                评价指标
+            </div>
+            <div class="col-xs-2">
+                分数值
+            </div>
+            <div class="col-xs-2">
+                评价值
+            </div>
+        </div>
+
+
+        <div class="tablebody">
+            <c:forEach var="evaluateProblem" items="${requestScope.get('listEvaluateProblem')}" varStatus="status">
+
+                <div class="row">
+                    <div class="col-xs-2 ">
+                        <label>${evaluateProblem.id}</label>
+                    </div>
+                    <div class="col-xs-1">
+                        <label>${evaluateProblem.evaluateProblemContent}, 请打分，谢谢！</label>
+                    </div>
+                    <div class="col-xs-2">
+                        <label>${evaluateProblem.score}</label>
+                    </div>
+                    <div class="col-xs-2">
+                        <select name="${evaluateProblem.id}">
+                            <option value="${evaluateProblem.score * 0.1}">${evaluateProblem.score * 0.1}分</option>
+                            <option value="${evaluateProblem.score * 0.2}">${evaluateProblem.score * 0.2}分</option>
+                            <option value="${evaluateProblem.score * 0.3}">${evaluateProblem.score * 0.3}分</option>
+                            <option value="${evaluateProblem.score * 0.4}">${evaluateProblem.score * 0.4}分</option>
+                            <option value="${evaluateProblem.score * 0.5}">${evaluateProblem.score * 0.5}分</option>
+                            <option value="${evaluateProblem.score * 0.6}">${evaluateProblem.score * 0.6}分</option>
+                            <option value="${evaluateProblem.score * 0.7}">${evaluateProblem.score * 0.7}分</option>
+                            <option value="${evaluateProblem.score * 0.8}">${evaluateProblem.score * 0.8}分</option>
+                            <option value="${evaluateProblem.score * 0.9}">${evaluateProblem.score * 0.9}分</option>
+                            <option value="${evaluateProblem.score * 1.0}">${evaluateProblem.score * 1.0}分</option>
+                        </select>
+                    </div>
+                    <br />
+                </div>
+            </c:forEach>
+        </div>
         <label>其他</label>
         <input type="text" name="otherContent"/>
         <br />
         <input name="提交" type="submit"/>
     </form>
 </div>
-
-<%--<div>--%>
-    <%--<form action="" method="get">--%>
-        <%--<c:forEach var="evaluateProblem" items="${requestScope.get('listEvaluateProblem')}" varStatus="status">--%>
-
-            <%--&lt;%&ndash;<p>${evaluateProblem.forWho}</p>&ndash;%&gt;--%>
-            <%--<p>${evaluateProblem.id}、${evaluateProblem.evaluateProblemContent}, 请打分，谢谢！</p><br />--%>
-            <%--<label>--%>
-                <%--<input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.6}" />${evaluateProblem.score * 0.6}分--%>
-            <%--</label>--%>
-            <%--<label>--%>
-                <%--<input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.7}" />${evaluateProblem.score * 0.7}分--%>
-            <%--</label>--%>
-            <%--<label>--%>
-                <%--<input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.8}" />${evaluateProblem.score * 0.8}分--%>
-            <%--</label>--%>
-            <%--<label>--%>
-                <%--<input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 0.9}" />${evaluateProblem.score * 0.9}分--%>
-            <%--</label>--%>
-            <%--<label>--%>
-                <%--<input name="${evaluateProblem.id}" type="radio" value="${evaluateProblem.score * 1.0}" />${evaluateProblem.score * 1.0}分--%>
-            <%--</label>--%>
-        <%--</c:forEach>--%>
-        <%--<br />--%>
-        <%--<input name="submit" type="submit">--%>
-    <%--</form>--%>
-<%--</div>--%>
 </body>
 </html>
