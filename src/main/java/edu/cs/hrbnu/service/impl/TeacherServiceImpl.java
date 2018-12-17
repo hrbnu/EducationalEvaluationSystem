@@ -1,12 +1,7 @@
 package edu.cs.hrbnu.service.impl;
 
-import edu.cs.hrbnu.DAO.EvaluateMapper;
-import edu.cs.hrbnu.DAO.EvaluateProblemMapper;
-import edu.cs.hrbnu.DAO.TeacherMapper;
-import edu.cs.hrbnu.model.Complaint;
-import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.EvaluateProblem;
-import edu.cs.hrbnu.model.Teacher;
+import edu.cs.hrbnu.DAO.*;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +17,10 @@ public class TeacherServiceImpl implements TeacherService {
     private EvaluateMapper evaluateMapper;
     @Autowired
     EvaluateProblemMapper evaluateProblemMapper;
-
+    @Autowired
+    private ComplaintMapper complaintMapper;
+    @Autowired
+    private CourseMapper courseMapper;
     @Override
     public Teacher login(String teacherId, String password){
 
@@ -85,7 +83,7 @@ public class TeacherServiceImpl implements TeacherService {
         return isSuccess;
     }
     @Override
-    public List<Evaluate> otherEvaluate(String teacherId){
+    public List<Evaluate> otherEvaluate(String courseId){
 
         /**
          *  TODO : 最早写的一点，仅作参考
@@ -93,7 +91,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         List<Evaluate> evaluateList = null;
         try {
-            evaluateList = evaluateMapper.getOtherEvaluateById(teacherId);
+            evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -178,5 +176,45 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public void alertComplaint(){
         // TODO
+    }
+
+    //获取教师所教授课程
+    @Override
+    public List<Course> getCourseByTeahcer(String teacherId){
+        List<Course> courseList = null;
+        try{
+            courseList = courseMapper.getCourseByTeacherId(teacherId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return courseList;
+    }
+    //获取所有教师名字
+    @Override
+    public List<Teacher> getAllTeacherName(){
+        /**
+         *  获取教师名字 用来给领导查看所有的教师评价
+         * */
+        List<Teacher> teacherList = null;
+        try{
+            teacherList = teacherMapper.getTeacherName();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return teacherList;
+    }
+
+    @Override
+    public List<Complaint> getComplaintByCourseId(String courseId){
+        List<Complaint> complaintList = null;
+        try{
+            complaintList = complaintMapper.getComplaintByCourseId(courseId);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return complaintList;
     }
 }

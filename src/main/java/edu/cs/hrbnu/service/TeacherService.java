@@ -1,9 +1,6 @@
 package edu.cs.hrbnu.service;
 
-import edu.cs.hrbnu.model.Complaint;
-import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.EvaluateProblem;
-import edu.cs.hrbnu.model.Teacher;
+import edu.cs.hrbnu.model.*;
 
 import java.util.List;
 
@@ -90,4 +87,7 @@ public interface TeacherService {
      *  显示未浏览投诉：从上次登录时间开始计算，区间内出现的投诉就是为浏览投诉
      * */
     void alertComplaint();
+	List<Course> getCourseByTeahcer(String teacherId);
+	List<Teacher> getAllTeacherName();
+	List<Complaint> getComplaintByCourseId(String courseId);
 }
