@@ -81,7 +81,7 @@ public interface TeacherService {
     /**
      *  导出Excel的评价表
      * */
-    void exportEvaluateForm();
+    List<Evaluate> exportEvaluateForm();
 
     /**
      *  显示未浏览投诉：从上次登录时间开始计算，区间内出现的投诉就是为浏览投诉
