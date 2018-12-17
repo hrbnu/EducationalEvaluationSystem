@@ -21,6 +21,6 @@ public class GeneralCommentController {
 	public ModelAndView gengeal() {
 		Weight weight = (Weight) context.getAttribute("weight");
 		administratorService.generalComment(weight);
-		return  new ModelAndView("modify");
+		return  new ModelAndView("Modify");
 	}
 }
