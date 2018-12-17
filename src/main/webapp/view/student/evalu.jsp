@@ -121,9 +121,8 @@
         <label>其他</label>
         <input type="text" name="otherContent"/>
         <br />
-        <input name="提交" type="text"/>
+        <input name="提交" type="submit"/>
     </form>
 </div>
-<div></div>
 </body>
 </html>
