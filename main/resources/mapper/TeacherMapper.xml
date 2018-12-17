@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.TeacherMapper">
+    <resultMap id="teacherResultMap" type="edu.cs.hrbnu.model.Teacher">
+        <id property="teacherId" column="teacherId" javaType="String" />
+        <result property="password" column="password" javaType="String" />
+        <result property="teacherName" column="teacherName" javaType="String" />
+        <result property="title" column="title" javaType="String" />
+        <result property="myselfEvaluateContent" column="myselfEvaluateContent" javaType="String" />
+        <result property="myselfEvaluateScore" column="myselfEvaluateScore" javaType="Double" />
+        <result property="helpTeacherName" column="helpTeacherName" javaType="String" />
+        <result property="accepterTeacherName" column="accepterTeacherName" javaType="String" />
+        <result property="teacherType" column="teacherType" javaType="Boolean" />
+        <result property="leaderType" column="leaderType" javaType="Boolean" />
+        <result property="monitorType" column="monitorType" javaType="Boolean" />
+        <result property="lastLoginTime" column="lastLoginTime" javaType="Date" />
+        <result property="idCard" column="idCard" javaType="String" />
+    </resultMap>
+
+    <select id="selectAdminById" resultMap="teacherResultMap">
+        select *
+        from admin
+        where id=#{id}
+    </select>
+
+    <insert id="insertTeacher" useGeneratedKeys="true" keyProperty="id">
+        insert ignore teacher (teacherId,password,teacherName,teacherType,leaderType,monitorType,lastLoginTime,idCard)
+        values (#{teacherId},#{password},#{teacherName},#{teacherType},#{leaderType},#{monitorType},#{lastLoginTime},#{idCard})
+    </insert>
+
+    <select id="getTeacherById" parameterType="String" resultType="edu.cs.hrbnu.model.Teacher">
+        select *
+        from teacher
+        where teacherId=#{teacherId}
+    </select>
+
+    <!-- 更新教师密码 -->
+    <update id="updateTeacherPasswordById">
+        update teacher
+        set password = #{password}
+        where teacherId = #{teacherId}
+    </update>
+    <select id="validateTeacherIdAndPassword" parameterType="java.lang.String" resultType="java.lang.String">
+        select password
+        from teacher
+        where teacherId = #{teacherId}
+    </select>
+    <!-- 重置教师密码 -->
+    <update id="resetTeacherPassword" parameterType="Teacher">
+        update teacher
+        set password = #{password}
+        where teacherId = #{teacherId}
+    </update>
+    <select id="getTeacherInformation" parameterType="Teacher" resultType="Teacher">
+        select *
+        from teacher
+        where teacherId = #{teacherId} and idCard = #{idCard}
+    </select>
+
+    <update id="updateLastLoginTime" parameterType="String">
+        update teacher
+        set lastLoginTime = #{currentLoginTime}
+         where teacherId = #{teacherId}
+    </update>
+    
+    <select id="getTeacherCoursesById" parameterType="String" resultType="String">
+        select courseId
+        from course
+        WHERE teacherId = #{teacherId}
+    </select>
+
+    <resultMap id="Complaints" type="Complaint" >
+        <result column="message" property="message"/>
+        <result column="complaintTime" property="complaintTime"/>
+        <association property="course" javaType="Course">
+            <result column="courseName" property="courseName"/>
+        </association>
+
+    </resultMap>
+
+    <select id="getUnbrowsedComplaintsByCourseId" parameterType="String" resultMap="Complaints">
+        select cs.courseName,ct.message,ct.complaintTime
+        from complaint ct
+        LEFT OUTER JOIN course cs
+        ON ct.courseId=cs.courseId
+        <where>
+            <foreach collection="list" item="courseId" separator="," open="ct.courseId in (" close=")">
+                                     #{courseId}
+            </foreach>
+            and complaintTime between  #{lastLoginTime} and #{currentLoginTime}
+        </where>
+    </select>
+
+
+</mapper>

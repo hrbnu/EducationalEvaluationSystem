@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.EvaluateProblemMapper">
+    <resultMap id="evaluateProblemResultMap" type="edu.cs.hrbnu.model.EvaluateProblem">
+        <result property="id" column="id" javaType="Integer" />
+        <result property="evaluateProblemContent" column="evaluateProblemContent" javaType="String"/>
+        <result property="forWho" column="forWho" javaType="Integer" />
+        <result property="score" column="score" javaType="Integer" />
+    </resultMap>
+
+    <select id="getAllStudentEvaluateProblem" resultMap="evaluateProblemResultMap">
+        select *
+        from evaluateProblem
+        where forWho=0
+    </select>
+
+    <select id="getAllTeacherEvaluateProblem" resultMap="evaluateProblemResultMap">
+        select *
+        from evaluateProblem
+        where forWho=1
+    </select>
+</mapper>

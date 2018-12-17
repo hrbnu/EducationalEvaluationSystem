@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.ComplaintMapper">
+    <resultMap id="complaintResultMap" type="edu.cs.hrbnu.model.Complaint">
+        <result property="studentId" column="studentId" javaType="String" />
+        <result property="courseId" column="courseId" javaType="String" />
+        <result property="message" column="message" javaType="String" />
+        <result property="complaintTime" column="complaintTime" javaType="Date" />
+    </resultMap>
+    
+    <insert id="insertComplaintContent" parameterType="Complaint">
+        insert into complaint(studentId, courseId, message, complaintTime)
+        VALUE (#{studentId}, #{courseId}, #{message}, #{complaintTime})
+    </insert>
+
+    <select id="getAllComplaint" resultMap="complaintResultMap">
+        select *
+        from complaint
+    </select>
+</mapper>

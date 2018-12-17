@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.EvaluateMapper">
+    <resultMap id="evaluateResultMap" type="edu.cs.hrbnu.model.Evaluate">
+        <result property="id" column="id" javaType="Integer" />
+        <result property="flagId" column="flagId" javaType="String"/>
+        <result property="courseId" column="courseId" javaType="String" />
+        <result property="evaluateContent" column="evaluateContent" javaType="String" />
+        <result property="evaluateScore" column="evaluateScore" javaType="Double" />
+        <result property="flag" column="flag" javaType="String" />
+    </resultMap>
+
+    <select id="getOtherEvaluateById" resultMap="evaluateResultMap">
+        select *
+        from evaluate
+        where toTeacher=#{id}
+    </select>
+
+    <select id="getAllTeacherEvaluate" resultMap="evaluateResultMap">
+        select *
+        from evaluate
+    </select>
+
+    <insert id="insertEvaluate" parameterType="Evaluate">
+        INSERT INTO evaluate(courseId, evaluateContent, evaluateScore, flag, flagId)
+        VALUE (#{courseId},#{evaluateContent}, #{evaluateScore}, #{flag}, #{flagId})
+    </insert>
+</mapper>

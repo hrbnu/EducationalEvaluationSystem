@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.StudentCourseMapper">
+    <resultMap id="studentCourseResultMap" type="edu.cs.hrbnu.model.StudentCourse">
+        <result property="studentId" column="studentId" javaType="String" />
+        <result property="courseId" column="courseId" javaType="String" />
+        <result property="courseTime" column="courseTime" javaType="Integer" />
+        <result property="history" column="history" javaType="Boolean" />
+    </resultMap>
+
+    <select id="getHistoryCourseIdByStudentId" resultMap="studentCourseResultMap">
+        select *
+        from student_course
+        where id=#{id}
+    </select>
+    
+     <select id="getStudentIdByCourseId" resultMap="studentCourseResultMap">
+        select studentId
+        from student_course
+        where courseId=#{CourseId}
+    </select>
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.CourseMapper">
+    <resultMap id="courseResultMap" type="edu.cs.hrbnu.model.Course">
+        <result property="courseId" column="courseId" javaType="String" />
+        <result property="courseName" column="courseName" javaType="String" />
+        <result property="teacherId" column="teacherId" javaType="String" />
+        <result property="semester" column="semester" javaType="Integer" />
+        <result property="score" column="score" javaType="Double" />
+        <result property="classification" column="classification" javaType="String" />
+        <result property="courseClass" column="courseClass" javaType="String" />
+        <result property="startTime" column="startTime" javaType="String" />
+        <result property="endTime" column="endTime" javaType="String" />
+        <result property="learnTime" column="learnTime" javaType="Integer" />
+    </resultMap>
+
+    <select id="getCourseById" resultMap="courseResultMap">
+        select *
+        from course
+        where courseId=#{id}
+    </select>
+    
+    <select id="getAllCourses" resultMap="courseResultMap">
+    	select *
+    	from course
+    </select>
+    
+    <update id="updateCourseScoreByCourseId">
+    	update course set
+    	score = #{score}
+    	where courseId = #{courseId}
+    </update>
+
+    <insert id="insertCourse" useGeneratedKeys="true" keyProperty="id">
+        insert ignore course (courseId,courseName,teacherId,semester,classification,courseClass,startTime,endTime,learnTime)
+        values (#{courseId},#{courseName},#{teacherId},#{semester},#{classification},#{courseClass},#{startTime},#{endTime},#{learnTime})
+    </insert>
+</mapper>

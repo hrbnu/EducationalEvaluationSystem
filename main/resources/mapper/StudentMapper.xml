@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.StudentMapper">
+    <resultMap id="studentResultMap" type="edu.cs.hrbnu.model.Student">
+        <result property="studentId" column="studentId" javaType="String" />
+        <result property="password" column="password" javaType="String" />
+        <result property="classId" column="classId" javaType="Integer" />
+        <result property="idCard" column="idCard" javaType="String" />
+        <result property="name" column="name" javaType="String" />
+        <result property="grade" column="grade" javaType="Integer" />
+        <result property="department" column="department" javaType="String" />
+        <result property="graduation" column="graduation" javaType="Boolean" />
+    </resultMap>
+
+    <select id="selectAdminById" resultMap="studentResultMap">
+        select *
+        from admin
+        where studentId=#{studentId}
+    </select>
+
+    <insert id="insertStudent" useGeneratedKeys="true" keyProperty="id">
+        insert ignore student (studentId,password,classId,idCard,name,grade,department,graduation)
+        values (#{studentId},#{password},#{classId},#{idCard},#{name},#{grade},#{department},#{graduation})
+    </insert>
+
+    <!-- 更新学生密码 -->
+    <update id="updateStudentPasswordById">
+        update student
+        set password = #{password}
+        where studentId = #{studentId}
+    </update>
+    <select id="validateStudentIdAndPassword" parameterType="String" resultType="java.lang.String">
+        select password
+        from student
+        where studentId = #{studentId}
+    </select>
+    <!-- 重置学生密码 -->
+    <update id="resetStudentPassword" parameterType="Student">
+        update student
+        set password = #{password}
+        where studentId = #{studentId}
+    </update>
+    <select id="getStudentInfo" parameterType="Student" resultType="Student">
+        select *
+        from student
+        where studentId = #{studentId} and idCard = #{idCard}
+    </select>
+
+    <select id="getStudentById" parameterType="String" resultType="Student">
+        select *
+        from student
+        where studentId = #{studentId}
+    </select>
+
+</mapper>
