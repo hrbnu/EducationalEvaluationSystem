@@ -169,8 +169,31 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void exportEvaluateForm(){
-        // TODO
+    public List<Evaluate> exportEvaluateForm(String teacherId){
+        List<Course> courseList = null;
+        try {
+            courseList = courseMapper.getCourseByTeacherId(teacherId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        if(courseList == null || courseList.size() == 0){
+            return null;
+        }
+
+        List<Evaluate> allEvaluate = new ArrayList<>();
+        for(Course course : courseList){
+            String courseId = course.getCourseId();
+            List<Evaluate> evaluateList = null;
+            try{
+                evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            if(evaluateList != null){
+                allEvaluate.addAll(evaluateList);
+            }
+        }
+        return allEvaluate;
     }
 
     @Override
