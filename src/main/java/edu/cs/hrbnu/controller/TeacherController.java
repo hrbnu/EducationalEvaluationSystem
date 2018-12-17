@@ -97,4 +97,55 @@ public class TeacherController {
             return new ModelAndView("success");
         }
     }
+    
+    @RequestMapping("exportEvaluate/{teacherId}")
+    public ModelAndView exportEvaluate(@PathVariable String teacherId, HttpServletResponse response){
+        List<Evaluate> evaluateList = teacherService.exportEvaluateForm(teacherId);
+        if(evaluateList == null || evaluateList.size() == 0){
+            return new ModelAndView("wrong");
+        }
+
+        // 标题
+        String[] title = {"课程编号","课程评价","课程评分"};
+        // 唯一化excel表名
+        String fileName = teacherId+"评价表"+System.currentTimeMillis()+".xlsx";
+        String sheetName = "Sheet1";
+
+        // 构造excel主要内容
+        String[][] content = new String[evaluateList.size()][title.length];
+        for(int i = 0;i < evaluateList.size();i++){
+            Evaluate evaluate = evaluateList.get(i);
+            content[i][0] = evaluate.getCourseId();
+            content[i][1] = evaluate.getEvaluateContent();
+            content[i][2] = ""+evaluate.getEvaluateScore();
+        }
+
+        // 工具类获取Workbook对象
+        XSSFWorkbook wb = ExcelUitl.getXSSFWorkbook(sheetName,title,content);
+
+        // 下载-因为IO流，name需要额外转换
+        try{
+            fileName = new String(fileName.getBytes(),"ISO8859-1");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        // 下载-响应头设置
+        response.setContentType("application/octet-stream;charset=ISO8859-1");
+        response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+        response.addHeader("Pargam", "no-cache");
+        response.addHeader("Cache-Control", "no-cache");
+
+        // 直接在原页面下载，所以返回值为空即可
+        try{
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
 }
