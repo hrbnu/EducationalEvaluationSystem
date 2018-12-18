@@ -537,7 +537,10 @@ public class AdministratorServiceImpl implements AdministratorService {
 			map.put("teacher",teacher);
 			map.put("oldTeacherId",oldTeacherId);
 			//修改evaluate表中的flagId
-			evaluateMapper.updateFlagIdByTeacherId(oldTeacherId);
+			HashMap<String,Object> evaluateMap = new HashMap<String, Object>();
+			evaluateMap.put("teacherId",teacher.getTeacherId());
+			evaluateMap.put("oldTeacherId",oldTeacherId);
+			evaluateMapper.updateFlagIdByTeacherId(evaluateMap);
 			//修改teacher表信息
 			teacherMapper.updateSingleTeacher(map);
 

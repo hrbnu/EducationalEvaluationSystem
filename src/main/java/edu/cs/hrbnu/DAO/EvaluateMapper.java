@@ -19,7 +19,7 @@ public interface EvaluateMapper {
     //根据课程号删除评价信息
     void deleteEvaluatesByCourseId(String courseId) throws Exception;
     //通过教师工号修改flagId
-    void updateFlagIdByTeacherId(String oldTeacherId) throws Exception;
+    void updateFlagIdByTeacherId(HashMap<String,Object> map) throws Exception;
     //通过学生号修改flagId
     void updateFlagIdByStudentId(HashMap<String,Object> map) throws Exception;
 }
