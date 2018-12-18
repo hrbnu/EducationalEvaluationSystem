@@ -19,4 +19,43 @@
         from student_course
         where courseId=#{CourseId}
     </select>
+
+    <!-- 删除单条学生课程信息 -->
+    <delete id="deleteSingleStudentCourses" parameterType="java.lang.String">
+        delete from student_course
+        where studentId = #{studentId}
+    </delete>
+    <!-- 根据学号获得所有的课程号 -->
+    <select id="selectCourseIdsByClassmateId" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select courseId
+        from student_course
+        where studentId =#{studentId} and history = #{history}
+    </select>
+    <!-- 插入学生时同时插入课程号 -->
+    <insert id="insertSingleStudentCourses" parameterType="java.util.List">
+        insert into student_course (studentId,courseId,courseTime,history)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.studentId},#{item.courseId},#{item.courseTime},#{item.history})
+        </foreach>
+    </insert>
+    <!-- 根据课程号删除课程信息 -->
+    <delete id="deleteStudentCoursesByCourseId" parameterType="java.lang.String">
+        delete from student_course
+        where courseId = #{courseId}
+    </delete>
+    <!-- 插入信息 -->
+    <insert id="insertStudentCourses" parameterType="java.util.List">
+        insert into student_course (studentId,courseId,courseTime,history)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.studentId},#{item.courseId},#{item.courseTime},#{item.history})
+        </foreach>
+    </insert>
+    <!-- 修改单条学生号 -->
+    <update id="updateSingleStudentId" parameterType="java.util.HashMap">
+        update student_course
+        set studentId = #{studentId}
+        where studentId = #{oldStudentId}
+    </update>
 </mapper>

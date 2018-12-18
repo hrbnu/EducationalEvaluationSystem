@@ -30,4 +30,20 @@ public interface TeacherMapper {
     List<String> getTeacherCoursesById(String teacherId);
     //获取课程Id集合中未浏览的投诉（从上次登录时间开始计算，区间内出现的投诉就是未浏览投诉）
     List<Complaint> getUnbrowsedComplaintsByCourseId(@Param("list") List<String> teacherId, @Param("lastLoginTime") String lastLoginTime, @Param("currentLoginTime") String currentLoginTime);
+    //查询所有教师的信息
+    List<Teacher> selectAllTeacherInfo() throws Exception;
+    //查询所有教师总数
+    int selectTeacherCount() throws Exception;
+    //按条件查询教师总数
+    int selectTeacherCountByCondition(Teacher teacher) throws Exception;
+    //按条件查询教师
+    List<Teacher> selectTeacherByCondition(Teacher teacher) throws Exception;
+    //删除单条教师信息
+    void deleteSingleTeacher(String teacherId) throws Exception;
+    //单条插入教师信息
+    void insertSingleTeacherInfo(Teacher teacher) throws Exception;
+    //查询单条教师信息
+    Teacher selectSingleTeacherInfo(String teacherId) throws Exception;
+    //修改单条教师信息
+    void updateSingleTeacher(HashMap<String,Object> map) throws Exception;
 }
