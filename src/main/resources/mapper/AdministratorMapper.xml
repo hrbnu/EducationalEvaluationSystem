@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.cs.hrbnu.DAO.AdministratorMapper">
+
+    <select id="getAdministrator" parameterType="Administrator" resultType="Administrator">
+        select * from administrator
+        <where>
+            <if test="id != null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="password !=null and password != ''">
+                and password=#{password}
+            </if>
+        </where>
+    </select>
+</mapper>

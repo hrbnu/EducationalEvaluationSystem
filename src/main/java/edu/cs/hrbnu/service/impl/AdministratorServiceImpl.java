@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import edu.cs.hrbnu.DAO.*;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -14,11 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import edu.cs.hrbnu.DAO.CourseMapper;
-import edu.cs.hrbnu.DAO.EvaluateMapper;
-import edu.cs.hrbnu.DAO.StudentCourseMapper;
-import edu.cs.hrbnu.DAO.StudentMapper;
-import edu.cs.hrbnu.DAO.TeacherMapper;
 import edu.cs.hrbnu.model.Administrator;
 import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
@@ -35,6 +31,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     StudentMapper studentMapper;
     @Autowired
     TeacherMapper teacherMapper;
+	@Autowired
+	AdministratorMapper administratorMapper;
 
 	@Value("${studentWeight}")
 	private String studentWeight;
@@ -60,8 +58,15 @@ public class AdministratorServiceImpl implements AdministratorService {
 	EvaluateMapper evaluateMapper;
 
     @Override
-    public void login(Administrator administrator){
-        // TODO
+    public Administrator login(Administrator administrator){
+
+    	Administrator admin = null;
+		try {
+			admin =  administratorMapper.getAdministrator(administrator);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return admin;
     }
 
     @Override

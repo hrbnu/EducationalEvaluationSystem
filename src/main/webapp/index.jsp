@@ -13,6 +13,7 @@
         <%--测试输出100100的评价--%>
         <a href="/teacher/exportEvaluate/100100">下载</a>
 
+        <a href="view/administrator.jsp">管理员页面</a>
         <a href="view/student.jsp">学生页面</a>
         <a href="view/teacher.jsp">教师页面</a>
 
