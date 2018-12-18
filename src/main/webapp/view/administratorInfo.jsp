@@ -22,9 +22,6 @@
         <td>${sessionScope.administratorInfo.id}</td>
         <td>${sessionScope.administratorInfo.name}</td>
         <td>${sessionScope.administratorInfo.password}</td>
-
-        <td></td>
-
     </tr>
 
 </table>

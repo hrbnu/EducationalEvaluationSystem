@@ -1,17 +1,17 @@
 package edu.cs.hrbnu.controller;
 
 
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.Pagination;
-import edu.cs.hrbnu.model.Student;
-import edu.cs.hrbnu.model.Teacher;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.AdministratorService;
 import edu.cs.hrbnu.uitl.PathUitl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,6 +25,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes("administratorInfo")
 public class AdministratorController {
     @Autowired
     AdministratorService administratorService;
@@ -617,5 +618,28 @@ public class AdministratorController {
         }
         mav.setViewName("administrator/singleCourseInsert");
         return mav;
+    }
+
+    @RequestMapping("login")
+    public ModelAndView login(Administrator administrator, ModelMap modelMap){
+        Administrator admin = administratorService.login(administrator);
+        ModelAndView modelAndView = new ModelAndView();
+        if(admin == null){
+            modelAndView.setViewName("administrator");
+            String message = "账号或密码错误！";
+            modelAndView.addObject("message",message);
+        }else{
+            modelMap.addAttribute("administratorInfo",admin);
+            modelAndView.setViewName("administratorInfo");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("logout")
+    public ModelAndView logout(SessionStatus sessionStatus){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("success");
+        sessionStatus.setComplete();
+        return modelAndView;
     }
 }

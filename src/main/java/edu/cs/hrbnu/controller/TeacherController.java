@@ -170,7 +170,7 @@ public class TeacherController {
         } else{
             String loginMessage = "工号或密码错误";
             modelAndView.addObject("loginMessage",loginMessage);
-            modelAndView.setViewName("teacher");
+            modelAndView.setViewName("teacherLogin");
         }
 
         return modelAndView;
