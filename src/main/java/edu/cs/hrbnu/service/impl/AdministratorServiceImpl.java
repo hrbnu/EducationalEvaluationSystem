@@ -2,7 +2,9 @@ package edu.cs.hrbnu.service.impl;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -31,8 +33,6 @@ public class AdministratorServiceImpl implements AdministratorService {
     StudentMapper studentMapper;
     @Autowired
     TeacherMapper teacherMapper;
-	@Autowired
-	AdministratorMapper administratorMapper;
 
 	@Value("${studentWeight}")
 	private String studentWeight;
@@ -56,17 +56,12 @@ public class AdministratorServiceImpl implements AdministratorService {
 	StudentCourseMapper studentCourseMapper;
 	@Autowired
 	EvaluateMapper evaluateMapper;
+	@Autowired
+	ComplaintMapper complaintMapper;
 
     @Override
-    public Administrator login(Administrator administrator){
-
-    	Administrator admin = null;
-		try {
-			admin =  administratorMapper.getAdministrator(administrator);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return admin;
+    public void login(Administrator administrator){
+        // TODO
     }
 
     @Override
@@ -203,20 +198,79 @@ public class AdministratorServiceImpl implements AdministratorService {
         return true;
     }
 
-    @Override
-    public void insertStudent(Student student){
-        // TODO
-    }
+	//增加学生信息  学生课程通过查询同班同学的课程进行添加
+	//Student、StudentCourse(根据同年级同专业同班同学导入课程)、
+	@Override
+	public void insertStudent(Student student){
+		try {
+			//存Student表
+			//学生学登录密码、是否毕业标志系统设置
+			student.setPassword(student.getIdCard().substring(12));
+			student.setGraduation(false);
+			studentMapper.insertSingleStudentInfo(student);
+			//存student_course表
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("department",student.getDepartment());
+			map.put("grade",student.getGrade());
+			map.put("classId",student.getClassId());
+			//获取一个同班同学学号
+			String classmateId = studentMapper.selectClassmateInfo(map);
+			//根据同班同学学号获取student_course表中所有的课号
+			HashMap<String,Object> courseMap = new HashMap<String, Object>();
+			courseMap.put("studentId",classmateId);
+			courseMap.put("history",false);
+			List<String> courseIds = studentCourseMapper.selectCourseIdsByClassmateId(courseMap);
+			//插入所有课程
+			//studentId,courseId,courseTime=0,history=false
+			List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
+			for(String courseId:courseIds){
+				StudentCourse studentCourse = new StudentCourse();
+				studentCourse.setStudentId(student.getStudentId());
+				studentCourse.setCourseId(courseId);
+				studentCourse.setCourseTime(0);
+				studentCourse.setHistory(false);
+				studentCourseList.add(studentCourse);
+			}
+			studentCourseMapper.insertSingleStudentCourses(studentCourseList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void updateStudent(Student student){
-        // TODO
-    }
+	//学生所有信息都可以修改
+	@Override
+	public void updateSingleStudent(Student student,String oldStudentId){
+		try {
+			if(!student.getStudentId().equals(oldStudentId)){
+				//修改student_course(studentId)
+				HashMap<String,Object> studentIdMap = new HashMap<String, Object>();
+				studentIdMap.put("studentId",student.getStudentId());
+				studentIdMap.put("oldStudentId",oldStudentId);
+				//修改evaluate(flagId)
+				evaluateMapper.updateFlagIdByStudentId(studentIdMap);
+			}
+			HashMap<String,Object> studentMap = new HashMap<String, Object>();
+			studentMap.put("student",student);
+			studentMap.put("oldStudentId",oldStudentId);
+			studentMapper.updateSingleStudent(studentMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void deleteStudent(Student student){
-        // TODO
-    }
+	//删除单条学生信息 complaint表关联student
+	//删除complaint(ref studentId)、student(studentId)、studentCourse(studentId)、evaluate(flagId)
+	@Override
+	public void deleteSingleStudent(String studentId){
+		try {
+//            complaintMapper.deleteSingleStudentComplaints(studentId);
+//            studentCourseMapper.deleteSingleStudentCourses(studentId);
+			evaluateMapper.deleteSingleStudentEvaluates(studentId);
+			studentMapper.deleteSingleStudent(studentId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
     @Override
     public void updateCourseByExcel(){
@@ -464,18 +518,242 @@ public class AdministratorServiceImpl implements AdministratorService {
     }
    }
 
-    @Override
-    public void insertTeacher(Teacher teacher){
-        // TODO
-    }
+	//增加教师信息
+	@Override
+	public void insertTeacher(Teacher teacher){
+		try {
+			teacher.setPassword(teacher.getIdCard().substring(12));
+			teacherMapper.insertSingleTeacherInfo(teacher);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    @Override
-    public void updateTeacher(Teacher teacher){
-        // TODO
-    }
 
-    @Override
-    public void deleteTeacher(Teacher teacher){
-        // TODO
-    }
+	@Override
+	public void updateSingleTeacher(Teacher teacher,String oldTeacherId){
+		try {
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("teacher",teacher);
+			map.put("oldTeacherId",oldTeacherId);
+			//修改evaluate表中的flagId
+			evaluateMapper.updateFlagIdByTeacherId(oldTeacherId);
+			//修改teacher表信息
+			teacherMapper.updateSingleTeacher(map);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	//删除单条教师信息
+	//删除course(teacherId)删除前先获得课程号courseId、
+	//student_course(courseId主键)、complaint(courseId关联)、evaluate(flagId)
+	@Override
+	public void deleteSingleTeacher(String teacherId){
+		try {
+			//获得所有课程号
+			List<String> courseIds = courseMapper.selectCourseIdsByTeacherId(teacherId);
+			for(String courseId:courseIds){
+				//删除complaint(courseId)
+				complaintMapper.deleteComplaintsByCourseId(courseId);
+				//删除evaluate(courseId)
+				evaluateMapper.deleteEvaluatesByCourseId(courseId);
+				//删除student_course(courseId)
+				studentCourseMapper.deleteStudentCoursesByCourseId(courseId);
+			}
+			//删除course(teacherId)
+			courseMapper.deleteCoursesByTeacherId(teacherId);
+			//删除teacher(teacherId)
+			teacherMapper.deleteSingleTeacher(teacherId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	//查询所有学生信息
+	@Override
+	public List<Student> selectAllStudentInfo(){
+		List<Student> studentsInfo = new ArrayList<Student>();
+		try {
+			studentsInfo = studentMapper.selectAllStudentInfo();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return studentsInfo;
+	}
+
+	//查询单条学生信息
+	public Student selectSingleStudentInfo(String studentId){
+		Student student = new Student();
+		try {
+			student = studentMapper.selectSingleStudentInfo(studentId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return student;
+	}
+
+	//查询所有学生总数
+	public int selectStudentCount(){
+		int count = 0;
+		try {
+			count = studentMapper.selectStudentCount();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	//按条件查询在校学生总数
+	@Override
+	public int selectStudentCountByCondition(String department,int grade,int classId){
+		int count = 0;
+		try {
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("department",department);
+			map.put("grade",grade);
+			map.put("classId",classId);
+			count = studentMapper.selectStudentCountByCondition(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	//按条件查询在校学生
+	public List<Student> selectStudentByCondition(String department,int grade,int classId){
+		List<Student> studentsInfo = new ArrayList<Student>();
+		try {
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("department",department);
+			map.put("grade",grade);
+			map.put("classId",classId);
+			studentsInfo = studentMapper.selectStudentByCondition(map);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return studentsInfo;
+	}
+
+	//按条件查询已毕业学生总数
+	@Override
+	public int selectGraduatedStudentCountByCondition(String department,boolean isGraduation,int classId){
+		int count = 0;
+		try {
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("department",department);
+			map.put("graduation",isGraduation);
+			map.put("classId",classId);
+			count = studentMapper.selectGraduatedStudentCountByCondition(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	//按条件查询已毕业学生
+	public List<Student> selectGraduatedStudentByCondition(String department,boolean isGraduation,int classId){
+		List<Student> studentsInfo = new ArrayList<Student>();
+		try {
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("department",department);
+			map.put("graduation",isGraduation);
+			map.put("classId",classId);
+			studentsInfo = studentMapper.selectGraduatedStudentByCondition(map);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return studentsInfo;
+	}
+
+
+	//查询所有教师信息
+	@Override
+	public List<Teacher> selectAllTeacherInfo(){
+		List<Teacher> teachersInfo = new ArrayList<Teacher>();
+		try {
+			teachersInfo = teacherMapper.selectAllTeacherInfo();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return teachersInfo;
+	}
+
+	//查询所有教师总数
+	public int selectTeacherCount(){
+		int count = 0;
+		try {
+			count = teacherMapper.selectTeacherCount();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	//按条件查询教师总数
+	@Override
+	public int selectTeacherCountByCondition(Teacher teacher){
+		int count = 0;
+		try {
+			count = teacherMapper.selectTeacherCountByCondition(teacher);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
+
+	//按条件查询教师
+	public List<Teacher> selectTeacherByCondition(Teacher teacher){
+		List<Teacher> teachersInfo = new ArrayList<Teacher>();
+		try {
+			teachersInfo = teacherMapper.selectTeacherByCondition(teacher);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return teachersInfo;
+	}
+
+	//查询单条教师信息
+	public Teacher selectSingleTeacherInfo(String teacherId){
+		Teacher teacher = new Teacher();
+		try {
+			teacher = teacherMapper.selectSingleTeacherInfo(teacherId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return teacher;
+	}
+
+	/**
+	 * 单条插入课程信息
+	 */
+	@Override
+	public void insertSingleCourse(Course course){
+		try {
+			//1.插入course
+			courseMapper.insertSingleCourse(course);
+			//获取学生信息
+			//2.通过课程号前四位获取年级
+			String grade = course.getCourseId().substring(0,4);
+			HashMap<String,Object> map = new HashMap<String, Object>();
+			map.put("grade",grade);
+			map.put("classId",course.getCourseClass());
+			List<String> studentLists = null;
+			studentLists = studentMapper.selectStudentIdsByGradeAndClassId(map);
+			//3.插入student_course
+			List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
+			for(String studentId:studentLists){
+				StudentCourse studentCourse = new StudentCourse();
+				studentCourse.setStudentId(studentId);
+				studentCourse.setCourseId(course.getCourseId());
+				studentCourse.setHistory(false);
+				studentCourse.setCourseTime(0);
+				studentCourseList.add(studentCourse);
+			}
+			studentCourseMapper.insertStudentCourses(studentCourseList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

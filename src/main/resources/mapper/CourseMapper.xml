@@ -41,4 +41,28 @@
     	from course
     	where teacherId=#{id}
     </select>
+
+    <!-- 根据教师号获取所有课程号 -->
+    <select id="selectCourseIdsByTeacherId" parameterType="java.lang.String" resultType="java.lang.String">
+        select courseId
+        from course
+        where teacherId =#{teacherId}
+    </select>
+    <!-- 根据教师号删除课程信息 -->
+    <delete id="deleteCoursesByTeacherId" parameterType="java.lang.String">
+        delete from course
+        where teacherId = #{teacherId}
+    </delete>
+    <!-- 修改教师工号 -->
+    <update id="updateTeacherId" parameterType="java.lang.String">
+        update course
+        set teacherId = #{oldTeacherId}
+        where teacherId = #{oldTeacherId}
+    </update>
+    <!-- 插入单条课程信息 -->
+    <insert id="insertSingleCourse" parameterType="Course">
+        insert into course
+        values (#{courseId},#{courseName},#{teacherId},#{semester},#{score},#{classification},
+                #{courseClass},#{startTime},#{endTime},#{learnTime})
+    </insert>
 </mapper>

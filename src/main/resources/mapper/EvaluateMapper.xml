@@ -42,4 +42,27 @@
 		from evaluate
 		where flag=#{flag} and courseId=#{courseId} 
 	</select>
+
+    <!-- 删除单条学生评价信息 -->
+    <delete id="deleteSingleStudentEvaluates" parameterType="java.lang.String">
+        delete from evaluate
+        where flagId = #{studentId}
+    </delete>
+    <!-- 根据课程号删除评价信息 -->
+    <delete id="deleteEvaluatesByCourseId" parameterType="java.lang.String">
+        delete from evaluate
+        where courseId = #{courseId}
+    </delete>
+    <!-- 通过教师工号修改flagId -->
+    <update id="updateFlagIdByTeacherId" parameterType="java.lang.String">
+        update evaluate
+        set flagId = #{oldTeacherId}
+        where flagId = #{oldTeacherId}
+    </update>
+    <!-- 通过学生号修改flagId -->
+    <update id="updateFlagIdByStudentId" parameterType="java.util.HashMap">
+        update evaluate
+        set flagId = #{studentId}
+        where flagId = #{oldStudentId}
+    </update>
 </mapper>
