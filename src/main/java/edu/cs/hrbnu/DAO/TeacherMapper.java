@@ -1,6 +1,8 @@
 package edu.cs.hrbnu.DAO;
 
+import edu.cs.hrbnu.model.Complaint;
 import edu.cs.hrbnu.model.Teacher;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,4 +24,10 @@ public interface TeacherMapper {
     List<Teacher> getTeacherName() throws Exception;
     
     Teacher getMyselfEvaluateScoreByCourseId(String courseId);
+    //更新教师上次登录时间
+    void updateLastLoginTime(@Param("currentLoginTime") String currentLoginTime,@Param("teacherId") String teacherId) throws Exception;
+    //获取教师所教的课程
+    List<String> getTeacherCoursesById(String teacherId);
+    //获取课程Id集合中未浏览的投诉（从上次登录时间开始计算，区间内出现的投诉就是未浏览投诉）
+    List<Complaint> getUnbrowsedComplaintsByCourseId(@Param("list") List<String> teacherId, @Param("lastLoginTime") String lastLoginTime, @Param("currentLoginTime") String currentLoginTime);
 }

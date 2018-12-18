@@ -86,8 +86,9 @@ public interface TeacherService {
     /**
      *  显示未浏览投诉：从上次登录时间开始计算，区间内出现的投诉就是为浏览投诉
      * */
-    void alertComplaint();
+	List<Complaint> alertComplaint(String teacherId, String lastLoginTime, String currentLoginTime);
 	List<Course> getCourseByTeahcer(String teacherId);
 	List<Teacher> getAllTeacherName();
 	List<Complaint> getComplaintByCourseId(String courseId);
+	void updateLastLoginTime(String currentLoginTime,String teacherId);
 }

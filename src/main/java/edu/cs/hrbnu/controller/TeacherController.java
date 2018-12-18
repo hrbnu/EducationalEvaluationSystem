@@ -1,13 +1,10 @@
 package edu.cs.hrbnu.controller;
 
 
-import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.EvaluateProblem;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
-import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.Teacher;
 import edu.cs.hrbnu.service.SystemService;
 import edu.cs.hrbnu.service.TeacherService;
 import edu.cs.hrbnu.uitl.ExcelUitl;
@@ -16,12 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
+@SessionAttributes({"TeacherInfo","complaints"})
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
@@ -148,4 +151,38 @@ public class TeacherController {
 
         return null;
     }
+
+    @RequestMapping("/login")
+    public ModelAndView login(String teacherId, String password, ModelMap modelMap){
+        //ModelMap参数是将查找到的teacher对象放到后台的session下
+        Teacher teacher = teacherService.login(teacherId,password);
+        ModelAndView modelAndView = new ModelAndView();
+        if(teacher != null){
+            modelAndView.setViewName("teacherInfo");
+            modelMap.addAttribute("TeacherInfo",teacher);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentLoginTime = simpleDateFormat.format(new Date());
+            Date lastLoginTimed = teacher.getLastLoginTime();
+            String lastLoginTime = simpleDateFormat.format(lastLoginTimed);
+            List<Complaint> complaints = teacherService.alertComplaint(teacherId,lastLoginTime,currentLoginTime);
+            modelMap.addAttribute("complaints",complaints);
+            teacherService.updateLastLoginTime(currentLoginTime,teacherId);
+        } else{
+            String loginMessage = "工号或密码错误";
+            modelAndView.addObject("loginMessage",loginMessage);
+            modelAndView.setViewName("teacher");
+        }
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/logout")
+    public ModelAndView logout(SessionStatus status)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("success");
+        status.setComplete();
+        return modelAndView;
+    }
+
 }

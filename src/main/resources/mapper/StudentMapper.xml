@@ -46,4 +46,10 @@
         where studentId = #{studentId} and idCard = #{idCard}
     </select>
 
+    <select id="getStudentById" parameterType="String" resultType="Student">
+        select *
+        from student
+        where studentId = #{studentId}
+    </select>
+
 </mapper>

@@ -4,6 +4,18 @@
     <title>Title</title>
 </head>
 <body>
+
+
+<%-- 教师登录 --%>
+<form action="${pageContext.request.contextPath }/teacher/login" method="post">
+    <h3>教师登录</h3>
+    工号：<input type="text" name="teacherId"><br>
+    密码：<input type="password" name="password"><br>
+    登录：<input type="submit" name="submit" value="submit">
+    <font color="red">${loginMessage}<br></font>
+</form>
+
+
 <%-- 教师重置密码 --%>
 <form action="${pageContext.request.contextPath }/teacher/reset" method="post">
     <h3>重置密码</h3>

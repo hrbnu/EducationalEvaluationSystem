@@ -22,29 +22,30 @@ public class TeacherServiceImpl implements TeacherService {
     private ComplaintMapper complaintMapper;
     @Autowired
     private CourseMapper courseMapper;
-    @Override
-    public Teacher login(String teacherId, String password){
 
-        /**
-         *  TODO : 最早写的一点，仅作参考
-         * */
+    @Override
+    public Teacher login(String teacherId, String password) {
 
         Teacher teacher = null;
         try {
             teacher = teacherMapper.getTeacherById(teacherId);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(password == null || teacher.getPassword().compareTo(password) == 0){
+        if (teacher == null) {
             return null;
+        } else {
+            if (!teacher.getPassword().equals(password)) {
+                return null;
+            }
         }
         return teacher;
     }
 
     @Override
-    public void logout(){
-        // TODO
+    public void logout() {
     }
+
 
     //重置密码
     @Override
@@ -198,8 +199,10 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void alertComplaint(){
-        // TODO
+    public List<Complaint> alertComplaint(String teacherId, String lastLoginTime, String currentLoginTime){
+        List<String> courseIds = teacherMapper.getTeacherCoursesById(teacherId);
+        List<Complaint> complaints = teacherMapper.getUnbrowsedComplaintsByCourseId(courseIds,lastLoginTime,currentLoginTime);
+        return complaints;
     }
 
     //获取教师所教授课程
@@ -240,5 +243,14 @@ public class TeacherServiceImpl implements TeacherService {
             e.printStackTrace();
         }
         return complaintList;
+    }
+
+    @Override
+    public void updateLastLoginTime(String currentLoginTime,String teacherId){
+        try {
+            teacherMapper.updateLastLoginTime(currentLoginTime,teacherId);
+        } catch (Exception e) {
+            e.printStackTrace();e.printStackTrace();
+        }
     }
 }

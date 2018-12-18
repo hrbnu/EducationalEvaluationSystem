@@ -4,6 +4,17 @@
     <title>Title</title>
 </head>
 <body>
+
+<!--  学生登录  -->
+<form action="${pageContext.request.contextPath}/student/login" method="post">
+    <h2>学生登录</h2>
+    学号：<input type="text" name="studentId"><br>
+    密码：<input type="password" name="password"><br>
+    登录：<input type="submit" name="submit" value="submit">
+    <font color="red">${loginMessage}<br></font>
+</form>
+
+
 <%-- 学生重置密码 --%>
 <form action="${pageContext.request.contextPath }/student/reset" method="post">
     <h3>重置密码</h3>

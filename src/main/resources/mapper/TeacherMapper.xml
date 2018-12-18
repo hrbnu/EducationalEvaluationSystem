@@ -61,4 +61,46 @@
 	    from teacher
 	    where teacherId in (select teacherId from course where courseId=#{courseId}) 
     </select>
+
+    <select id="getTeacherById" parameterType="String" resultType="edu.cs.hrbnu.model.Teacher">
+        select *
+        from teacher
+        where teacherId=#{teacherId}
+    </select>
+
+    <update id="updateLastLoginTime" parameterType="String">
+        update teacher
+        set lastLoginTime = #{currentLoginTime}
+        where teacherId = #{teacherId}
+    </update>
+
+    <select id="getTeacherCoursesById" parameterType="String" resultType="String">
+        select courseId
+        from course
+        WHERE teacherId = #{teacherId}
+    </select>
+
+    <resultMap id="Complaints" type="Complaint" >
+        <result column="message" property="message"/>
+        <result column="complaintTime" property="complaintTime"/>
+        <association property="course" javaType="Course">
+            <result column="courseName" property="courseName"/>
+        </association>
+
+    </resultMap>
+
+    <select id="getUnbrowsedComplaintsByCourseId" parameterType="String" resultMap="Complaints">
+        select cs.courseName,ct.message,ct.complaintTime
+        from complaint ct
+        LEFT OUTER JOIN course cs
+        ON ct.courseId=cs.courseId
+        <where>
+            <foreach collection="list" item="courseId" separator="," open="ct.courseId in (" close=")">
+                #{courseId}
+            </foreach>
+            and complaintTime between  #{lastLoginTime} and #{currentLoginTime}
+        </where>
+    </select>
+
+
 </mapper>

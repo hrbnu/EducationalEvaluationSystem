@@ -28,18 +28,19 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Student login(String studentId, String password){
 
-        /**
-         *  TODO : 最早写的一点，仅作参考
-         * */
-
         Student student = null;
         try {
             student = studentMapper.getStudentById(studentId);
         }catch (Exception e){
             e.printStackTrace();
         }
-        if(password == null || student.getPassword().compareTo(password) == 0){
+
+        if(student == null){
             return null;
+        }else{
+            if(!student.getPassword().equals(password)){
+                return null;
+            }
         }
         return student;
     }

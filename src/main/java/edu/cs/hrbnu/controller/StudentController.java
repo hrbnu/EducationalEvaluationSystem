@@ -1,24 +1,24 @@
 package edu.cs.hrbnu.controller;
 
-import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.faces.annotation.RequestMap;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RequestMapping("/student")
+@SessionAttributes("StudentInfo")
 public class StudentController {
     @Autowired
     private StudentService studentService;
@@ -105,6 +105,31 @@ public class StudentController {
             modelAndView.addObject("updateMessage",updateMessage);
             modelAndView.setViewName("student");
         }
+        return modelAndView;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login(String studentId, String password, ModelMap modelMap){
+        Student student = studentService.login(studentId,password);
+        ModelAndView modelAndView = new ModelAndView();
+        if(student == null){
+            String loginMessage = "学号或密码错误！";
+            modelAndView.addObject("loginMessage",loginMessage);
+            modelAndView.setViewName("student");
+        }else{
+
+            modelMap.addAttribute("StudentInfo",student);
+            modelAndView.setViewName("studentInfo");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("logout")
+    public ModelAndView logout(SessionStatus status)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("success");
+        status.setComplete();
         return modelAndView;
     }
 
