@@ -33,6 +33,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     StudentMapper studentMapper;
     @Autowired
     TeacherMapper teacherMapper;
+	@Autowired
+	AdministratorMapper administratorMapper;
 
 	@Value("${studentWeight}")
 	private String studentWeight;
@@ -59,10 +61,17 @@ public class AdministratorServiceImpl implements AdministratorService {
 	@Autowired
 	ComplaintMapper complaintMapper;
 
-    @Override
-    public void login(Administrator administrator){
-        // TODO
-    }
+	@Override
+	public Administrator login(Administrator administrator){
+
+		Administrator admin = null;
+		try {
+			admin =  administratorMapper.getAdministrator(administrator);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return admin;
+	}
 
     @Override
     public void logout(Administrator administrator){

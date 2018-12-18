@@ -12,7 +12,7 @@ public interface AdministratorService {
     /**
      *  登录
      * */
-    void login(Administrator administrator);
+    Administrator login(Administrator administrator);
 
     /**
      *  登出

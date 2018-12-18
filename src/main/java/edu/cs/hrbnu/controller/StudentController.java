@@ -115,7 +115,7 @@ public class StudentController {
         if(student == null){
             String loginMessage = "学号或密码错误！";
             modelAndView.addObject("loginMessage",loginMessage);
-            modelAndView.setViewName("student");
+            modelAndView.setViewName("studentLogin");
         }else{
 
             modelMap.addAttribute("StudentInfo",student);
