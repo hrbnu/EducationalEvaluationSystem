@@ -107,8 +107,13 @@ public class AdministratorController {
      * @return
      */
     @RequestMapping(value = "/searchStudentByCondition")
-    public ModelAndView searchStudentByCondition(String pageNow, Student student){
+    public ModelAndView searchStudentByCondition(String pageNow, Student student,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         List<Student> studentInfoList = new ArrayList<Student>();
         List<Student> studentPosList = new ArrayList<Student>();
         //获取当前页数
@@ -180,9 +185,14 @@ public class AdministratorController {
     }
 
     @RequestMapping("/deleteSingleStudent")
-    private ModelAndView deleteSingleStudent(String studentId,String pageNow, Student student){
-        administratorService.deleteSingleStudent(studentId);
+    private ModelAndView deleteSingleStudent(String studentId,String pageNow, Student student,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
+        administratorService.deleteSingleStudent(studentId);
         List<Student> studentInfoList = new ArrayList<Student>();
         List<Student> studentPosList = new ArrayList<Student>();
         //获取当前页数
@@ -254,9 +264,14 @@ public class AdministratorController {
     }
 
     @RequestMapping("/updateSingleStudent")
-    private ModelAndView updateSingleStudent(String oldStudentId,String studentId,String pageNow, Student student,String state){
+    private ModelAndView updateSingleStudent(String oldStudentId,String studentId,String pageNow,
+                                             Student student,String state,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
-
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         //修改单条学生页面
         if(studentId != null && state == null){
             Student studentInfo = administratorService.selectSingleStudentInfo(studentId);
@@ -351,8 +366,13 @@ public class AdministratorController {
     }
 
     @RequestMapping(value = "/insertSingleStudent")
-    public ModelAndView insertSingleStudent(Student student,String state){
+    public ModelAndView insertSingleStudent(Student student,String state,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         if(state != null){
             //防止乱码
             try {
@@ -383,6 +403,11 @@ public class AdministratorController {
     @RequestMapping(value = "/searchTeacherByCondition")
     public ModelAndView searchTeacherByCondition(String pageNow, Teacher teacher, HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         List<Teacher> teacherInfoList = new ArrayList<Teacher>();
         List<Teacher> teacherPosList = new ArrayList<Teacher>();
         //获取当前页数
@@ -433,8 +458,13 @@ public class AdministratorController {
 
     @RequestMapping("/deleteSingleTeacher")
     private ModelAndView deleteSingleTeacher(String teacherId,String pageNow, Teacher teacher,HttpSession httpSession){
-        administratorService.deleteSingleTeacher(teacherId);
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
+        administratorService.deleteSingleTeacher(teacherId);
         List<Teacher> teacherInfoList = new ArrayList<Teacher>();
         List<Teacher> teacherPosList = new ArrayList<Teacher>();
         //获取当前页数
@@ -484,8 +514,13 @@ public class AdministratorController {
     }
 
     @RequestMapping(value = "/insertSingleTeacher")
-    public ModelAndView insertSingleTeacher(Teacher teacher,String state){
+    public ModelAndView insertSingleTeacher(Teacher teacher,String state,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         if(state != null){
             //防止乱码
             try {
@@ -504,8 +539,14 @@ public class AdministratorController {
     }
 
     @RequestMapping("/updateSingleTeacher")
-    private ModelAndView updateSingleTeacher(String teacherId,String pageNow, Teacher teacher,String state,String oldTeacherId,HttpSession httpSession){
+    private ModelAndView updateSingleTeacher(String teacherId,String pageNow, Teacher teacher,
+                                             String state,String oldTeacherId,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         //修改单条教师页面
         if(teacherId != null && state == null){
             Teacher teacherInfo = administratorService.selectSingleTeacherInfo(teacherId);
@@ -600,8 +641,13 @@ public class AdministratorController {
      * 课程
      */
     @RequestMapping(value = "/insertSingleCourse")
-    public ModelAndView insertSingleCourse(Course course, String state){
+    public ModelAndView insertSingleCourse(Course course, String state,HttpSession httpSession){
         ModelAndView mav = new ModelAndView();
+        Administrator administrator = (Administrator) httpSession.getAttribute("administratorInfo");
+        if(administrator == null){
+            mav.setViewName("administrator");
+            return mav;
+        }
         if(state != null){
             //防止乱码
             try {
