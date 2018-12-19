@@ -14,6 +14,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -124,13 +125,40 @@ public class StudentController {
         return modelAndView;
     }
 
+    @RequestMapping("/studentLogin")
+    public String studentLogin(String studentId, String password, HttpSession httpSession, Model model){
+        Student student = studentService.login(studentId, password);
+        if(student ==null){
+            model.addAttribute("loginState", false);
+            return "../index";
+        }else{
+            httpSession.setAttribute("studentId", studentId);
+            return "studentLogin";
+        }
+    }
+
     @RequestMapping("logout")
-    public ModelAndView logout(SessionStatus status)
-    {
+    public ModelAndView logout(SessionStatus status) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("success");
         status.setComplete();
         return modelAndView;
+    }
+
+
+    @RequestMapping("/getCurrentCourse")
+    public String getCurrentCourse(HttpServletRequest request, Model model){
+        String studentId = (String)request.getSession().getAttribute("studentId");
+        model.addAttribute("currentCourse", studentService.getEvaluateCurrentCourse(studentId));
+        return "currentCourse";
+
+    }
+
+    @RequestMapping("/getHistoryCourse")
+    public String getHistoryCourse(Model model,HttpServletRequest request){
+        String studentId = (String)request.getSession().getAttribute("studentId");
+        model.addAttribute("historyCourse", studentService.getEvaluateHistoryCourses(studentId));
+        return "historyCourse";
     }
 
 }

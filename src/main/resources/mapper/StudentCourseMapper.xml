@@ -8,17 +8,17 @@
         <result property="history" column="history" javaType="Boolean" />
     </resultMap>
 
-    <select id="getHistoryCourseIdByStudentId" resultMap="studentCourseResultMap">
-        select *
-        from student_course
-        where id=#{id}
-    </select>
-    
-     <select id="getStudentIdByCourseId" resultMap="studentCourseResultMap">
-        select studentId
-        from student_course
-        where courseId=#{CourseId}
-    </select>
+    <!--<select id="getHistoryCourseIdByStudentId" resultMap="studentCourseResultMap">-->
+        <!--select *-->
+        <!--from student_course-->
+        <!--where id=#{id}-->
+    <!--</select>-->
+    <!---->
+     <!--<select id="getStudentIdByCourseId" resultMap="studentCourseResultMap">-->
+        <!--select studentId-->
+        <!--from student_course-->
+        <!--where courseId=#{CourseId}-->
+    <!--</select>-->
 
     <!-- 删除单条学生课程信息 -->
     <delete id="deleteSingleStudentCourses" parameterType="java.lang.String">
@@ -58,4 +58,14 @@
         set studentId = #{studentId}
         where studentId = #{oldStudentId}
     </update>
+
+    <select id="getHistoryCourseIdByStudentId" parameterType="String" resultMap="studentCourseResultMap">
+       select * from student_course where student_course.history = 1 and
+       student_course.studentId = #{studentId}
+    </select>
+
+    <select id="getCurrentCourseIdByStudentId" parameterType="String" resultMap="studentCourseResultMap">
+    	select * from student_course where student_course.history = 0 and
+       student_course.studentId = #{studentId}
+    </select>
 </mapper>
