@@ -19,4 +19,18 @@
         from evaluateProblem
         where forWho=1
     </select>
+
+    <select id="getAllEvaluateProblem" resultMap="evaluateProblemResultMap">
+        select *
+        from evaluateProblem
+    </select>
+    <insert id="addEvaluateProblem" useGeneratedKeys="true" keyProperty="id">
+        insert into evaluateProblem(evaluateProblemContent,forWho,score)
+        VALUES(#{problemContext},#{forWho},#{score})
+    </insert>
+    <update id="alterProblem">
+        UPDATE evaluateProblem
+        SET evaluateProblemContent=#{context}
+        WHERE id=#{id}
+    </update>
 </mapper>

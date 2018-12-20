@@ -1,13 +1,11 @@
 package edu.cs.hrbnu.service;
 
-import edu.cs.hrbnu.model.Administrator;
-import edu.cs.hrbnu.model.Student;
-import edu.cs.hrbnu.model.Teacher;
-import edu.cs.hrbnu.model.Weight;
+import edu.cs.hrbnu.model.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
+import java.util.List;
 
 public interface AdministratorService {
 
@@ -68,7 +66,7 @@ public interface AdministratorService {
      * */
     boolean importTeacherByExcel(String filePath);
 
-    /**
+     /**
      * 单条插入教师信息
      * */
     void insertTeacher(Teacher teacher);
@@ -82,4 +80,19 @@ public interface AdministratorService {
      * 单条删除教师信息
      * */
     void deleteTeacher(Teacher teacher);
+
+    /**
+     *  获取所有的评价问题信息
+     * */
+    List<EvaluateProblem> getAllEvaluateProblems();
+
+    /**
+     *  添加评价问题信息
+     * */
+    void addProblem(EvaluateProblem problem);
+    /**
+     *  修改评价问题信息
+     * */
+    void alterProblem(int id,String context);
+
 }

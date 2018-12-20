@@ -1,14 +1,7 @@
 package edu.cs.hrbnu.service.impl;
 
-import edu.cs.hrbnu.DAO.CourseMapper;
-import edu.cs.hrbnu.DAO.StudentCourseMapper;
-import edu.cs.hrbnu.DAO.StudentMapper;
-import edu.cs.hrbnu.DAO.TeacherMapper;
-import edu.cs.hrbnu.model.Administrator;
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.Student;
-import edu.cs.hrbnu.model.Teacher;
-import edu.cs.hrbnu.model.Weight;
+import edu.cs.hrbnu.DAO.*;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.AdministratorService;
 import edu.cs.hrbnu.uitl.ExcelUitl;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -46,6 +39,7 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Autowired
     TeacherMapper teacherMapper;
 
+
 	@Value("${studentWeight}")
 	private String studentWeight;
 	@Value("${teacherWeight}")
@@ -66,6 +60,8 @@ public class AdministratorServiceImpl implements AdministratorService {
 	CourseMapper courseMapper;
 	@Autowired
 	StudentCourseMapper studentCourseMapper;
+    @Autowired
+    EvaluateProblemMapper evaluateProblemMapper;
 
     @Override
     public void login(Administrator administrator){
@@ -326,4 +322,34 @@ public class AdministratorServiceImpl implements AdministratorService {
     public void deleteTeacher(Teacher teacher){
         // TODO
     }
+    @Override
+    public List<EvaluateProblem> getAllEvaluateProblems(){
+        List<EvaluateProblem> problemList= null;
+            try {
+                problemList=evaluateProblemMapper.getAllEvaluateProblem();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return problemList;
+
+    }
+
+    @Override
+    public void addProblem(EvaluateProblem  problem){
+        try {
+           evaluateProblemMapper.addEvaluateProblem(problem.getEvaluateProblemContent(),problem.getForWho(),problem.getScore());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void alterProblem(int id,String context){
+        try{
+            evaluateProblemMapper.alterProblem(id,context);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }
