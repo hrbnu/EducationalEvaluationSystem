@@ -76,8 +76,15 @@
     <input type="submit" id="logout" value="登出">
 </form>
 
+<form action="${pageContext.request.contextPath}/teacher/confirm">
+    <input type="submit" value="确认听课申请">
+</form>
 
+<form action="${pageContext.request.contextPath}/teacher/getNeedToEvaluateCourseByTeacher">
+    <input type="submit" value="评价未评价课程">
+</form>
 </body>
+
 
 </html>
 

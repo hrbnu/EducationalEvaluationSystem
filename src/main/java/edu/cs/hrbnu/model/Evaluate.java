@@ -10,10 +10,19 @@ public class Evaluate {
      *  标志位，学生的评价还是教师、督导的评价  1学生 2教师 3督导
      * */
     private String flag;
-
-
     // 学号或者工号
     private String flagId;
+    //老师是否评价课程
+    private boolean alreadyEvaluate;
+
+    public boolean isAlreadyEvaluate() {
+        return alreadyEvaluate;
+    }
+
+    public void setAlreadyEvaluate(boolean alreadyEvaluate) {
+        this.alreadyEvaluate = alreadyEvaluate;
+    }
+
     public int getId() {
         return id;
     }

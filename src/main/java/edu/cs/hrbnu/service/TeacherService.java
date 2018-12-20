@@ -47,12 +47,19 @@ public interface TeacherService {
      * @param teacherId 申请老师的id
      * @param isListenedTeacherId 被请求听课老师的id
      */
-	void submitListen(String teacherId,String isListenedTeacherId);
+	boolean submitListen(String teacherId,String isListenedTeacherId,String courseId);
 
 	/**
      *  确认某老师已听课，由被听课老师手动确认，确认之后才能将评价写入数据库
      * */
-	void confirm(Teacher teacher);
+	List<ClassRequsetMessage> confirm(String teacherId);
+
+	/**
+	 * 老师确认后，更改请求听课记录状态
+	 * @param classRequestRecordId 请求听课的记录id
+	 * @return
+	 */
+	void updateListen(int classRequestRecordId);
 
 	/*
 	*获取老师的评分问题
@@ -91,4 +98,6 @@ public interface TeacherService {
 	List<Teacher> getAllTeacherName();
 	List<Complaint> getComplaintByCourseId(String courseId);
 	void updateLastLoginTime(String currentLoginTime,String teacherId);
+	//获取需要去评价的课程信息
+	List<TeacherAndCourseCombine> getNeedToEvaluateMessage(String teacherId);
 }

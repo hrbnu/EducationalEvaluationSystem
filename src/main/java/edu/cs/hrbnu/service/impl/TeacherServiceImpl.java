@@ -22,6 +22,8 @@ public class TeacherServiceImpl implements TeacherService {
     private ComplaintMapper complaintMapper;
     @Autowired
     private CourseMapper courseMapper;
+    @Autowired
+    private ClassRequestRecordMapper classRequestRecordMapper;
 
     @Override
     public Teacher login(String teacherId, String password) {
@@ -118,13 +120,46 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void submitListen(String teacherId,String isListenedTeacherId){
+    public boolean submitListen(String teacherId,String isListenedTeacherId,String courseName){
         // TODO
+        try{
+        for(Course course:courseMapper.getCourseByTeacherId(isListenedTeacherId)){
+            if(courseName.equals(course.getCourseName())){
+               classRequestRecordMapper.insertIntoRecord(teacherId,isListenedTeacherId,course.getCourseId());
+               return true;
+            }
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //确认听课申请
+   @Override
+    public List<ClassRequsetMessage> confirm(String teacherId){
+        // TODO
+        List<ClassRequsetMessage> messages = new ArrayList<>();
+         for(ClassRequestRecord record:classRequestRecordMapper.getRequestRecord(teacherId)){
+             ClassRequsetMessage message = new ClassRequsetMessage();
+             try {
+                 message.setRequestTeacherName(teacherMapper.getTeacherById(record.getTeacherId()).getTeacherName());
+                 message.setRequestIsListenedCourseName(courseMapper.getCourseById(record.getCourseId()).getCourseName());
+                 message.setRequestTeacherId(record.getTeacherId());
+                 message.setConfirmed(record.isConfirmed());
+                 message.setRequestIsListenedCourseId(record.getCourseId());
+                 message.setClassRequestRecordId(record.getId());
+                 messages.add(message);
+             }catch (Exception e){
+                 e.printStackTrace();
+             }
+         }
+         return messages;
     }
 
     @Override
-    public void confirm(Teacher teacher){
-        // TODO
+    public void updateListen(int classRequestRecordId) {
+        classRequestRecordMapper.updateRequest(classRequestRecordId);
     }
 
     /*该方法用于获取数据库中的存放的用于老师给老师评分时的标准*/
@@ -252,5 +287,22 @@ public class TeacherServiceImpl implements TeacherService {
         } catch (Exception e) {
             e.printStackTrace();e.printStackTrace();
         }
+    }
+
+    //获取待评价信息
+    @Override
+    public List<TeacherAndCourseCombine> getNeedToEvaluateMessage(String teacherId) {
+        List<TeacherAndCourseCombine> teacherAndCourseCombines = new ArrayList<>();
+        try {
+            for(Evaluate evaluate:evaluateMapper.getNeedToEvaluateMessageByTeacherId(teacherId)){
+                TeacherAndCourseCombine teacherAndCourseCombine = new TeacherAndCourseCombine();
+                teacherAndCourseCombine.setCourse(courseMapper.getCourseById(evaluate.getCourseId()));
+                teacherAndCourseCombine.setTeacher(teacherMapper.getTeacherById(courseMapper.getCourseById(evaluate.getCourseId()).getTeacherId()));
+                teacherAndCourseCombines.add(teacherAndCourseCombine);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+       return teacherAndCourseCombines;
     }
 }

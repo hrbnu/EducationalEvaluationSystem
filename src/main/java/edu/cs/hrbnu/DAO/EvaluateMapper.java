@@ -22,4 +22,6 @@ public interface EvaluateMapper {
     void updateFlagIdByTeacherId(HashMap<String,Object> map) throws Exception;
     //通过学生号修改flagId
     void updateFlagIdByStudentId(HashMap<String,Object> map) throws Exception;
+    //获取需要去评价的课程信息
+    List<Evaluate> getNeedToEvaluateMessageByTeacherId(String teacherId);
 }

@@ -6,6 +6,9 @@
         <title>$Title$</title>
     </head>
     <body>
+
+    <%--<p>test ly</p>    --%>
+
         <%--excel上传form表单格式--%>
         <%--<form action="/admin/addCourseByExcel" method="post" enctype="multipart/form-data">--%>
             <%--<input type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">--%>
@@ -21,10 +24,12 @@
         <a href="view/student.jsp">学生页面</a>
         <a href="view/teacher.jsp">教师页面</a>
         <a href="view/administrator/administrator.jsp">管理员页面</a>
+        <a href="view/ClassRequestInsert.jsp">插入听课申请</a>
 
         <%--查看自己的评价需要获得teacherId，可在路径后加teacherId测试--%>
         <a href="/teacher/courseform/100100">教师查看自己的评价</a>
         <a href="/teacher/teacherform">查看所有教师评价</a>
+
 
     <div>
         <form action="${pageContext.request.contextPath}/student/studentLogin.action">

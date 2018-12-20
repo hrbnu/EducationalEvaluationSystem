@@ -1,7 +1,7 @@
 package edu.cs.hrbnu.model;
 
 import java.util.Date;
-import java.util.List;
+
 
 public class Teacher {
     private String teacherId;
