@@ -95,6 +95,8 @@ public class TeacherController {
         evaluate.setEvaluateScore(thisCourseScore);
         evaluate.setFlag(flag);
         evaluate.setFlagId(teacherId);
+        Course course = teacherService.getCourseById(courseId);
+        model.addAttribute("course", course);
         if (teacherService.evaluateTeacher(evaluate) == 0){
             return new ModelAndView("wrong");
         }else {
