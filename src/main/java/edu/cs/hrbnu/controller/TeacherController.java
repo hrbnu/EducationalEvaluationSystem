@@ -161,7 +161,7 @@ public class TeacherController {
         Teacher teacher = teacherService.login(teacherId,password);
         ModelAndView modelAndView = new ModelAndView();
         if(teacher != null){
-            modelAndView.setViewName("teacherInfo");
+            modelAndView.setViewName("teacher/admin");
             modelMap.addAttribute("TeacherInfo",teacher);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentLoginTime = simpleDateFormat.format(new Date());

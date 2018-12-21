@@ -7,12 +7,11 @@
     </head>
     <body>
     <center>
-    </center>
-        <div style="padding: 50px; margin: 20px">
+        <div style="background-color: #45B549; padding: 50px; margin: 20px">
             <a href="view/teacher/loginC.jsp">教师登录</a>
         </div>
 
-        <div style="padding: 50px; margin: 20px">
+        <div style="background-color: #45B549; padding: 50px; margin: 20px">
             <a href="view/student/loginB.jsp">学生登录</a>
         </div>
     </center>
