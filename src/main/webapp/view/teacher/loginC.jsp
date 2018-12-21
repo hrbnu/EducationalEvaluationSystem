@@ -4,10 +4,10 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title></title>
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/login.css" />
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/login.js"></script>
+	<link rel="stylesheet" href="/css/reset.css" />
+	<link rel="stylesheet" href="/css/login.css" />
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/login.js"></script>
     <style type="text/css">
 		 #code{  
                 font-family:Arial;  
@@ -112,6 +112,6 @@
 	        createCode();
 	    }
     </script>
-	<script type="text/javascript" src="js/canvas-particle.js"></script>
+	<script type="text/javascript" src="/js/canvas-particle.js"></script>
 </body>
 </html>

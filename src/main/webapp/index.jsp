@@ -14,6 +14,9 @@
         <div style="background-color: #45B549; padding: 50px; margin: 20px">
             <a href="view/student/loginB.jsp">学生登录</a>
         </div>
+        <div style="background-color: #45B549; padding: 50px; margin: 20px">
+            <a href="view/administrator/loginA.jsp">管理员登录</a>
+        </div>
     </center>
     <%--<p>test ly</p>    --%>
 

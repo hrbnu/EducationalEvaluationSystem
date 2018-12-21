@@ -1,13 +1,16 @@
-﻿<!DOCTYPE html>
+﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title></title>
-	<link rel="stylesheet" href="css/reset.css" />
-	<link rel="stylesheet" href="css/login.css" />
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/login.js"></script>
+	<link rel="stylesheet" href="/css/reset.css" />
+	<link rel="stylesheet" href="/css/login.css" />
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/login.js"></script>
     <style type="text/css">
 		 #code{  
                 font-family:Arial;  
@@ -27,10 +30,10 @@
 	<div class="loginwarrp">
 		<div class="logo">管理员登陆</div>
         <div class="login_form">
-			<form id="Login" name="Login" method="post" onsubmit="return validate()" action="">
+			<form id="Login" name="Login" method="post" onsubmit="return validate()" action="${pageContext.request.contextPath }/admin/login">
 				<li class="login-item">
 					<span>用户名：</span>
-					<input type="text" id="username" name="UserName" class="login_input" >
+					<input type="text" id="username" name="id" class="login_input" >
                                         <span id="count-msg" class="error"></span>
 				</li>
 				<li class="login-item">
@@ -49,6 +52,7 @@
                     <input type="reset" name="Reset" value="重置" />
 				</li>                      
            </form>
+			<font color="red">${message}<br></font>
 		</div>
 	</div>
 </div>
@@ -112,6 +116,6 @@
 	        createCode();
 	    }
     </script>
-	<script type="text/javascript" src="js/canvas-particle.js"></script>
+	<script type="text/javascript" src="/js/canvas-particle.js"></script>
 </body>
 </html>

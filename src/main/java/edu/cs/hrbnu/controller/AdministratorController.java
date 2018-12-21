@@ -712,22 +712,24 @@ public class AdministratorController {
         return mav;
     }
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public ModelAndView login(Administrator administrator, ModelMap modelMap){
+        System.out.println(administrator.getId() + administrator.getPassword());
         Administrator admin = administratorService.login(administrator);
+        System.out.println(admin.getId() + admin.getPassword());
         ModelAndView modelAndView = new ModelAndView();
         if(admin == null){
-            modelAndView.setViewName("administrator");
+            modelAndView.setViewName("administrator/loginA");
             String message = "账号或密码错误！";
             modelAndView.addObject("message",message);
         }else{
             modelMap.addAttribute("administratorInfo",admin);
-            modelAndView.setViewName("administratorInfo");
+            modelAndView.setViewName("administrator/admin");
         }
         return modelAndView;
     }
 
-    @RequestMapping("logout")
+    @RequestMapping("/logout")
     public ModelAndView logout(SessionStatus sessionStatus){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("success");
