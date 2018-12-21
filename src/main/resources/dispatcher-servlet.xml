@@ -32,4 +32,7 @@
         <property name="uploadTempDir" value="/excel/temp" />
     </bean>
 
+    <mvc:default-servlet-handler />
+    <mvc:resources location="view/" mapping="/**" />
+
 </beans>
