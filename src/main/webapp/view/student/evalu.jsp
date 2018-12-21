@@ -8,7 +8,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String appPath = request.getContextPath(); %>
+<!DOCTYPE html>
 <html>
+
 <head>
 
     <meta charset="utf-8">
@@ -62,9 +64,13 @@
         .data-div{
             margin-bottom: 500px;
         }
-
+        .Message{
+            height: 30px;
+            width: 75%;
+        }
     </style>
 </head>
+
 <body style="background-color:#eff3f6;">
 
 <div class="data-div">
@@ -92,13 +98,13 @@
 
                 <div class="row">
                     <div class="col-xs-2 ">
-                        <label>${evaluateProblem.id}</label>
+                        ${evaluateProblem.id}
                     </div>
                     <div class="col-xs-1">
-                        <label>${evaluateProblem.evaluateProblemContent}, 请打分，谢谢！</label>
+                        ${evaluateProblem.evaluateProblemContent}
                     </div>
                     <div class="col-xs-2">
-                        <label>${evaluateProblem.score}</label>
+                        ${evaluateProblem.score}
                     </div>
                     <div class="col-xs-2">
                         <select name="${evaluateProblem.id}">
@@ -117,11 +123,17 @@
                     <br />
                 </div>
             </c:forEach>
+            <div class="row">
+                <div class="col-xs-2">
+                    其他
+                </div>
+                <div class="col-xs-0"style="width: 80%;">
+                    <textarea name="otherContent" class="Message"></textarea>
+                </div>
+            </div>
+            <br />
         </div>
-        <label>其他</label>
-        <input type="text" name="otherContent"/>
-        <br />
-        <input name="提交" type="submit"/>
+        <input class="btn btn-look btn-xs" data-toggle="modal" data-target="#reviseUser"style="float: right;" name="提交" type="submit"/>
     </form>
 </div>
 </body>
