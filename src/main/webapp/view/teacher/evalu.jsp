@@ -103,7 +103,7 @@
     </style>
 </head>
 <body>
-<c:set var="course" value=""
+<c:set var="course" value="${requestScope.get('course')}"></c:set>
     <div class="MessageBoard">
         <div class="ex">
             <button class="btn btn-look btn-xs" data-toggle="modal" data-target="#reviseUser">导出</button>
