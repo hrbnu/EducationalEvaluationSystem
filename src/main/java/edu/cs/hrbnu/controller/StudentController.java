@@ -120,7 +120,7 @@ public class StudentController {
         }else{
 
             modelMap.addAttribute("StudentInfo",student);
-            modelAndView.setViewName("studentInfo");
+            modelAndView.setViewName("success");
         }
         return modelAndView;
     }

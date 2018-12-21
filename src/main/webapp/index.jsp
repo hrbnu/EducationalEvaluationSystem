@@ -18,7 +18,7 @@
         <%--测试输出100100的评价--%>
         <a href="/teacher/exportEvaluate/100100">下载</a>
 
-        <a href="view/studentLogin.jsp">学生登录</a>
+        <a href="view/student/loginB.jsp">学生登录</a>
         <a href="view/teacherLogin.jsp">教师登录</a>
         <a href="view/administrator.jsp">管理员登录</a>
         <a href="view/student.jsp">学生页面</a>
