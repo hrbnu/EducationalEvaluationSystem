@@ -1,29 +1,31 @@
 package edu.cs.hrbnu.controller;
 
-import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Student;
 import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.faces.annotation.RequestMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RequestMapping("/student")
+@SessionAttributes("StudentInfo")
 public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    /*学生的评分相关*/
+    /*学生的评分相关
+    *test ip: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001*/
     @RequestMapping("/evalu")
     public ModelAndView evaluation(Model model, String studentId, String courseId) {
         model.addAttribute("studentId", studentId);
@@ -50,7 +52,9 @@ public class StudentController {
         }
     }
 
-    /*学生的投诉*/
+    /*学生的投诉
+    * test ip:http://localhost:8080/student/complaint?studentId=2016040222&courseId=201603001
+    * 注意测试学生投诉由于表的外键关联，版测试链接美提交一次需要删除一次数据库，下次才可以重新测试*/
     @RequestMapping("/complaint")
     public ModelAndView complaint(Model model, String studentId, String courseId) {
 //        studentId = "2016040888";
@@ -103,6 +107,58 @@ public class StudentController {
             modelAndView.setViewName("student");
         }
         return modelAndView;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login(String studentId, String password, ModelMap modelMap){
+        Student student = studentService.login(studentId,password);
+        ModelAndView modelAndView = new ModelAndView();
+        if(student == null){
+            String loginMessage = "学号或密码错误！";
+            modelAndView.addObject("loginMessage",loginMessage);
+            modelAndView.setViewName("studentLogin");
+        }else{
+
+            modelMap.addAttribute("StudentInfo",student);
+            modelAndView.setViewName("studentInfo");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping("/studentLogin")
+    public String studentLogin(String studentId, String password, HttpSession httpSession, Model model){
+        Student student = studentService.login(studentId, password);
+        if(student ==null){
+            model.addAttribute("loginState", false);
+            return "../index";
+        }else{
+            httpSession.setAttribute("studentId", studentId);
+            return "studentLogin";
+        }
+    }
+
+    @RequestMapping("logout")
+    public ModelAndView logout(SessionStatus status) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("success");
+        status.setComplete();
+        return modelAndView;
+    }
+
+
+    @RequestMapping("/getCurrentCourse")
+    public String getCurrentCourse(HttpServletRequest request, Model model){
+        String studentId = (String)request.getSession().getAttribute("studentId");
+        model.addAttribute("currentCourse", studentService.getEvaluateCurrentCourse(studentId));
+        return "currentCourse";
+
+    }
+
+    @RequestMapping("/getHistoryCourse")
+    public String getHistoryCourse(Model model,HttpServletRequest request){
+        String studentId = (String)request.getSession().getAttribute("studentId");
+        model.addAttribute("historyCourse", studentService.getEvaluateHistoryCourses(studentId));
+        return "historyCourse";
     }
 
 }

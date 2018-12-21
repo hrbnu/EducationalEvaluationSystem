@@ -7,6 +7,15 @@ public class Complaint {
     private String courseId;
     private String message;
     private Date complaintTime;
+    private Course course;
+
+    public Course getCourse(){
+        return course;
+    }
+
+    public void  setCourse(Course course){
+        this.course = course;
+    }
 
     public Date getComplaintTime() {
         return complaintTime;

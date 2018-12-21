@@ -24,13 +24,11 @@ public class StudentServiceImpl implements StudentService{
     private EvaluateMapper evaluateMapper;
     @Autowired
     private ComplaintMapper complaintMapper;
+    @Autowired
+    private TeacherMapper teacherMapper;
 
     @Override
     public Student login(String studentId, String password){
-
-        /**
-         *  TODO : 最早写的一点，仅作参考
-         * */
 
         Student student = null;
         try {
@@ -38,8 +36,13 @@ public class StudentServiceImpl implements StudentService{
         }catch (Exception e){
             e.printStackTrace();
         }
-        if(password == null || student.getPassword().compareTo(password) == 0){
+
+        if(student == null){
             return null;
+        }else{
+            if(!student.getPassword().equals(password)){
+                return null;
+            }
         }
         return student;
     }
@@ -88,55 +91,60 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public List<Course> getEvaluateHistoryCourses(String studentId){
+    public List<StudentCourseTemp> getEvaluateHistoryCourses(String studentId){
 
         /**
          *  TODO : 最早写的一点，仅作参考
          * */
 
-        List<String> listHistoryCourseId = null;
-        try {
-            listHistoryCourseId = studentCourseMapper.getHistoryCourseIdByStudentId(studentId);
-        }catch (Exception e){
+        List<StudentCourseTemp> historyCourse = new ArrayList<StudentCourseTemp>();
+        List<StudentCourse> currentDetail = null;
+        try{
+            currentDetail = studentCourseMapper.getHistoryCourseIdByStudentId(studentId);
+        }catch(Exception e){
             e.printStackTrace();
         }
-        List<Course> listCourse = new ArrayList<>();
-        for(String id : listHistoryCourseId){
-            Course course = null;
-            try {
-                course = courseMapper.getCourseById(id);
-            }catch (Exception e){
+
+        for(StudentCourse studentCourse:currentDetail){
+            try{
+                StudentCourseTemp studentCourseTemp = new StudentCourseTemp();
+                studentCourseTemp.setStudentCourse(studentCourse);
+                studentCourseTemp.setCourse(courseMapper.getCourseById(studentCourse.getCourseId()));
+                studentCourseTemp.setTeacher(teacherMapper.getTeacherById(studentCourseTemp.getCourse().getTeacherId()));
+                historyCourse.add(studentCourseTemp);
+            }catch(Exception e){
                 e.printStackTrace();
             }
-            listCourse.add(course);
         }
-        return listCourse;
+        return historyCourse;
     }
 
     @Override
-    public List<Course> getEvaluateCurrentCourse(String studentId){
+    public List<StudentCourseTemp> getEvaluateCurrentCourse(String studentId){
 
         /**
          *  TODO : 最早写的一点，仅作参考
          * */
-
-        List<String> listHistoryCourseId = null;
+        List<StudentCourseTemp> currentCourse = new ArrayList<StudentCourseTemp>();
+        List<StudentCourse> currentDetail = null;
         try{
-            listHistoryCourseId = studentCourseMapper.getCourseIdByStudentId(studentId);
-        }catch (Exception e){
+            currentDetail = studentCourseMapper.getCurrentCourseIdByStudentId(studentId);
+        }catch(Exception e){
             e.printStackTrace();
         }
-        List<Course> listCourse = new ArrayList<>();
-        for(String id : listHistoryCourseId){
-            Course course = null;
-            try {
-                course = courseMapper.getCourseById(id);
-            }catch (Exception e){
+
+        for(StudentCourse studentCourse:currentDetail){
+            try{
+                StudentCourseTemp studentCourseTemp = new StudentCourseTemp();
+                studentCourseTemp.setStudentCourse(studentCourse);
+                studentCourseTemp.setCourse(courseMapper.getCourseById(studentCourse.getCourseId()));
+                studentCourseTemp.setTeacher(teacherMapper.getTeacherById(studentCourseTemp.getCourse().getTeacherId()));
+                currentCourse.add(studentCourseTemp);
+            }catch(Exception e){
                 e.printStackTrace();
             }
-            listCourse.add(course);
         }
-        return listCourse;
+        return currentCourse;
     }
 
     /**

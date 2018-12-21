@@ -4,6 +4,10 @@
     <title>Title</title>
 </head>
 <body>
+
+
+
+
 <%-- 学生重置密码 --%>
 <form action="${pageContext.request.contextPath }/student/reset" method="post">
     <h3>重置密码</h3>

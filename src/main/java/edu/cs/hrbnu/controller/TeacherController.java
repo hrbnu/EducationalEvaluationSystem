@@ -1,32 +1,43 @@
 package edu.cs.hrbnu.controller;
 
 
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.DAO.CourseMapper;
 import edu.cs.hrbnu.DAO.EvaluateMapper;
-import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.Teacher;
+import edu.cs.hrbnu.service.SystemService;
 import edu.cs.hrbnu.service.TeacherService;
 import edu.cs.hrbnu.uitl.ExcelUitl;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/teacher")
+@SessionAttributes({"TeacherInfo","complaints"})
 public class TeacherController {
     @Autowired
-    TeacherService teacherService;
+    private TeacherService teacherService;
 
     @RequestMapping(value = "/reset")
     public ModelAndView reset(Teacher teacher){
@@ -55,6 +66,42 @@ public class TeacherController {
         return modelAndView;
     }
 
+    /*教师的评分相关
+    *test ip: http://localhost:8080/teacher/evalu?teacherId=100100&courseId=201603001&flag=4*/
+    @RequestMapping("/evalu")
+    public ModelAndView evaluation(Model model, String teacherId, String courseId, String flag) {
+        model.addAttribute("teacherId", teacherId);
+        model.addAttribute("courseId", courseId);
+        model.addAttribute("flag", flag);
+        List<EvaluateProblem> listEvaluateProblem = teacherService.getEvaluateProblem();
+        model.addAttribute("listEvaluateProblem", listEvaluateProblem);
+        return new ModelAndView("teacher/evalu");
+    }
+
+    @RequestMapping("/evaluScoreCaculate")
+    public ModelAndView evaluationScoreCaculate(@RequestParam("otherContent")String evaluateContent,
+                                                HttpServletRequest request, Model model,
+                                                @RequestParam("teacherId") String teacherId,
+                                                @RequestParam("courseId") String courseId,
+                                                @RequestParam("flag") String flag) {
+        double thisCourseScore = 0.0;
+        List<EvaluateProblem> listEvaluateProblem = teacherService.getEvaluateProblem();
+        for (EvaluateProblem evaluateProblem:listEvaluateProblem) {
+            thisCourseScore = thisCourseScore + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
+        }
+        Evaluate evaluate = new Evaluate();
+        evaluate.setCourseId(courseId);
+        evaluate.setEvaluateContent(evaluateContent);
+        evaluate.setEvaluateScore(thisCourseScore);
+        evaluate.setFlag(flag);
+        evaluate.setFlagId(teacherId);
+        if (teacherService.evaluateTeacher(evaluate) == 0){
+            return new ModelAndView("wrong");
+        }else {
+            return new ModelAndView("success");
+        }
+    }
+    
     @RequestMapping("exportEvaluate/{teacherId}")
     public ModelAndView exportEvaluate(@PathVariable String teacherId, HttpServletResponse response){
         List<Evaluate> evaluateList = teacherService.exportEvaluateForm(teacherId);
@@ -104,5 +151,76 @@ public class TeacherController {
         }
 
         return null;
+    }
+
+    @RequestMapping("/login")
+    public ModelAndView login(String teacherId, String password, ModelMap modelMap,HttpSession session){
+        //ModelMap参数是将查找到的teacher对象放到后台的session下
+        Teacher teacher = teacherService.login(teacherId,password);
+        ModelAndView modelAndView = new ModelAndView();
+        if(teacher != null){
+            modelAndView.setViewName("teacherInfo");
+            modelMap.addAttribute("TeacherInfo",teacher);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentLoginTime = simpleDateFormat.format(new Date());
+            Date lastLoginTimed = teacher.getLastLoginTime();
+            String lastLoginTime = simpleDateFormat.format(lastLoginTimed);
+            List<Complaint> complaints = teacherService.alertComplaint(teacherId,lastLoginTime,currentLoginTime);
+            modelMap.addAttribute("complaints",complaints);
+            session.setAttribute("teacherId",teacherId);
+            teacherService.updateLastLoginTime(currentLoginTime,teacherId);
+        } else{
+            String loginMessage = "工号或密码错误";
+            modelAndView.addObject("loginMessage",loginMessage);
+            modelAndView.setViewName("teacherLogin");
+        }
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/logout")
+    public ModelAndView logout(SessionStatus status)
+    {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("success");
+        status.setComplete();
+        return modelAndView;
+    }
+
+    @RequestMapping("/insertListenClass")
+    public String insertListen(String teacherId,String isListeneredTeacherId,String courseName){
+        if(teacherService.submitListen(teacherId,isListeneredTeacherId,courseName)){
+            return "success";
+        }
+        return "wrong";
+    }
+
+    //确认已经听课老师
+    @RequestMapping("/confirm")
+    public String confirmClassListen(HttpSession session,Model model){
+        String teacherId = (String)session.getAttribute("teacherId");
+        model.addAttribute("confimMessage",teacherService.confirm(teacherId));
+        return "confirm";
+    }
+    //设置需要老师评价的记录
+    @RequestMapping("/confirmRequest")
+    public String addTeacherEvaluateRecord(String courseId,String evaluateTeacherId,int classRequestRecordId,HttpSession session,Model model){
+        Evaluate evaluate  = new Evaluate();
+        evaluate.setCourseId(courseId);
+        evaluate.setFlagId(evaluateTeacherId);
+        evaluate.setAlreadyEvaluate(false);
+        evaluate.setFlag("2");
+        teacherService.updateListen(classRequestRecordId);
+        teacherService.evaluateTeacher(evaluate);
+        String teacherId = (String)session.getAttribute("teacherId");
+        model.addAttribute("confimMessage",teacherService.confirm(teacherId));
+        return "confirm";
+    }
+    //获取老师待评价的课程
+    @RequestMapping("/getNeedToEvaluateCourseByTeacher")
+    public String getNeedToEvaluateCourseByTeacher(Model model,HttpSession session){
+        String teacherId = (String)session.getAttribute("teacherId");
+        model.addAttribute("tempMessage",teacherService.getNeedToEvaluateMessage(teacherId));
+        return "teachNeedToEvaluateCourse";
     }
 }

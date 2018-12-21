@@ -4,6 +4,10 @@
     <title>Title</title>
 </head>
 <body>
+
+
+
+
 <%-- 教师重置密码 --%>
 <form action="${pageContext.request.contextPath }/teacher/reset" method="post">
     <h3>重置密码</h3>

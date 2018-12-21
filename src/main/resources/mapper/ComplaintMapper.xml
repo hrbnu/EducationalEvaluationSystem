@@ -17,4 +17,26 @@
         select *
         from complaint
     </select>
+
+    <select id="getComplaintByCourseId" resultMap="complaintResultMap">
+        select *
+        from complaint
+        where courseId=#{courseId}
+    </select>
+    <!-- 删除单条学生投诉信息 -->
+    <delete id="deleteSingleStudentComplaints" parameterType="java.lang.String">
+        delete from complaint
+        where studentId = #{studentId}
+    </delete>
+    <!-- 根据课程号删除投诉信息 -->
+    <delete id="deleteComplaintsByCourseId" parameterType="java.lang.String">
+        delete from complaint
+        where courseId = #{courseId}
+    </delete>
+    <!-- 修改单条学生号 -->
+    <update id="updateSingleStudentId" parameterType="java.util.HashMap">
+        update complaint
+        set studentId = #{studentId}
+        where studentId = #{oldStudentId}
+    </update>
 </mapper>

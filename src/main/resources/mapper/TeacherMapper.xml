@@ -55,6 +55,127 @@
     <select id="getTeacherName" resultMap="teacherResultMap" >
         select *
         from teacher
-
     </select>
+    <select id="getMyselfEvaluateScoreByCourseId" resultMap="teacherResultMap">
+	    select myselfEvaluateScore
+	    from teacher
+	    where teacherId in (select teacherId from course where courseId=#{courseId}) 
+    </select>
+
+    <select id="getTeacherById" parameterType="String" resultType="edu.cs.hrbnu.model.Teacher">
+        select *
+        from teacher
+        where teacherId=#{teacherId}
+    </select>
+
+    <update id="updateLastLoginTime" parameterType="String">
+        update teacher
+        set lastLoginTime = #{currentLoginTime}
+        where teacherId = #{teacherId}
+    </update>
+
+    <select id="getTeacherCoursesById" parameterType="String" resultType="String">
+        select courseId
+        from course
+        WHERE teacherId = #{teacherId}
+    </select>
+
+    <resultMap id="Complaints" type="Complaint" >
+        <result column="message" property="message"/>
+        <result column="complaintTime" property="complaintTime"/>
+        <association property="course" javaType="Course">
+            <result column="courseName" property="courseName"/>
+        </association>
+
+    </resultMap>
+
+    <select id="getUnbrowsedComplaintsByCourseId" parameterType="String" resultMap="Complaints">
+        select cs.courseName,ct.message,ct.complaintTime
+        from complaint ct
+        LEFT OUTER JOIN course cs
+        ON ct.courseId=cs.courseId
+        <where>
+            <foreach collection="list" item="courseId" separator="," open="ct.courseId in (" close=")">
+                #{courseId}
+            </foreach>
+            and complaintTime between  #{lastLoginTime} and #{currentLoginTime}
+        </where>
+    </select>
+
+    <!-- 查询所有教师的信息-->
+    <select id="selectAllTeacherInfo" resultType="Teacher">
+        select *
+        from teacher
+    </select>
+    <!-- 查询所有教师总数 -->
+    <select id="selectTeacherCount" resultType="Integer">
+        select count(*)
+        from teacher
+    </select>
+    <!-- 按条件查询教师总数 -->
+    <select id="selectTeacherCountByCondition" parameterType="Teacher" resultType="Integer">
+        select count(*)
+        from teacher
+        <where>
+            <if test="title != '' and title != null">
+                AND title = #{title}
+            </if>
+            <if test="teacherType">
+                AND teacherType = #{teacherType}
+            </if>
+            <if test="leaderType">
+                AND leaderType = #{leaderType}
+            </if>
+            <if test="monitorType">
+                AND monitorType = #{monitorType}
+            </if>
+        </where>
+    </select>
+    <!-- 按条件查询教师 -->
+    <select id="selectTeacherByCondition" parameterType="Teacher" resultType="Teacher">
+        select *
+        from teacher
+        <where>
+            <if test="title != '' and title != null">
+                AND title = #{title}
+            </if>
+            <if test="teacherType">
+                AND teacherType = #{teacherType}
+            </if>
+            <if test="leaderType">
+                AND leaderType = #{leaderType}
+            </if>
+            <if test="monitorType">
+                AND monitorType = #{monitorType}
+            </if>
+        </where>
+    </select>
+    <!-- 删除单条教师信息 -->
+    <delete id="deleteSingleTeacher" parameterType="java.lang.String">
+        delete from teacher
+        where teacherId = #{teacherId}
+    </delete>
+    <!-- 单条插入教师信息 -->
+    <insert id="insertSingleTeacherInfo" parameterType="Teacher">
+        insert into teacher(teacherId,password,teacherName,teacherType,leaderType,monitorType,idCard)
+        values(#{teacherId},#{password},#{teacherName},#{teacherType},#{leaderType},#{monitorType},#{idCard})
+    </insert>
+    <!-- 查询单条教师信息 -->
+    <select id="selectSingleTeacherInfo" parameterType="String" resultType="Teacher">
+        select *
+        from teacher
+        where teacherId = #{teacherId}
+    </select>
+    <!-- 单条修改教师信息 -->
+    <update id="updateSingleTeacher" parameterType="java.util.HashMap">
+        update teacher
+        set teacherName = #{teacher.teacherName},teacherId = #{teacher.teacherId},idCard = #{teacher.idCard},
+        password = #{teacher.password},title = #{teacher.title},helpTeacherName = #{teacher.helpTeacherName},
+        helpTeacherId = #{teacher.helpTeacherId},accepterTeacherName = #{teacher.accepterTeacherName},
+        accepterTeacherId = #{teacher.accepterTeacherId},teacherType = #{teacher.teacherType},
+        leaderType = #{teacher.leaderType},monitorType = #{teacher.monitorType}
+        <where>
+            teacherId = #{oldTeacherId}
+        </where>
+    </update>
 </mapper>

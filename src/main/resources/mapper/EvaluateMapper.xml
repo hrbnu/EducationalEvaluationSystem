@@ -8,6 +8,7 @@
         <result property="evaluateContent" column="evaluateContent" javaType="String" />
         <result property="evaluateScore" column="evaluateScore" javaType="Double" />
         <result property="flag" column="flag" javaType="String" />
+        <result property="alreadyEvaluate" column="alreadyEvaluate" javaType="boolean"/>
     </resultMap>
 
     <select id="getOtherEvaluateById" resultMap="evaluateResultMap">
@@ -16,14 +17,29 @@
         where toTeacher=#{id}
     </select>
 
+    <!--获取老师评价课程-->
+    <select id="getTeacherEvaluateCourse" resultMap="evaluateResultMap">
+        select * from evaluate where flagId=#{id} and flag=2;
+    </select>
+
+    <!--获取督导课程评价-->
+    <select id="getSupervisionCourse" resultMap="evaluateResultMap">
+        select * from evaluate where flagId=#{id} and flag=3;
+    </select>
+
     <select id="getAllTeacherEvaluate" resultMap="evaluateResultMap">
         select *
         from evaluate
     </select>
 
+    <!--获取老师需要评价的信息-->
+    <select id="getNeedToEvaluateMessageByTeacherId" resultMap="evaluateResultMap">
+         select * from evaluate where flagId=#{teacherId} and flag=2 and alreadyEvaluate=0;
+    </select>
+
     <insert id="insertEvaluate" parameterType="Evaluate">
-        INSERT INTO evaluate(courseId, evaluateContent, evaluateScore, flag, flagId)
-        VALUE (#{courseId},#{evaluateContent}, #{evaluateScore}, #{flag}, #{flagId})
+        INSERT INTO evaluate(courseId, evaluateContent, evaluateScore, flag, flagId,alreadyEvaluate)
+        VALUE (#{courseId},#{evaluateContent}, #{evaluateScore}, #{flag}, #{flagId},#{alreadyEvaluate})
     </insert>
 
     <select id="getEvaluateByCourseId" resultMap="evaluateResultMap">
@@ -31,4 +47,41 @@
         from evaluate
         where courseId=#{id}
     </select>
+    <select id="getEvaluateScoreByStudentIdAndCourseId" resultMap="evaluateResultMap">
+	    select evaluateScore
+	    from evaluate
+	    where flagId=#{studentId} and courseId=#{courseId}
+    </select>
+
+	<select id="getEealuateScoreByCourseIdAndFlag" resultMap="evaluateResultMap">
+		select evaluateScore
+		from evaluate
+		where flag=#{flag} and courseId=#{courseId} 
+	</select>
+
+    <!-- 删除单条学生评价信息 -->
+    <delete id="deleteSingleStudentEvaluates" parameterType="java.lang.String">
+        delete from evaluate
+        where flagId = #{studentId}
+    </delete>
+    <!-- 根据课程号删除评价信息 -->
+    <delete id="deleteEvaluatesByCourseId" parameterType="java.lang.String">
+        delete from evaluate
+        where courseId = #{courseId}
+    </delete>
+    <!-- 通过教师工号修改flagId -->
+    <update id="updateFlagIdByTeacherId" parameterType="java.util.HashMap">
+        update evaluate
+        set flagId = #{teacherId}
+        where flagId = #{oldTeacherId}
+    </update>
+    <!-- 通过学生号修改flagId -->
+    <update id="updateFlagIdByStudentId" parameterType="java.util.HashMap">
+        update evaluate
+        set flagId = #{studentId}
+        where flagId = #{oldStudentId}
+    </update>
+
+
+
 </mapper>

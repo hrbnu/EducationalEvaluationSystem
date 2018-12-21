@@ -1,20 +1,14 @@
 package edu.cs.hrbnu.service.impl;
 
-import edu.cs.hrbnu.DAO.CourseMapper;
-import edu.cs.hrbnu.DAO.EvaluateMapper;
-import edu.cs.hrbnu.DAO.TeacherMapper;
-import edu.cs.hrbnu.model.Complaint;
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.Teacher;
+import edu.cs.hrbnu.DAO.*;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 @Service("teacherService")
 public class TeacherServiceImpl implements TeacherService {
@@ -23,31 +17,37 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private EvaluateMapper evaluateMapper;
     @Autowired
-    CourseMapper courseMapper;
+    EvaluateProblemMapper evaluateProblemMapper;
+    @Autowired
+    private ComplaintMapper complaintMapper;
+    @Autowired
+    private CourseMapper courseMapper;
+    @Autowired
+    private ClassRequestRecordMapper classRequestRecordMapper;
 
     @Override
-    public Teacher login(String teacherId, String password){
-
-        /**
-         *  TODO : 最早写的一点，仅作参考
-         * */
+    public Teacher login(String teacherId, String password) {
 
         Teacher teacher = null;
         try {
             teacher = teacherMapper.getTeacherById(teacherId);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(password == null || teacher.getPassword().compareTo(password) == 0){
+        if (teacher == null) {
             return null;
+        } else {
+            if (!teacher.getPassword().equals(password)) {
+                return null;
+            }
         }
         return teacher;
     }
 
     @Override
-    public void logout(){
-        // TODO
+    public void logout() {
     }
+
 
     //重置密码
     @Override
@@ -87,7 +87,7 @@ public class TeacherServiceImpl implements TeacherService {
         return isSuccess;
     }
     @Override
-    public List<Evaluate> otherEvaluate(String teacherId){
+    public List<Evaluate> otherEvaluate(String courseId){
 
         /**
          *  TODO : 最早写的一点，仅作参考
@@ -95,7 +95,7 @@ public class TeacherServiceImpl implements TeacherService {
 
         List<Evaluate> evaluateList = null;
         try {
-            evaluateList = evaluateMapper.getOtherEvaluateById(teacherId);
+            evaluateList = evaluateMapper.getEvaluateByCourseId(courseId);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -120,18 +120,71 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void submitListen(String teacherId,String isListenedTeacherId){
+    public boolean submitListen(String teacherId,String isListenedTeacherId,String courseName){
         // TODO
+        try{
+        for(Course course:courseMapper.getCourseByTeacherId(isListenedTeacherId)){
+            if(courseName.equals(course.getCourseName())){
+               classRequestRecordMapper.insertIntoRecord(teacherId,isListenedTeacherId,course.getCourseId());
+               return true;
+            }
+        }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //确认听课申请
+   @Override
+    public List<ClassRequsetMessage> confirm(String teacherId){
+        // TODO
+        List<ClassRequsetMessage> messages = new ArrayList<>();
+         for(ClassRequestRecord record:classRequestRecordMapper.getRequestRecord(teacherId)){
+             ClassRequsetMessage message = new ClassRequsetMessage();
+             try {
+                 message.setRequestTeacherName(teacherMapper.getTeacherById(record.getTeacherId()).getTeacherName());
+                 message.setRequestIsListenedCourseName(courseMapper.getCourseById(record.getCourseId()).getCourseName());
+                 message.setRequestTeacherId(record.getTeacherId());
+                 message.setConfirmed(record.isConfirmed());
+                 message.setRequestIsListenedCourseId(record.getCourseId());
+                 message.setClassRequestRecordId(record.getId());
+                 messages.add(message);
+             }catch (Exception e){
+                 e.printStackTrace();
+             }
+         }
+         return messages;
     }
 
     @Override
-    public void confirm(Teacher teacher){
+    public void updateListen(int classRequestRecordId) {
+        classRequestRecordMapper.updateRequest(classRequestRecordId);
+    }
+
+    /*该方法用于获取数据库中的存放的用于老师给老师评分时的标准*/
+    @Override
+    public List<EvaluateProblem> getEvaluateProblem() {
         // TODO
+        List<EvaluateProblem> listTeacherEvaluateProblem = null;
+        try{
+            listTeacherEvaluateProblem = evaluateProblemMapper.getAllTeacherEvaluateProblem();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return listTeacherEvaluateProblem;
     }
 
     @Override
-    public void evaluateTeacher(Evaluate evaluate){
+    public int evaluateTeacher(Evaluate evaluate){
         // TODO
+        try {
+            evaluateMapper.insertEvaluate(evaluate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
     @Override
@@ -181,7 +234,75 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void alertComplaint(){
-        // TODO
+    public List<Complaint> alertComplaint(String teacherId, String lastLoginTime, String currentLoginTime){
+        List<String> courseIds = teacherMapper.getTeacherCoursesById(teacherId);
+        List<Complaint> complaints = teacherMapper.getUnbrowsedComplaintsByCourseId(courseIds,lastLoginTime,currentLoginTime);
+        return complaints;
+    }
+
+    //获取教师所教授课程
+    @Override
+    public List<Course> getCourseByTeahcer(String teacherId){
+        List<Course> courseList = null;
+        try{
+            courseList = courseMapper.getCourseByTeacherId(teacherId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return courseList;
+    }
+    //获取所有教师名字
+    @Override
+    public List<Teacher> getAllTeacherName(){
+        /**
+         *  获取教师名字 用来给领导查看所有的教师评价
+         * */
+        List<Teacher> teacherList = null;
+        try{
+            teacherList = teacherMapper.getTeacherName();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return teacherList;
+    }
+
+    @Override
+    public List<Complaint> getComplaintByCourseId(String courseId){
+        List<Complaint> complaintList = null;
+        try{
+            complaintList = complaintMapper.getComplaintByCourseId(courseId);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return complaintList;
+    }
+
+    @Override
+    public void updateLastLoginTime(String currentLoginTime,String teacherId){
+        try {
+            teacherMapper.updateLastLoginTime(currentLoginTime,teacherId);
+        } catch (Exception e) {
+            e.printStackTrace();e.printStackTrace();
+        }
+    }
+
+    //获取待评价信息
+    @Override
+    public List<TeacherAndCourseCombine> getNeedToEvaluateMessage(String teacherId) {
+        List<TeacherAndCourseCombine> teacherAndCourseCombines = new ArrayList<>();
+        try {
+            for(Evaluate evaluate:evaluateMapper.getNeedToEvaluateMessageByTeacherId(teacherId)){
+                TeacherAndCourseCombine teacherAndCourseCombine = new TeacherAndCourseCombine();
+                teacherAndCourseCombine.setCourse(courseMapper.getCourseById(evaluate.getCourseId()));
+                teacherAndCourseCombine.setTeacher(teacherMapper.getTeacherById(courseMapper.getCourseById(evaluate.getCourseId()).getTeacherId()));
+                teacherAndCourseCombines.add(teacherAndCourseCombine);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+       return teacherAndCourseCombines;
     }
 }

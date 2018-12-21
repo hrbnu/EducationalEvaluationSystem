@@ -46,4 +46,123 @@
         where studentId = #{studentId} and idCard = #{idCard}
     </select>
 
+    <select id="getStudentById" parameterType="String" resultType="Student">
+        select *
+        from student
+        where studentId = #{studentId}
+    </select>
+
+    <!-- 查询所有学生的信息-->
+    <select id="selectAllStudentInfo" resultType="Student">
+        select *
+        from student
+    </select>
+    <!-- 查询所有学生总数 -->
+    <select id="selectStudentCount" resultType="Integer">
+        select count(*)
+        from student
+    </select>
+    <!-- 按条件查询在校学生总数 -->
+    <select id="selectStudentCountByCondition" parameterType="java.util.HashMap" resultType="Integer">
+        select count(*)
+        from student
+        <where>
+            <if test="department != null and department != ''">
+                AND department = #{department,jdbcType=VARCHAR}
+            </if>
+            <if test="grade != null and grade != '0'.toString()">
+                AND grade = #{grade,jdbcType=INTEGER}
+            </if>
+            <if test="classId != null and classId != '0'.toString()">
+                AND classId = #{classId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <!-- 删除单条学生信息 -->
+    <delete id="deleteSingleStudent" parameterType="java.lang.String">
+        delete from student
+        where studentId = #{studentId}
+    </delete>
+    <!-- 按条件查询在校学生 年级grade、专业department、班级studentClass -->
+    <select id="selectStudentByCondition" parameterType="java.util.HashMap" resultType="Student">
+        select *
+        from student
+        <where>
+            <if test="department != null and department != ''">
+                AND department = #{department,jdbcType=VARCHAR}
+            </if>
+            <if test="grade != null and grade != '0'.toString()">
+                AND grade = #{grade,jdbcType=INTEGER}
+            </if>
+            <if test="classId != null and classId != '0'.toString()">
+                AND classId = #{classId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <!-- 按条件查询已毕业学生总数 -->
+    <select id="selectGraduatedStudentCountByCondition" parameterType="java.util.HashMap" resultType="Integer">
+        select count(*)
+        from student
+        <where>
+            <if test="department != null and department != ''">
+                AND department = #{department,jdbcType=VARCHAR}
+            </if>
+            <if test="graduation">
+                AND graduation = #{graduation}
+            </if>
+            <if test="classId != null and classId != '0'.toString()">
+                AND classId = #{classId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <!-- 按条件查询已毕业学生 年级grade、是否毕业graduation、班级studentClass -->
+    <select id="selectGraduatedStudentByCondition" parameterType="java.util.HashMap" resultType="Student">
+        select *
+        from student
+        <where>
+            <if test="department != null and department != ''">
+                AND department = #{department,jdbcType=VARCHAR}
+            </if>
+            <if test="graduation">
+                AND graduation = #{graduation}
+            </if>
+            <if test="classId != null and classId != '0'.toString()">
+                AND classId = #{classId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <!-- 查询单条学生信息 -->
+    <select id="selectSingleStudentInfo" parameterType="String" resultType="Student">
+        select *
+        from student
+        where studentId = #{studentId}
+    </select>
+    <!-- 单条修改学生信息 -->
+    <update id="updateSingleStudent" parameterType="java.util.HashMap">
+        update student
+        set grade = #{student.grade},department = #{student.department},classId = #{student.classId},studentId = #{student.studentId},
+        name = #{student.name},idCard = #{student.idCard},password = #{student.password},graduation = #{student.graduation}
+        <where>
+            studentId = #{oldStudentId}
+        </where>
+    </update>
+    <!-- 插入单条学生信息 -->
+    <insert id="insertSingleStudentInfo" parameterType="Student">
+        insert into student
+        values (#{studentId},#{password},#{classId},#{idCard},#{name},#{grade},#{department},#{graduation})
+    </insert>
+    <!-- 获取一个同班同学学号 -->
+    <select id="selectClassmateInfo" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select studentId
+        from student
+        where department = #{department} and grade = #{grade} and classId = #{classId}
+            limit 1
+    </select>
+    <!-- 通过年级和班级获取学生号 -->
+    <select id="selectStudentIdsByGradeAndClassId" parameterType="java.util.HashMap" resultType="java.lang.String">
+        select studentId
+        from student
+        where classId = #{classId} and grade = #{grade}
+    </select>
+
 </mapper>

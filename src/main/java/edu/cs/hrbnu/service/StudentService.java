@@ -3,6 +3,7 @@ package edu.cs.hrbnu.service;
 import edu.cs.hrbnu.model.Course;
 import edu.cs.hrbnu.model.EvaluateProblem;
 import edu.cs.hrbnu.model.Student;
+import edu.cs.hrbnu.model.StudentCourseTemp;
 
 import java.util.List;
 
@@ -31,12 +32,12 @@ public interface StudentService {
     /**
      * 得到需要评价的历史课程
      */
-    List<Course> getEvaluateHistoryCourses(String studentId);
+	List<StudentCourseTemp> getEvaluateHistoryCourses(String studentId);
 
     /**
      * 得到当前评价的课程
      */
-    List<Course> getEvaluateCurrentCourse(String studentId);
+    List<StudentCourseTemp> getEvaluateCurrentCourse(String studentId);
 
 	/**
 	 * 评价历史课程
