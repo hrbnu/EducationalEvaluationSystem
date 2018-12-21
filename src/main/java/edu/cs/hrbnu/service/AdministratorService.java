@@ -145,4 +145,18 @@ public interface AdministratorService {
      * 查询单条教师信息
      */
     public Teacher selectSingleTeacherInfo(String teacherId);
+
+    /**
+     *  获取所有的评价问题信息
+     * */
+    List<EvaluateProblem> getAllEvaluateProblems();
+
+    /**
+     *  添加评价问题信息
+     * */
+    void addProblem(EvaluateProblem problem);
+    /**
+     *  修改评价问题信息
+     * */
+    void alterProblem(int id,String context);
 }

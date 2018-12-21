@@ -25,6 +25,7 @@
         <a href="view/teacher.jsp">教师页面</a>
         <a href="view/administrator/administrator.jsp">管理员页面</a>
         <a href="view/ClassRequestInsert.jsp">插入听课申请</a>
+        <a href="/admin/getEvaluateProblems">设置评价问题</a>
 
         <%--查看自己的评价需要获得teacherId，可在路径后加teacherId测试--%>
         <a href="/teacher/courseform/100100">教师查看自己的评价</a>

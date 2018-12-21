@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import edu.cs.hrbnu.DAO.*;
+import edu.cs.hrbnu.model.*;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -17,13 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import edu.cs.hrbnu.model.Administrator;
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.Evaluate;
-import edu.cs.hrbnu.model.Student;
-import edu.cs.hrbnu.model.StudentCourse;
-import edu.cs.hrbnu.model.Teacher;
-import edu.cs.hrbnu.model.Weight;
 import edu.cs.hrbnu.service.AdministratorService;
 import edu.cs.hrbnu.uitl.ExcelUitl;
 
@@ -34,7 +28,9 @@ public class AdministratorServiceImpl implements AdministratorService {
     @Autowired
     TeacherMapper teacherMapper;
 	@Autowired
-	AdministratorMapper administratorMapper;
+    AdministratorMapper administratorMapper;
+	@Autowired
+	EvaluateProblemMapper evaluateProblemMapper;
 
 	@Value("${studentWeight}")
 	private String studentWeight;
@@ -77,6 +73,8 @@ public class AdministratorServiceImpl implements AdministratorService {
     public void logout(Administrator administrator){
         // TODO
     }
+
+
 
     @Override
     public boolean importStudentByExcel(String filePath) {
@@ -765,6 +763,36 @@ public class AdministratorServiceImpl implements AdministratorService {
 			}
 			studentCourseMapper.insertStudentCourses(studentCourseList);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<EvaluateProblem> getAllEvaluateProblems(){
+		List<EvaluateProblem> problemList= null;
+		try {
+			problemList=evaluateProblemMapper.getAllEvaluateProblem();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return problemList;
+
+	}
+
+	@Override
+	public void addProblem(EvaluateProblem  problem){
+		try {
+			evaluateProblemMapper.addEvaluateProblem(problem.getEvaluateProblemContent(),problem.getForWho(),problem.getScore());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void alterProblem(int id,String context){
+		try{
+			evaluateProblemMapper.alterProblem(id,context);
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
