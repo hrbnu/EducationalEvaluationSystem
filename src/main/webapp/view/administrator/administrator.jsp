@@ -35,5 +35,22 @@
         <form action="${pageContext.request.contextPath }/admin/insertSingleCourse" method="post">
             <input type="submit" value="插入课程信息" name="submit">
         </form>
+
+        <%-- excel导入 --%>
+        <%-- excel导入教师表 --%>
+        <form action="/admin/addTeacherByExcel" method="post" enctype="multipart/form-data">
+            <input type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <input type="submit" name="submit" value="导入教师表">
+        </form>
+        <%-- excel导入学生表 --%>
+        <form action="/admin/addStudentByExcel" method="post" enctype="multipart/form-data">
+            <input type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <input type="submit" name="submit" value="导入学生表">
+        </form>
+        <%--excel导入课程表--%>
+        <form action="/admin/addCourseByExcel" method="post" enctype="multipart/form-data">
+            <input type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <input type="submit" name="submit" value="导入课程表">
+        </form>
 </body>
 </html>
