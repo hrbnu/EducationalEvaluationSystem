@@ -162,6 +162,11 @@ public class TeacherServiceImpl implements TeacherService {
         classRequestRecordMapper.updateRequest(classRequestRecordId);
     }
 
+
+
+    /*===================================
+     * yaque*/
+
     /*该方法用于获取数据库中的存放的用于老师给老师评分时的标准*/
     @Override
     public List<EvaluateProblem> getEvaluateProblem() {
@@ -186,6 +191,19 @@ public class TeacherServiceImpl implements TeacherService {
         }
         return 1;
     }
+
+    @Override
+    public Course getCourseById(String courseId) {
+        Course course = null;
+        try {
+            course = courseMapper.getCourseById(courseId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return course;
+    }
+
+    /*===================================*/
 
     @Override
     public List<Evaluate> viewAllTeacherEvaluate(){

@@ -61,6 +61,9 @@ public interface TeacherService {
 	 */
 	void updateListen(int classRequestRecordId);
 
+
+	/*===================================
+	* yaque*/
 	/*
 	*获取老师的评分问题
 	* */
@@ -69,6 +72,10 @@ public interface TeacherService {
      *  评价某老师
      * */
     int evaluateTeacher(Evaluate evaluate);
+
+    Course getCourseById(String courseId);
+
+    /*===================================*/
 
 	/**
 	 * 浏览所有老师评价信息
