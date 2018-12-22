@@ -16,7 +16,8 @@
                 <div class="ad-welcom">
                                 <div class="ad-wel-img"><img src="/image/min_logo.png" height="100" width="100"></div>
                                 <div class="ad-wel-text">
-                                    <div class="font-wel">欢迎您！<strong>李春华</strong></div>
+                                    <%--显示现在登陆的教师名字--%>
+                                    <div class="font-wel">欢迎您！<strong>${sessionScope.TeacherInfo.teacherName}</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>个人教师</strong></a></div>
                                 </div>
                             </div>
@@ -190,6 +191,7 @@
                 </div>
     		</div>
     	</div>
+        <p>${sessionScope.TeacherInfo.leaderType}</p>
         <%--&lt;%&ndash;测试评价&ndash;%&gt;--%>
         <%--<a href="/teacher/courseform/${sessionScope.teacherId}">ceshi </a>--%>
         <%--&lt;%&ndash;测试投诉&ndash;%&gt;--%>
