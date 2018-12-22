@@ -116,7 +116,7 @@
                 |课程ID :
             </div>
             <div class="c2">
-                12324234
+
             </div>
             <div class="c1">
                 |教授学期 :

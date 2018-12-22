@@ -127,6 +127,26 @@
                                 </dd>
                             </dl>
                         </li>
+
+                        <c:if test="${sessionScope.TeacherInfo.leaderType == true}">
+                            <li>
+                                <div class="li-item"><em class="scm li-ico ic2"></em>查看评价<span class="scm arrow"></span></div>
+                                <dl>
+                                    <dd>
+                                        <a href="#" class="dd-item">查看所有教师评价<span class="scm dd-ar"></span></a>
+                                        <ul class="ad-item-list">
+                                            <li class="J_menuItem" href="/teacher/teacherform" data-index="4">查看所有教师评价</li>
+                                        </ul>
+                                    </dd>
+                                    <dd>
+                                        <a href="#" class="dd-item">查看所有教师投诉<span class="scm dd-ar"></span></a>
+                                        <ul class="ad-item-list">
+                                            <li class="J_menuItem" href="index_v5.html" data-index="5">查看所有教师投诉</li>
+                                        </ul>
+                                    </dd>
+                                </dl>
+                            </li>
+                        </c:if>
                     </ul>
                 </div>
             </div>

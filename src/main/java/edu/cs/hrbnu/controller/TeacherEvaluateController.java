@@ -82,7 +82,7 @@ public class TeacherEvaluateController {
         List<Teacher> teacherList = null;
         teacherList = teacherService.getAllTeacherName();
         request.setAttribute("teacherform",teacherList);
-        return new ModelAndView("teacherForm");
+        return new ModelAndView("/teacher/evaluateTeacherForm");
     }
 
     @RequestMapping("complaintform/{courseId}")
