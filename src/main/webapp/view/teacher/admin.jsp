@@ -91,6 +91,13 @@
                                         <li class="J_menuItem" href="index_v9.html" data-index="9">历史评价</li>
                                     </ul>
                                 </dd>
+                                <dd>
+                                    <%--默认直接在当前页面下载--%>
+                                    <a href="/teacher/exportEvaluate/${sessionScope.teacherId}" class="dd-item">导出评价表<span class="scm dd-ar"></span></a>
+                                    <ul class="ad-item-list">
+                                        <li class="J_menuItem" href="/exportEvaluate" data-index="9">历史评价</li>
+                                    </ul>
+                                </dd>
                             </dl>
                         </li>
                         <li>
