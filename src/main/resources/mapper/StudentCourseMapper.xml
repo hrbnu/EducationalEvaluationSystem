@@ -14,11 +14,11 @@
         <!--where id=#{id}-->
     <!--</select>-->
     <!---->
-     <select id="getStudentIdByCourseId" resultMap="studentCourseResultMap">
-        select studentId
-        from student_course
-        where courseId=#{CourseId}
-    </select>
+     <!--<select id="getStudentIdByCourseId" resultMap="studentCourseResultMap">-->
+        <!--select studentId-->
+        <!--from student_course-->
+        <!--where courseId=#{CourseId}-->
+    <!--</select>-->
 
     <!-- 删除单条学生课程信息 -->
     <delete id="deleteSingleStudentCourses" parameterType="java.lang.String">
