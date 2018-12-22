@@ -29,7 +29,7 @@
                                 <dd>
                                     <a href="#" class="dd-item">当前学期课程评价详情<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v1.html" data-index="1">当前学期课程评价详情</li>
+                                        <li class="J_menuItem" href="/teacher/courseform/${sessionScope.teacherId}" data-index="1">当前学期课程评价详情</li>
                                     </ul>
                                 </dd>
                                 <dd>
@@ -41,7 +41,7 @@
                                 <dd>
                                     <a href="#" class="dd-item">我的投诉<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v3.html" data-index="3">我的投诉</li>
+                                        <li class="J_menuItem" href="/teacher/courseFormComplaint/${sessionScope.teacherId}" data-index="3">我的投诉</li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -190,6 +190,10 @@
                 </div>
     		</div>
     	</div>
+        <%--&lt;%&ndash;测试评价&ndash;%&gt;--%>
+        <%--<a href="/teacher/courseform/${sessionScope.teacherId}">ceshi </a>--%>
+        <%--&lt;%&ndash;测试投诉&ndash;%&gt;--%>
+        <%--<a href="/teacher/courseFormComplaint/${sessionScope.teacherId}">投诉</a>--%>
         <script type="text/javascript" src="/js/jquery.min.js"></script>
         <script type="text/javascript" src="/js/contabs.js"></script>
         <script type="text/javascript" src="/js/maintabs.js"></script>
@@ -216,5 +220,6 @@
             // })
             	/*$('.tree > ul > li: first').show();*/
         </script>
+
     </body>
 </html>

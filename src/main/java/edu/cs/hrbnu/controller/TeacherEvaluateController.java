@@ -54,15 +54,27 @@ public class TeacherEvaluateController {
         List<Course> courseList = null;
         courseList = teacherService.getCourseByTeahcer(teacherId);
         request.setAttribute("courseform",courseList);
-        return new ModelAndView("courseForm");
+        return new ModelAndView("/teacher/courseform");
     }
+    @RequestMapping("/courseFormComplaint/{teacherId}")
+    public ModelAndView courseFormComplaint(@PathVariable String teacherId,ServletRequest request){
+        /**
+         * 根据教师id获取教师所授课程
+         * */
 
+        //teacherId = ;
+
+        List<Course> courseList = null;
+        courseList = teacherService.getCourseByTeahcer(teacherId);
+        request.setAttribute("courseform",courseList);
+        return new ModelAndView("/teacher/courseFormComplaint");
+    }
     @RequestMapping("evaluateform/{courseId}")
     public ModelAndView allEvaluateForm(@PathVariable String courseId,ServletRequest request){
         List<Evaluate> evaluateList = null;
         evaluateList = teacherService.otherEvaluate(courseId);
         request.setAttribute("evaluateform",evaluateList);
-        return new ModelAndView("evaluateForm");
+        return new ModelAndView("/teacher/evaluateForm");
     }
 
     @RequestMapping("teacherform")
@@ -78,6 +90,6 @@ public class TeacherEvaluateController {
         List<Complaint> complaintList = null;
         complaintList = teacherService.getComplaintByCourseId(courseId);
         model.addAttribute("complaintform",complaintList);
-        return new ModelAndView("complaintForm");
+        return new ModelAndView("/teacher/complaintForm");
     }
 }

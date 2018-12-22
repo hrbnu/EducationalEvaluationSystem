@@ -24,6 +24,7 @@
         <tr>
             <th>课程Id</th>
             <th>课程名</th>
+            <th>学期</th>
             <th>查看评价</th>
             <th>查看投诉</th>
         </tr>
@@ -33,6 +34,7 @@
             <tr>
                 <td>${vars.courseId}</td>
                 <td>${vars.courseName}</td>
+                <td>${vars.semester}</td>
                 <td><a href="/teacher/evaluateform/${vars.courseId}">查看评价</a> </td>
                 <td><a href="/teacher/complaintform/${vars.courseId}">查看投诉</a> </td>
             </tr>
