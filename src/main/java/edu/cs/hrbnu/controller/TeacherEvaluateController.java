@@ -84,7 +84,13 @@ public class TeacherEvaluateController {
         request.setAttribute("teacherform",teacherList);
         return new ModelAndView("/teacher/evaluateTeacherForm");
     }
-
+    @RequestMapping("teacherComplaintForm")
+    public ModelAndView complaintTeacherForm(ServletRequest request){
+        List<Teacher> teacherList = null;
+        teacherList = teacherService.getAllTeacherName();
+        request.setAttribute("teacherform",teacherList);
+        return new ModelAndView("/teacher/complaintTeacherForm");
+    }
     @RequestMapping("complaintform/{courseId}")
     public ModelAndView allComplaintForm(@PathVariable String courseId,Model model){
         List<Complaint> complaintList = null;

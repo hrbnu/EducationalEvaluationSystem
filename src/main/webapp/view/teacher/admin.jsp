@@ -141,7 +141,7 @@
                                     <dd>
                                         <a href="#" class="dd-item">查看所有教师投诉<span class="scm dd-ar"></span></a>
                                         <ul class="ad-item-list">
-                                            <li class="J_menuItem" href="index_v5.html" data-index="5">查看所有教师投诉</li>
+                                            <li class="J_menuItem" href="/teacher/teacherComplaintForm" data-index="5">查看所有教师投诉</li>
                                         </ul>
                                     </dd>
                                 </dl>

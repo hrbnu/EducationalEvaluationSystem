@@ -104,26 +104,9 @@
                 教职工工号 :
             </div>
             <div class="c2">
-                1234445
+                ${sessionScope.teacherId}
             </div>
-            <div class="c1">
-                |课程名称 :
-            </div>
-            <div class="c2">
-                课程1
-            </div>
-            <div class="c1">
-                |课程ID :
-            </div>
-            <div class="c2">
 
-            </div>
-            <div class="c1">
-                |教授学期 :
-            </div>
-            <div class="c2">
-                2016-2017-2
-            </div>
         </div>
     </div>
     <br>

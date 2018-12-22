@@ -107,24 +107,7 @@
             <div class="c2">
                 ${sessionScope.TeacherInfo.teacherId}
             </div>
-            <div class="c1">
-                |课程名称 :
-            </div>
-            <div class="c2">
-                课程1
-            </div>
-            <div class="c1">
-                |课程ID :
-            </div>
-            <div class="c2">
-                12324234
-            </div>
-            <div class="c1">
-                |教授学期 :
-            </div>
-            <div class="c2">
-                2016-2017-2
-            </div>
+
         </div>
     </div>
     <br>
