@@ -36,7 +36,7 @@
                                 <dd>
                                     <a href="#" class="dd-item">导入学生信息<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="/importStudent.jsp" data-index="2">导入学生信息</li>
+                                        <li class="J_menuItem" href="/view/administrator/importStudent.jsp" data-index="2">导入学生信息</li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -53,7 +53,7 @@
                                 <dd>	
                                     <a href="#" class="dd-item">导入教师信息<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="/importTeacher.jsp" data-index="4">导入教师信息</li>
+                                        <li class="J_menuItem" href="/view/administrator/importTeacher.jsp" data-index="4">导入教师信息</li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -70,7 +70,7 @@
                                 <dd>
                                     <a href="#" class="dd-item">导入课程信息<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="/importCourse.jsp" data-index="6">导入课程信息</li>
+                                        <li class="J_menuItem" href="/view/administrator/importCourse.jsp" data-index="6">导入课程信息</li>
                                     </ul>
                                 </dd>
                             </dl>

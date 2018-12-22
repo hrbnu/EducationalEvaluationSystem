@@ -63,7 +63,7 @@
 
 <body style="background-color:#eff3f6;">
 <div class="data-div">
-    <p>如果没有自动下载，请点击此处下载</p>
+    <p>点击此处下载</p>
     <a href="/teacher/exportEvaluate/${sessionScope.teacherId}" class="btn btn-look btn-xs href-a" data-toggle="modal" data-target="#reviseUser">下载</a>
 </div>
 </body>
