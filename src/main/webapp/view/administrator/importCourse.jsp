@@ -80,18 +80,34 @@
         .input-submit{
             font-size: 21px;
         }
+        .status-text{
+            width: 200px;
+            margin: 0px auto;
+            margin-top: 161px;
+            font-size: 34px;
+        }
     </style>
 </head>
 
 <body style="background-color:#eff3f6;">
 <div class="data-div">
-    <form action="/admin/addStudentByExcel" method="post" enctype="multipart/form-data">
-        <div class="input-file">
-            <p>选择文件</p>
-            <input style="opacity: 0" type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-        </div>
-        <input class="btn btn-look btn-xs input-submit" data-toggle="modal" data-target="#reviseUser" type="submit" name="submit" value="上传">
-    </form>
+    <c:choose>
+        <c:when test="${retStatus == 1}">
+            <p class="status-text">导入失败</p>
+        </c:when>
+        <c:when test="${retStatus == 2}">
+            <p class="status-text">导入成功</p>
+        </c:when>
+        <c:otherwise>
+            <form action="/admin/addCourseByExcel" method="post" enctype="multipart/form-data">
+                <div class="input-file">
+                    <p>选择文件</p>
+                    <input style="opacity: 0" type="file" name="excel" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                </div>
+                <input class="btn btn-look btn-xs input-submit" data-toggle="modal" data-target="#reviseUser" type="submit" name="submit" value="上传">
+            </form>
+        </c:otherwise>
+    </c:choose>
 </div>
 </body>
 <script type="text/javascript">

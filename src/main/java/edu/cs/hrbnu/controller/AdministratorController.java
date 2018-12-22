@@ -30,7 +30,7 @@ public class AdministratorController {
     AdministratorService administratorService;
 
     @RequestMapping("addStudentByExcel")
-    public ModelAndView addStudentByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile){
+    public ModelAndView addStudentByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile,Model model){
         if(!multipartFile.isEmpty()){
             // 获取保存路径并保存
             String path = request.getServletContext().getRealPath("/");
@@ -41,20 +41,23 @@ public class AdministratorController {
                 multipartFile.transferTo(file);
             }catch (Exception ex){
                 ex.printStackTrace();
-                return new ModelAndView("wrong");
+                model.addAttribute("retStatus",1);
+                return new ModelAndView("/administrator/importStudent");
             }
 
             String filePath = path+"/"+name;
             boolean flag = administratorService.importStudentByExcel(filePath);
             if(flag){
-                return new ModelAndView("success");
+                model.addAttribute("retStatus",2);
+                return new ModelAndView("/administrator/importStudent");
             }
         }
-        return new ModelAndView("wrong");
+        model.addAttribute("retStatus",1);
+        return new ModelAndView("/administrator/importStudent");
     }
 
     @RequestMapping("addTeacherByExcel")
-    public ModelAndView addTeacherByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile){
+    public ModelAndView addTeacherByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile,Model model){
         if(!multipartFile.isEmpty()){
             String path = request.getServletContext().getRealPath("/");
             path = PathUitl.getExcelSavePath(path);
@@ -64,20 +67,23 @@ public class AdministratorController {
                 multipartFile.transferTo(file);
             }catch (Exception ex){
                 ex.printStackTrace();
-                return new ModelAndView("wrong");
+                model.addAttribute("retStatus",1);
+                return new ModelAndView("/administrator/importTeacher");
             }
 
             String filePath = path+"/"+name;
             boolean flag = administratorService.importTeacherByExcel(filePath);
             if(flag){
-                return new ModelAndView("success");
+                model.addAttribute("retStatus",2);
+                return new ModelAndView("/administrator/importTeacher");
             }
         }
-        return new ModelAndView("wrong");
+        model.addAttribute("retStatus",1);
+        return new ModelAndView("/administrator/importTeacher");
     }
 
     @RequestMapping("addCourseByExcel")
-    public ModelAndView addCourseByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile){
+    public ModelAndView addCourseByExcel(ServletRequest request, @RequestParam(value = "excel") MultipartFile multipartFile,Model model){
         if(!multipartFile.isEmpty()){
             String path = request.getServletContext().getRealPath("/");
             path = PathUitl.getExcelSavePath(path);
@@ -87,16 +93,19 @@ public class AdministratorController {
                 multipartFile.transferTo(file);
             }catch (Exception ex){
                 ex.printStackTrace();
-                return new ModelAndView("wrong");
+                model.addAttribute("retStatus",1);
+                return new ModelAndView("/administrator/importCourse");
             }
 
             String filePath = path+"/"+name;
             boolean flag = administratorService.importCourseByExcel(filePath);
             if(flag){
-                return new ModelAndView("success");
+                model.addAttribute("retStatus",2);
+                return new ModelAndView("/administrator/importCourse");
             }
         }
-        return new ModelAndView("wrong");
+        model.addAttribute("retStatus",1);
+        return new ModelAndView("/administrator/importCourse");
     }
 
     @RequestMapping("getEvaluateProblems")
