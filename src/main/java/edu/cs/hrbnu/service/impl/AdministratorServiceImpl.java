@@ -87,12 +87,16 @@ public class AdministratorServiceImpl implements AdministratorService {
         // 匹配表头，必须与格式相同，否则不允许导入
         boolean flag = true;
         Row firstRow = sheet.getRow(sheet.getFirstRowNum());
-        if("学号".compareTo(firstRow.getCell(0).getStringCellValue()) != 0) flag = false;
-        if("班级".compareTo(firstRow.getCell(1).getStringCellValue()) != 0) flag = false;
-        if("身份证号".compareTo(firstRow.getCell(2).getStringCellValue()) != 0) flag = false;
-        if("姓名".compareTo(firstRow.getCell(3).getStringCellValue()) != 0) flag = false;
-        if("年级".compareTo(firstRow.getCell(4).getStringCellValue()) != 0) flag = false;
-        if("专业".compareTo(firstRow.getCell(5).getStringCellValue()) != 0) flag = false;
+        if(firstRow.getLastCellNum() != 6){
+            flag = false;
+        }else{
+            if("学号".compareTo(firstRow.getCell(0).getStringCellValue()) != 0) flag = false;
+            if("班级".compareTo(firstRow.getCell(1).getStringCellValue()) != 0) flag = false;
+            if("身份证号".compareTo(firstRow.getCell(2).getStringCellValue()) != 0) flag = false;
+            if("姓名".compareTo(firstRow.getCell(3).getStringCellValue()) != 0) flag = false;
+            if("年级".compareTo(firstRow.getCell(4).getStringCellValue()) != 0) flag = false;
+            if("专业".compareTo(firstRow.getCell(5).getStringCellValue()) != 0) flag = false;
+        }
         if(!flag) return false;
 
         int begin = sheet.getFirstRowNum()+1;
@@ -139,15 +143,19 @@ public class AdministratorServiceImpl implements AdministratorService {
 
         boolean flag = true;
         Row firstRow = sheet.getRow(sheet.getFirstRowNum());
-        if("课程编号".compareTo(firstRow.getCell(0).getStringCellValue()) != 0) flag = false;
-        if("课程名".compareTo(firstRow.getCell(1).getStringCellValue()) != 0) flag = false;
-        if("教师编号".compareTo(firstRow.getCell(2).getStringCellValue()) != 0) flag = false;
-        if("所属学期".compareTo(firstRow.getCell(3).getStringCellValue()) != 0) flag = false;
-        if("课程属性".compareTo(firstRow.getCell(4).getStringCellValue()) != 0) flag = false;
-        if("上课班级".compareTo(firstRow.getCell(5).getStringCellValue()) != 0) flag = false;
-        if("开始周".compareTo(firstRow.getCell(6).getStringCellValue()) != 0) flag = false;
-        if("结束周".compareTo(firstRow.getCell(7).getStringCellValue()) != 0) flag = false;
-        if("总学时".compareTo(firstRow.getCell(8).getStringCellValue()) != 0) flag = false;
+        if(firstRow.getLastCellNum() != 9){
+            flag = false;
+        }else{
+            if("课程编号".compareTo(firstRow.getCell(0).getStringCellValue()) != 0) flag = false;
+            if("课程名".compareTo(firstRow.getCell(1).getStringCellValue()) != 0) flag = false;
+            if("教师编号".compareTo(firstRow.getCell(2).getStringCellValue()) != 0) flag = false;
+            if("所属学期".compareTo(firstRow.getCell(3).getStringCellValue()) != 0) flag = false;
+            if("课程属性".compareTo(firstRow.getCell(4).getStringCellValue()) != 0) flag = false;
+            if("上课班级".compareTo(firstRow.getCell(5).getStringCellValue()) != 0) flag = false;
+            if("开始周".compareTo(firstRow.getCell(6).getStringCellValue()) != 0) flag = false;
+            if("结束周".compareTo(firstRow.getCell(7).getStringCellValue()) != 0) flag = false;
+            if("总学时".compareTo(firstRow.getCell(8).getStringCellValue()) != 0) flag = false;
+        }
         if(!flag) return false;
 
         int begin = sheet.getFirstRowNum()+1;
@@ -194,12 +202,16 @@ public class AdministratorServiceImpl implements AdministratorService {
 
         boolean flag = true;
         Row firstRow = sheet.getRow(sheet.getFirstRowNum());
-        if("工号".compareTo(firstRow.getCell(0).getStringCellValue()) != 0) flag = false;
-        if("姓名".compareTo(firstRow.getCell(1).getStringCellValue()) != 0) flag = false;
-        if("是否为教师".compareTo(firstRow.getCell(2).getStringCellValue()) != 0) flag = false;
-        if("是否为领导".compareTo(firstRow.getCell(3).getStringCellValue()) != 0) flag = false;
-        if("是否为督导".compareTo(firstRow.getCell(4).getStringCellValue()) != 0) flag = false;
-        if("身份证号码".compareTo(firstRow.getCell(5).getStringCellValue()) != 0) flag = false;
+        if(firstRow.getLastCellNum() != 6){
+            flag = false;
+        }else{
+            if("工号".compareTo(firstRow.getCell(0).getStringCellValue()) != 0) flag = false;
+            if("姓名".compareTo(firstRow.getCell(1).getStringCellValue()) != 0) flag = false;
+            if("是否为教师".compareTo(firstRow.getCell(2).getStringCellValue()) != 0) flag = false;
+            if("是否为领导".compareTo(firstRow.getCell(3).getStringCellValue()) != 0) flag = false;
+            if("是否为督导".compareTo(firstRow.getCell(4).getStringCellValue()) != 0) flag = false;
+            if("身份证号码".compareTo(firstRow.getCell(5).getStringCellValue()) != 0) flag = false;
+        }
         if(!flag) return false;
 
         int begin = sheet.getFirstRowNum()+1;
