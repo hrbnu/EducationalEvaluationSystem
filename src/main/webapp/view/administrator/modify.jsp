@@ -78,18 +78,18 @@
     <form action="/modify/update">
         <div class="partA">
             必修课评分标准：
-            <input type="text" name="studentWeight">+
-            <input type="text" name="teacherWeight">+
-            <input type="text" name="leaderWeight">+
-            <input type="text" name="myselfWeight">
+            <input type="text" name="studentWeight">%+
+            <input type="text" name="teacherWeight">%+
+            <input type="text" name="leaderWeight">%+
+            <input type="text" name="myselfWeight">%
         </div>
         <br>
         <div class="partB">
             选修课评分标准：
-            <input type="text" name="ElectivestudentWeight" >+
-            <input type="text" name="ElectiveteacherWeight" >+
-            <input type="text" name="ElectiveleaderWeight" >+
-            <input type="text" name="ElectivemyselfWeight" >+
+            <input type="text" name="ElectivestudentWeight" >%+
+            <input type="text" name="ElectiveteacherWeight" >%+
+            <input type="text" name="ElectiveleaderWeight" >%+
+            <input type="text" name="ElectivemyselfWeight" >%+
         </div>
         <div class="submit">
             <input class="btn btn-look btn-xs" type="submit" value="确认">

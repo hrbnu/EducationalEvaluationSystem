@@ -3,6 +3,7 @@ package edu.cs.hrbnu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,12 +21,13 @@ public class UpdateGradingController {
 	double myselfWeight;
 	
 	@RequestMapping("update")
-	public ModelAndView update(Weight weight){
+	public ModelAndView update(Weight weight, Model model){
 		administratorService.updateGrading(weight);
 //		System.out.println(studentWeight);
 //		System.out.println(teacherWeight);
 //		System.out.println(leaderWeight);
 //		System.out.println(myselfWeight);
-		return  new ModelAndView("comment");
+        model.addAttribute("flag",true);
+        return  new ModelAndView("administrator/modify");
 	}
 }

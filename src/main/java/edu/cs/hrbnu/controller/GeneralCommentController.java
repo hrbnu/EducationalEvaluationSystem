@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,9 +19,10 @@ public class GeneralCommentController {
 	ServletContext context;
 	
 	@RequestMapping("/comment")
-	public ModelAndView gengeal() {
+	public ModelAndView gengeal(Model model) {
 		Weight weight = (Weight) context.getAttribute("weight");
 		administratorService.generalComment(weight);
-		return  new ModelAndView("modify");
+        model.addAttribute("flag",true);
+        return  new ModelAndView("administrator/comment");
 	}
 }

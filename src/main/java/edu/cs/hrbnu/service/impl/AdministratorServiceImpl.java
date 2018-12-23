@@ -472,10 +472,10 @@ public class AdministratorServiceImpl implements AdministratorService {
     	}
     	else {
 	    	//得到权值
-	    	studentweight=weight.getStudentWeight();
-			teacherweight=weight.getTeacherWeight();
-			leaderweight=weight.getLeaderWeight();
-			myselfweight=weight.getMyselfWeight();
+	    	studentweight=(weight.getStudentWeight())/100;
+			teacherweight=(weight.getTeacherWeight())/100;
+			leaderweight=(weight.getLeaderWeight())/100;
+			myselfweight=(weight.getMyselfWeight())/100;
 			try {
     			//得到所有的课程
     			List<Course> lists = courseMapper.getAllCourses();

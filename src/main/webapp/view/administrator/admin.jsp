@@ -87,13 +87,13 @@
                                 <dd>
                                     <a href="#" class="dd-item">修改评分标准<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v8.html" data-index="8">修改评分标准</li>
+                                        <li class="J_menuItem" href="/view/administrator/modify.jsp" data-index="8">修改评分标准</li>
                                     </ul>
                                 </dd>
                                 <dd>
                                     <a href="#" class="dd-item">生成期末总评<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v9.html" data-index="9">生成期末总评</li>
+                                        <li class="J_menuItem" href="/view/administrator/comment.jsp" data-index="9">生成期末总评</li>
                                     </ul>
                                 </dd>
                             </dl>
