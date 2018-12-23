@@ -116,7 +116,7 @@ public class AdministratorController {
         }else{
             model.addAttribute("problems",problemList);
         }
-        return new ModelAndView("evaluateProblems");
+        return new ModelAndView("/administrator/evaluateProblems");
     }
 
     @RequestMapping("addEvaluateProblems")
@@ -130,7 +130,7 @@ public class AdministratorController {
             model.addAttribute("problems",problemList);
         }
 
-        return new ModelAndView("evaluateProblems") ;
+        return new ModelAndView("/administrator/evaluateProblems") ;
     }
 
     @RequestMapping("alert/{id}")
@@ -140,9 +140,11 @@ public class AdministratorController {
         for (int i=0;i< problemList.size();i++) {
             EvaluateProblem evaluateProblem = problemList.get(i);
             if (evaluateProblem.getId()==id){
-                System.out.println("in to");
+                model.addAttribute("flag",true);
                 administratorService.alterProblem(id,alertText);
-            }
+                System.out.println("修改成功");
+            }else
+                model.addAttribute("flag",false);
         }
         List<EvaluateProblem> problemList2=administratorService.getAllEvaluateProblems();
         if (problemList2==null){
@@ -151,7 +153,7 @@ public class AdministratorController {
             model.addAttribute("problems",problemList2);
         }
 
-        return new ModelAndView("evaluateProblems") ;
+        return new ModelAndView("/administrator/evaluateProblems") ;
     }
 
 

@@ -79,9 +79,9 @@
                             <div class="li-item"><em class="scm li-ico ic5"></em>期末总评<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="#" class="dd-item">查看期末总评<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">修改问题评价<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v7.html" data-index="7">查看修改期末总评</li>
+                                        <li class="J_menuItem" href="/admin/getEvaluateProblems" data-index="7">修改问题评价</li>
                                     </ul>
                                 </dd>
                                 <dd>
