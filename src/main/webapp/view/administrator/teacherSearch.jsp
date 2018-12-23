@@ -113,7 +113,7 @@
             -webkit-appearance: none;
             -moz-appearance: none;
             padding-left: 10px;
-            background: url("/image/select.png") no-repeat scroll right 0.5rem transparent;
+            background: url("../image/select.png") no-repeat scroll right 0.5rem transparent;
             background-size: 10% 60%;
             padding-right: 0.14rem;
         }

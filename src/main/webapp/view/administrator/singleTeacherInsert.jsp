@@ -40,7 +40,7 @@
             <font size="2" color="red">${message}</font>
         </c:if>
         <c:if test="${successMessage != null}">
-            <font size="2" color="red">${successMessage}</font>
+            <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
             <p>姓名：<input type="text" name="teacherName"></p>

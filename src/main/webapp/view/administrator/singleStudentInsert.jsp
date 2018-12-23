@@ -40,10 +40,11 @@
             <font size="2" color="red">${message}</font>
         </c:if>
         <c:if test="${successMessage != null}">
-            <font size="2" color="red">${successMessage}</font>
+            <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
-            <p>姓名： <input type="text" name="name"></p>
+        <div class="input_div">
+            <p>姓名：<input type="text" name="name"></p>
             <P>学号：<input type="text" name="studentId"></P>
             <P>身份证号：<input type="text" name="idCard"></P>
             <P>专业：<input type="text" name="department"></P>
@@ -51,6 +52,7 @@
             <P>班级：<input id="classId" type="text" name="classId"></P>
             <p><input type="hidden" name="state" value="confirm"></p>
             <p><input type="submit" value="确认添加" id="submit"/>
+        </div>
         </c:if>
     </form>
 </div>

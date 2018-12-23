@@ -434,9 +434,14 @@ public class AdministratorController {
             //自动设置密码为身份证后六位
             //院系为专业
             //默认学生状态为在校
-            administratorService.insertStudent(student);
-            //返回页面
-            String successMessage = "添加学生信息成功！";
+            boolean isSuccess = administratorService.insertStudent(student);
+            String successMessage;
+            if(!isSuccess){
+                successMessage = "学生信息已存在！";
+            } else {
+                //返回页面
+                successMessage = "添加学生信息成功！";
+            }
             mav.addObject("successMessage",successMessage);
         }
         mav.setViewName("administrator/singleStudentInsert");
@@ -600,9 +605,15 @@ public class AdministratorController {
             mav.addObject("message",message);
         } else if(state != null){
             //自动设置密码为身份证后六位
-            administratorService.insertTeacher(teacher);
             //返回页面
-            String successMessage = "添加教师信息成功！";
+            String successMessage;
+            boolean isSuccess =  administratorService.insertTeacher(teacher);
+            if(!isSuccess){
+                successMessage = "教师信息已存在！";
+            } else {
+                //返回页面
+                successMessage = "添加教师信息成功！";
+            }
             mav.addObject("successMessage",successMessage);
         }
         mav.setViewName("administrator/singleTeacherInsert");
@@ -711,9 +722,15 @@ public class AdministratorController {
         }else if(state != null){
             //1.根据课号前四位获取年级，通过年级和班级查询所有学生号student(studentId)
             //2.student_course插入学号和课程号
-            administratorService.insertSingleCourse(course);
             //返回页面
-            String successMessage = "添加课程信息成功！";
+            String successMessage;
+            boolean isSuccess =  administratorService.insertSingleCourse(course);
+            if(!isSuccess){
+                successMessage = "课程信息已存在！";
+            } else {
+                //返回页面
+                successMessage = "添加课程信息成功！";
+            }
             mav.addObject("successMessage",successMessage);
         }
         mav.setViewName("administrator/singleCourseInsert");

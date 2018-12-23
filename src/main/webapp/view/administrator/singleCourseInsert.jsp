@@ -40,9 +40,10 @@
             <font size="2" color="red">${message}</font>
         </c:if>
         <c:if test="${successMessage != null}">
-            <font size="2" color="red">${successMessage}</font>
+            <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
+        <table>
             <p>课程名：<input type="text" name="courseName"></p>
             <P>课程号：<input type="text" name="courseId"></P>
             <P>学分：<input id="score" type="text" name="score"></P>
