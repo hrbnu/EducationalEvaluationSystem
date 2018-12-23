@@ -47,7 +47,8 @@
 				<li class="login-sub">
 					<input type="submit" name="Submit" value="登录" />
                     <input type="reset" name="Reset" value="重置" />
-				</li>                      
+				</li>
+				<font color="red">${loginMessage}<br></font>
            </form>
 		</div>
 	</div>

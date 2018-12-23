@@ -174,7 +174,7 @@ public class TeacherController {
         } else{
             String loginMessage = "工号或密码错误";
             modelAndView.addObject("loginMessage",loginMessage);
-            modelAndView.setViewName("teacherLogin");
+            modelAndView.setViewName("teacher/loginC");
         }
 
         return modelAndView;
@@ -184,7 +184,7 @@ public class TeacherController {
     public ModelAndView logout(SessionStatus status)
     {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("success");
+        modelAndView.setViewName("teacher/loginC");
         status.setComplete();
         return modelAndView;
     }

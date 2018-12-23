@@ -17,7 +17,7 @@
                 <div class="ad-welcom">
                                 <div class="ad-wel-img"><img src="/image/min_logo.png" height="100" width="100"></div>
                                 <div class="ad-wel-text">
-                                    <div class="font-wel">欢迎您！<strong>李春华</strong></div>
+                                    <div class="font-wel">欢迎您！<strong>${sessionScope.StudentInfo.name}</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>个人学生</strong></a></div>
                                 </div>
                             </div>
@@ -114,7 +114,11 @@
                             </div>
                             <div class="ad-welcom">
                                 <div class="ad-wel-text">
-                                    <div class="font-wel"><a href="javascript:;"><strong>【退出】</strong></a></div>
+                                    <div class="font-wel"><a href="javascript:;"><strong>
+                                        <form action="${pageContext.request.contextPath }/student/logout" method="post">
+                                            <input type="submit" id="logout" value="【退出】">
+                                        </form>
+                                    </strong></a></div>
                                 </div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@
                 <div class="ad-welcom">
                                 <div class="ad-wel-img"><img src="/image/min_logo.png" height="100" width="100"></div>
                                 <div class="ad-wel-text">
-                                    <div class="font-wel">欢迎您！<strong>李春华</strong></div>
+                                    <div class="font-wel">欢迎您！<strong>管理员</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>管理员</strong></a></div>
                                 </div>
                             </div>

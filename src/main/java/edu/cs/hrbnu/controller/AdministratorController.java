@@ -723,9 +723,7 @@ public class AdministratorController {
 
     @RequestMapping("/login")
     public ModelAndView login(Administrator administrator, ModelMap modelMap){
-        System.out.println(administrator.getId() + administrator.getPassword());
         Administrator admin = administratorService.login(administrator);
-        System.out.println(admin.getId() + admin.getPassword());
         ModelAndView modelAndView = new ModelAndView();
         if(admin == null){
             modelAndView.setViewName("administrator/loginA");

@@ -1,3 +1,4 @@
+<%@ page import="edu.cs.hrbnu.model.Teacher" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String appPath = request.getContextPath(); %><!DOCTYPE html>
@@ -16,9 +17,21 @@
                 <div class="ad-welcom">
                                 <div class="ad-wel-img"><img src="/image/min_logo.png" height="100" width="100"></div>
                                 <div class="ad-wel-text">
-                                    <%--显示现在登陆的教师名字--%>
                                     <div class="font-wel">欢迎您！<strong>${sessionScope.TeacherInfo.teacherName}</strong></div>
-                                    <div class="font-wel"><a href="javascript:;"><strong>个人教师</strong></a></div>
+                                    <div class="font-wel"><a href="javascript:;"><strong>
+                                        <%
+                                            Teacher teacher = (Teacher)request.getSession().getAttribute("TeacherInfo");
+                                            if(teacher.isMonitorType()){
+                                                out.print("督导");
+                                            }else{
+                                                if(teacher.isLeaderType()){
+                                                    out.print("领导");
+                                                }else{
+                                                    out.print(teacher.getTitle());
+                                                }
+                                            }
+                                        %>
+                                    </strong></a></div>
                                 </div>
                             </div>
                 </div>
@@ -42,7 +55,7 @@
                                 <dd>
                                     <a href="#" class="dd-item">我的投诉<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="/teacher/courseFormComplaint/${sessionScope.teacherId}" data-index="3">我的投诉</li>
+                                        <li class="J_menuItem" href="index_v3.html" data-index="3">我的投诉</li>
                                     </ul>
                                 </dd>
                             </dl>

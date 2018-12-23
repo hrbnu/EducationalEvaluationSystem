@@ -116,7 +116,7 @@ public class StudentController {
         if(student == null){
             String loginMessage = "学号或密码错误！";
             modelAndView.addObject("loginMessage",loginMessage);
-            modelAndView.setViewName("studentLogin");
+            modelAndView.setViewName("student/loginB");
         }else{
 
             modelMap.addAttribute("StudentInfo",student);
@@ -140,7 +140,7 @@ public class StudentController {
     @RequestMapping("logout")
     public ModelAndView logout(SessionStatus status) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("success");
+        modelAndView.setViewName("student/loginB");
         status.setComplete();
         return modelAndView;
     }

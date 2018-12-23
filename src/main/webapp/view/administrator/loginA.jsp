@@ -33,7 +33,7 @@
 			<form id="Login" name="Login" method="post" onsubmit="return validate()" action="${pageContext.request.contextPath }/admin/login">
 				<li class="login-item">
 					<span>用户名：</span>
-					<input type="text" id="username" name="id" class="login_input" >
+					<input type="text" id="name" name="name" class="login_input" >
                                         <span id="count-msg" class="error"></span>
 				</li>
 				<li class="login-item">
