@@ -28,9 +28,15 @@
                             <div class="li-item"><em class="scm li-ico ic1"></em>编辑学生信息<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="#" class="dd-item">查看修改学生信息<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">查看学生信息<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v1.html" data-index="1">查看修改学生信息</li>
+                                        <li class="J_menuItem" href="${pageContext.request.contextPath }/admin/searchStudentByCondition" data-index="1">查看学生信息</li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <a href="#" class="dd-item">添加单条学生信息<span class="scm dd-ar"></span></a>
+                                    <ul class="ad-item-list">
+                                        <li class="J_menuItem" href="/view/administrator/singleStudentInsert.jsp" data-index="1">添加单条学生信息</li>
                                     </ul>
                                 </dd>
                                 <dd>
@@ -45,9 +51,15 @@
                             <div class="li-item"><em class="scm li-ico ic2"></em>编辑教师信息<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="#" class="dd-item">查看修改教师信息<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">查看教师信息<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v3.html" data-index="3">查看修改教师信息</li>
+                                        <li class="J_menuItem" href="${pageContext.request.contextPath }/admin/searchTeacherByCondition" data-index="3">查看教师信息</li>
+                                    </ul>
+                                </dd>
+                                <dd>
+                                    <a href="#" class="dd-item">添加单条教师信息<span class="scm dd-ar"></span></a>
+                                    <ul class="ad-item-list">
+                                        <li class="J_menuItem" href="/view/administrator/singleTeacherInsert.jsp" data-index="3">添加单条教师信息</li>
                                     </ul>
                                 </dd>
                                 <dd>	
@@ -62,9 +74,9 @@
                             <div class="li-item"><em class="scm li-ico ic3"></em>编辑课程信息<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="#" class="dd-item">查看修改课程信息<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">添加单条课程信息<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v5.html" data-index="5">查看修改课程信息</li>
+                                        <li class="J_menuItem" href="/view/administrator/singleCourseInsert.jsp" data-index="5">添加单条课程信息</li>
                                     </ul>
                                 </dd>
                                 <dd>
@@ -94,23 +106,6 @@
                                     <a href="#" class="dd-item">生成期末总评<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
                                         <li class="J_menuItem" href="/view/administrator/comment.jsp" data-index="9">生成期末总评</li>
-                                    </ul>
-                                </dd>
-                            </dl>
-                        </li>
-                        <li>
-                            <div class="li-item"><em class="scm li-ico ic4"></em>个人信息<span class="scm arrow"></span></div>
-                            <dl>
-                                <dd>
-                                    <a href="#" class="dd-item">更改密码<span class="scm dd-ar"></span></a>
-                                    <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v10.html" data-index="10">更改密码</li>
-                                    </ul>
-                                </dd>
-                                <dd>
-                                    <a href="#" class="dd-item">重置密码<span class="scm dd-ar"></span></a>
-                                    <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v11.html" data-index="11">重置密码</li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -174,14 +169,14 @@
                         <a href="javascript:;" class="scm jian-a sub-sel pre j_tabBg J_tabLeft"></a>
                         <div class="ad-sub-wraper page-tabs J_menuTabs">
                             <ul class="ad-sub-list page-tabs-content">
-                                <li class="active J_menuTab" data-id="index_v1.html">修改学生信息</li>
+                                <li class="active J_menuTab" data-id="${pageContext.request.contextPath }/admin/searchStudentByCondition">查看学生信息</li>
                             </ul>
                         </div>
                         <a href="javascript:;" class="scm jian-a next j_tabBg J_tabRight"></a>
                     </div>
                 </div>
                 <div class="ad-main-comment J_mainContent" id="ad-iframe">
-                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v1.html" frameborder="1" data-id="index_v1.html" seamless></iframe>
+                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${pageContext.request.contextPath }/admin/searchStudentByCondition" frameborder="1" data-id="${pageContext.request.contextPath }/admin/searchStudentByCondition" seamless></iframe>
                 </div>
     		</div>
     	</div>
