@@ -15,7 +15,7 @@
     		<div class="ad-menu" id="ad-menu    ">
                 <div class="ad-logo">
                 <div class="ad-welcom">
-                                <div class="ad-wel-img"><img src="/view/image/logo.png" style="height:100px;width:100px;" ></div>
+                                <div class="ad-wel-img"><img src="/image/logo.png" style="height:100px;width:100px;" ></div>
                                 <div class="ad-wel-text">
                                     <div class="font-wel">欢迎您！<strong>${sessionScope.TeacherInfo.teacherName}</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>
@@ -107,7 +107,7 @@
                                 <dd>
                                     <a href="#" class="dd-item">导出评价表<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="/view/teacher/exportEvaluate.jsp" data-index="9">历史评价</li>
+                                        <li class="J_menuItem" href="/view/teacher/exportEvaluate.jsp" data-index="9">导出评价表</li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -129,13 +129,13 @@
                                 <dd>
                                     <a href="#" class="dd-item">更改密码<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v11.html" data-index="11">更改密码</li>
+                                        <li class="J_menuItem" href="/view/teacher/updatePassword.jsp" data-index="11">更改密码</li>
                                     </ul>
                                 </dd>
                                 <dd>
                                     <a href="#" class="dd-item">重置密码<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v12.html" data-index="12">重置密码</li>
+                                        <li class="J_menuItem" href="/view/teacher/reset.jsp" data-index="12">重置密码</li>
                                     </ul>
                                 </dd>
                             </dl>
