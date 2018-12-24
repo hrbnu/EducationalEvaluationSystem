@@ -77,18 +77,10 @@
 	</head>
 	<body>
 	<div class="MessageBoard">
-		<h1>修改评分标准</h1>
+		<h1>修改评价问题</h1>
 		<hr>
      <br>
-     <div class="partC">
-     	<ul>
-     		<li> 学生评分 </li>
-     		<li> 同行评分 </li>
-     		<li> 教师评分 </li>
-     		<li> 领导评分 </li>
-     	</ul>
-     </div>
-     <br>
+	<br>
 
             <br>
 		<div class="partD">
@@ -160,7 +152,7 @@
 												${problem.score}
 										</td>
 										<td>
-										<button type="submit" class="btn-look" onclick="mysubmit()">确认修改</button>
+										<button type="submit" class="btn-look" onclick="mysubmit()"  >确认修改</button>
 									</form>
 								</td>
 							</tr>
@@ -173,16 +165,10 @@
 		</div>
 
 	</div>
-
+	<
 	<script>
 		function mysubmit() {
-				var flag=<%=request.getAttribute("flag")%>;
-
-				if (flag == true){
-				    alert("修改成功");
-                }else{
-				    alert("修改失败");
-                }
+			alert("修改成功");
         }
 	</script>
 	</body>
