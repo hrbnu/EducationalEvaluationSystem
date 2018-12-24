@@ -9,7 +9,6 @@ public class StudentCourseTemp {
 	private Course course;
 	private Teacher teacher;
 	private StudentCourse studentCourse;
-	
 	public StudentCourse getStudentCourse() {
 		return studentCourse;
 	}
@@ -28,6 +27,6 @@ public class StudentCourseTemp {
 	public void setTeacher(Teacher teacher) {
 		this.teacher = teacher;
 	}
-	
-	
+
+
 }

@@ -28,13 +28,13 @@
                             <div class="li-item"><em class="scm li-ico ic1"></em>课程评价<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="#" class="dd-item dd-item-active">当前学期可评价课程<span class="scm dd-ar"></span></a>
+                                    <a href="<%=appPath%>/student/getCurrentCourse" class="dd-item dd-item-active">当前学期可评价课程<span class="scm dd-ar"></span></a>
                                      <ul class="ad-item-list">
                                         <li class="J_menuItem" href="index_v0.html" data-index="0">当前学期可评价课程</li>
                                     </ul>
                                 </dd>
                                 <dd>
-                                    <a href="#" class="dd-item">历史评价<span class="scm dd-ar"></span></a>
+                                    <a href="<%=appPath%>/student/getHistoryCourse" class="dd-item">历史评价<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
                                         <li class="J_menuItem" href="index_v4.html" data-index="4">历史评价</li>
                                     </ul>
@@ -145,7 +145,7 @@
                     </div>
                 </div>
                 <div class="ad-main-comment J_mainContent" id="ad-iframe">
-                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v1.html" frameborder="1" data-id="index_v1.html" seamless></iframe>
+                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<%=appPath%>/student/getCurrentCourse" frameborder="1" data-id="index_v1.html" seamless></iframe>
                 </div>
     		</div>
     	</div>

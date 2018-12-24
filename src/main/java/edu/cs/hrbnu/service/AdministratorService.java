@@ -27,7 +27,7 @@ public interface AdministratorService {
     /**
      *  单条添加学生信息
      * */
-    void insertStudent(Student student);
+    boolean insertStudent(Student student);
 
     /**
      * 修改学生信息
@@ -52,7 +52,7 @@ public interface AdministratorService {
     /**
      * 单条插入课程信息
      */
-    void insertSingleCourse(Course course);
+    boolean insertSingleCourse(Course course);
 
     /**
      * 修改评分标准
@@ -74,7 +74,7 @@ public interface AdministratorService {
     /**
      * 单条插入教师信息
      * */
-    void insertTeacher(Teacher teacher);
+    boolean insertTeacher(Teacher teacher);
 
     /**
      * 修改教师信息

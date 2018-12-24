@@ -257,40 +257,48 @@ public class AdministratorServiceImpl implements AdministratorService {
 	//增加学生信息  学生课程通过查询同班同学的课程进行添加
 	//Student、StudentCourse(根据同年级同专业同班同学导入课程)、
 	@Override
-	public void insertStudent(Student student){
+	public boolean insertStudent(Student student){
+		boolean isSuccess = true;
 		try {
-			//存Student表
-			//学生学登录密码、是否毕业标志系统设置
-			student.setPassword(student.getIdCard().substring(12));
-			student.setGraduation(false);
-			studentMapper.insertSingleStudentInfo(student);
-			//存student_course表
-			HashMap<String,Object> map = new HashMap<String, Object>();
-			map.put("department",student.getDepartment());
-			map.put("grade",student.getGrade());
-			map.put("classId",student.getClassId());
-			//获取一个同班同学学号
-			String classmateId = studentMapper.selectClassmateInfo(map);
-			//根据同班同学学号获取student_course表中所有的课号
-			HashMap<String,Object> courseMap = new HashMap<String, Object>();
-			courseMap.put("studentId",classmateId);
-			courseMap.put("history",false);
-			List<String> courseIds = studentCourseMapper.selectCourseIdsByClassmateId(courseMap);
-			//插入所有课程
-			//studentId,courseId,courseTime=0,history=false
-			List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
-			for(String courseId:courseIds){
-				StudentCourse studentCourse = new StudentCourse();
-				studentCourse.setStudentId(student.getStudentId());
-				studentCourse.setCourseId(courseId);
-				studentCourse.setCourseTime(0);
-				studentCourse.setHistory(false);
-				studentCourseList.add(studentCourse);
+			//判断学号是否已经存在
+			Student studentJudge = studentMapper.getStudentById(student.getStudentId());
+			if(studentJudge != null){
+				isSuccess = false;
+			} else {
+				//存Student表
+				//学生学登录密码、是否毕业标志系统设置
+				student.setPassword(student.getIdCard().substring(12));
+				student.setGraduation(false);
+				studentMapper.insertSingleStudentInfo(student);
+				//存student_course表
+				HashMap<String,Object> map = new HashMap<String, Object>();
+				map.put("department",student.getDepartment());
+				map.put("grade",student.getGrade());
+				map.put("classId",student.getClassId());
+				//获取一个同班同学学号
+				String classmateId = studentMapper.selectClassmateInfo(map);
+				//根据同班同学学号获取student_course表中所有的课号
+				HashMap<String,Object> courseMap = new HashMap<String, Object>();
+				courseMap.put("studentId",classmateId);
+				courseMap.put("history",false);
+				List<String> courseIds = studentCourseMapper.selectCourseIdsByClassmateId(courseMap);
+				//插入所有课程
+				//studentId,courseId,courseTime=0,history=false
+				List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
+				for(String courseId:courseIds){
+					StudentCourse studentCourse = new StudentCourse();
+					studentCourse.setStudentId(student.getStudentId());
+					studentCourse.setCourseId(courseId);
+					studentCourse.setCourseTime(0);
+					studentCourse.setHistory(false);
+					studentCourseList.add(studentCourse);
+				}
+				studentCourseMapper.insertSingleStudentCourses(studentCourseList);
 			}
-			studentCourseMapper.insertSingleStudentCourses(studentCourseList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return isSuccess;
 	}
 
 	//学生所有信息都可以修改
@@ -576,13 +584,20 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	//增加教师信息
 	@Override
-	public void insertTeacher(Teacher teacher){
+	public boolean insertTeacher(Teacher teacher){
+		boolean isSuccess = true;
 		try {
+			//判断教师工号是否已经存在
+			Teacher teacherJudge = teacherMapper.getTeacherById(teacher.getTeacherId());
+			if(teacherJudge != null){
+				isSuccess = false;
+			}
 			teacher.setPassword(teacher.getIdCard().substring(12));
 			teacherMapper.insertSingleTeacherInfo(teacher);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return isSuccess;
 	}
 
 
@@ -788,32 +803,40 @@ public class AdministratorServiceImpl implements AdministratorService {
 	 * 单条插入课程信息
 	 */
 	@Override
-	public void insertSingleCourse(Course course){
+	public boolean insertSingleCourse(Course course){
+		boolean isSuccess = true;
 		try {
-			//1.插入course
-			courseMapper.insertSingleCourse(course);
-			//获取学生信息
-			//2.通过课程号前四位获取年级
-			String grade = course.getCourseId().substring(0,4);
-			HashMap<String,Object> map = new HashMap<String, Object>();
-			map.put("grade",grade);
-			map.put("classId",course.getCourseClass());
-			List<String> studentLists = null;
-			studentLists = studentMapper.selectStudentIdsByGradeAndClassId(map);
-			//3.插入student_course
-			List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
-			for(String studentId:studentLists){
-				StudentCourse studentCourse = new StudentCourse();
-				studentCourse.setStudentId(studentId);
-				studentCourse.setCourseId(course.getCourseId());
-				studentCourse.setHistory(false);
-				studentCourse.setCourseTime(0);
-				studentCourseList.add(studentCourse);
+			//判断课程信息是否已存在
+			Course courseJudge = courseMapper.getCourseById(course.getCourseId());
+			if(courseJudge != null){
+				isSuccess = false;
+			} else {
+				//1.插入course
+				courseMapper.insertSingleCourse(course);
+				//获取学生信息
+				//2.通过课程号前四位获取年级
+				String grade = course.getCourseId().substring(0,4);
+				HashMap<String,Object> map = new HashMap<String, Object>();
+				map.put("grade",grade);
+				map.put("classId",course.getCourseClass());
+				List<String> studentLists = null;
+				studentLists = studentMapper.selectStudentIdsByGradeAndClassId(map);
+				//3.插入student_course
+				List<StudentCourse> studentCourseList = new ArrayList<StudentCourse>();
+				for(String studentId:studentLists){
+					StudentCourse studentCourse = new StudentCourse();
+					studentCourse.setStudentId(studentId);
+					studentCourse.setCourseId(course.getCourseId());
+					studentCourse.setHistory(false);
+					studentCourse.setCourseTime(0);
+					studentCourseList.add(studentCourse);
+				}
+				studentCourseMapper.insertStudentCourses(studentCourseList);
 			}
-			studentCourseMapper.insertStudentCourses(studentCourseList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return isSuccess;
 	}
 
 	@Override

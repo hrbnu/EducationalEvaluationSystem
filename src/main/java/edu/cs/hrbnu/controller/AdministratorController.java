@@ -183,14 +183,6 @@ public class AdministratorController {
             studentInfoList = administratorService.selectAllStudentInfo();
             totalCount = administratorService.selectStudentCount();
         } else {
-            //防止乱码
-            if(student.getDepartment() != null ){
-                try {
-                    student.setDepartment(new String(student.getDepartment().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
             if(student.getGrade() != 0 && student.getGrade() < 5){
                 //将学生的年级转化为2016的格式
                 Calendar calendar = Calendar.getInstance();
@@ -233,6 +225,16 @@ public class AdministratorController {
         boolean isEmpty = false;
         if(studentInfoList.isEmpty()){
             isEmpty = true;
+        }
+        if(student.getGrade() != 0 && student.getGrade() != 5){
+            Calendar calendar = Calendar.getInstance();
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONTH) + 1;
+            if(currentMonth < 9){
+                student.setGrade(currentYear - student.getGrade());
+            } else {
+                student.setGrade(currentYear - student.getGrade() + 1);
+            }
         }
         mav.addObject("isEmpty", isEmpty);
         mav.addObject("studentPosList", studentPosList);
@@ -262,14 +264,6 @@ public class AdministratorController {
             studentInfoList = administratorService.selectAllStudentInfo();
             totalCount = administratorService.selectStudentCount();
         } else {
-            //防止乱码
-            if(student.getDepartment() != null ){
-                try {
-                    student.setDepartment(new String(student.getDepartment().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
             if(student.getGrade() != 0 && student.getGrade() < 5){
                 //将学生的年级转化为2016的格式
                 Calendar calendar = Calendar.getInstance();
@@ -313,10 +307,20 @@ public class AdministratorController {
         if(studentInfoList.isEmpty()){
             isEmpty = true;
         }
+        if(student.getGrade() != 0 && student.getGrade() != 5){
+            Calendar calendar = Calendar.getInstance();
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONTH) + 1;
+            if(currentMonth < 9){
+                student.setGrade(currentYear - student.getGrade());
+            } else {
+                student.setGrade(currentYear - student.getGrade() + 1);
+            }
+        }
         mav.addObject("isEmpty", isEmpty);
         mav.addObject("studentPosList", studentPosList);
         mav.addObject("page",page);
-        mav.setViewName("administrator/singleStudentDelete");
+        mav.setViewName("administrator/studentSearch");
         return mav;
     }
 
@@ -349,29 +353,10 @@ public class AdministratorController {
             totalCount = administratorService.selectStudentCount();
         } else if(state != null) {
             //修改学生信息
-            //防止乱码
-            try {
-                student.setDepartment(new String(student.getDepartment().getBytes("ISO-8859-1"),"utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            try {
-                student.setName(new String(student.getName().getBytes("ISO-8859-1"),"utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
             administratorService.updateSingleStudent(student,oldStudentId);
             studentInfoList = administratorService.selectAllStudentInfo();
             totalCount = administratorService.selectStudentCount();
         }else{
-            //防止乱码
-            if(student.getDepartment() != null ){
-                try {
-                    student.setDepartment(new String(student.getDepartment().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
             if(student.getGrade() != 0 && student.getGrade() < 5){
                 //将学生的年级转化为2016的格式
                 Calendar calendar = Calendar.getInstance();
@@ -415,10 +400,22 @@ public class AdministratorController {
         if(studentInfoList.isEmpty()){
             isEmpty = true;
         }
+        if(student.getGrade() != 0 && student.getGrade() != 5){
+            Calendar calendar = Calendar.getInstance();
+            int currentYear = calendar.get(Calendar.YEAR);
+            int currentMonth = calendar.get(Calendar.MONTH) + 1;
+            if(currentMonth < 9){
+                student.setGrade(currentYear - student.getGrade());
+            } else {
+                student.setGrade(currentYear - student.getGrade() + 1);
+            }
+        }
+        String update = "update";
+        mav.addObject("update",update);
         mav.addObject("isEmpty", isEmpty);
         mav.addObject("studentPosList", studentPosList);
         mav.addObject("page",page);
-        mav.setViewName("administrator/singleStudentUpdate");
+        mav.setViewName("administrator/studentSearch");
         return mav;
     }
 
@@ -430,25 +427,22 @@ public class AdministratorController {
             mav.setViewName("administrator");
             return mav;
         }
-        if(state != null){
-            //防止乱码
-            try {
-                student.setDepartment(new String(student.getDepartment().getBytes("ISO-8859-1"),"utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            try {
-                student.setName(new String(student.getName().getBytes("ISO-8859-1"),"utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if(student.getStudentId() == "" && state != null){
+            String message = "请输入正确的信息";
+            mav.addObject("message",message);
+        }else if(state != null){
             //自动设置密码为身份证后六位
             //院系为专业
             //默认学生状态为在校
-            administratorService.insertStudent(student);
-            //返回页面
-            mav.setViewName("success");
-            return mav;
+            boolean isSuccess = administratorService.insertStudent(student);
+            String successMessage;
+            if(!isSuccess){
+                successMessage = "学生信息已存在！";
+            } else {
+                //返回页面
+                successMessage = "添加学生信息成功！";
+            }
+            mav.addObject("successMessage",successMessage);
         }
         mav.setViewName("administrator/singleStudentInsert");
         return mav;
@@ -476,13 +470,15 @@ public class AdministratorController {
             teacherInfoList = administratorService.selectAllTeacherInfo();
             totalCount = administratorService.selectTeacherCount();
         } else {
-            //防止乱码
-            if(teacher.getTitle() != null ){
-                try {
-                    teacher.setTitle(new String(teacher.getTitle().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+            //教学新星teachingStar 进步最快fastestProgress 末位帮扶lastHelp
+            if(teacher.getTitle().equals("teachingStar")){
+                teacher.setTitle("教学新星");
+            }
+            if(teacher.getTitle().equals("fastestProgress")){
+                teacher.setTitle("进步最快");
+            }
+            if(teacher.getTitle().equals("lastHelp")){
+                teacher.setTitle("末位帮扶");
             }
             teacherInfoList = administratorService.selectTeacherByCondition(teacher);
             totalCount = administratorService.selectTeacherCountByCondition(teacher);
@@ -505,6 +501,18 @@ public class AdministratorController {
         boolean isEmpty = false;
         if(teacherInfoList.isEmpty()){
             isEmpty = true;
+        }
+        //教学新星teachingStar 进步最快fastestProgress 末位帮扶lastHelp
+        if(teacher.getTitle() != null){
+            if(teacher.getTitle().equals("教学新星")){
+                teacher.setTitle("teachingStar");
+            }
+            if(teacher.getTitle().equals("进步最快")){
+                teacher.setTitle("fastestProgress");
+            }
+            if(teacher.getTitle().equals("末位帮扶")){
+                teacher.setTitle("lastHelp");
+            }
         }
         httpSession.setAttribute("teacherPosList",teacherPosList);
         mav.addObject("isEmpty", isEmpty);
@@ -533,13 +541,15 @@ public class AdministratorController {
             teacherInfoList = administratorService.selectAllTeacherInfo();
             totalCount = administratorService.selectTeacherCount();
         } else {
-            //防止乱码
-            if(teacher.getTitle() != null ){
-                try {
-                    teacher.setTitle(new String(teacher.getTitle().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+            //教学新星teachingStar 进步最快fastestProgress 末位帮扶lastHelp
+            if(teacher.getTitle().equals("teachingStar")){
+                teacher.setTitle("教学新星");
+            }
+            if(teacher.getTitle().equals("fastestProgress")){
+                teacher.setTitle("进步最快");
+            }
+            if(teacher.getTitle().equals("lastHelp")){
+                teacher.setTitle("末位帮扶");
             }
             teacherInfoList = administratorService.selectTeacherByCondition(teacher);
             totalCount = administratorService.selectTeacherCountByCondition(teacher);
@@ -563,10 +573,22 @@ public class AdministratorController {
         if(teacherInfoList.isEmpty()){
             isEmpty = true;
         }
+        //教学新星teachingStar 进步最快fastestProgress 末位帮扶lastHelp
+        if(teacher.getTitle() != null){
+            if(teacher.getTitle().equals("教学新星")){
+                teacher.setTitle("teachingStar");
+            }
+            if(teacher.getTitle().equals("进步最快")){
+                teacher.setTitle("fastestProgress");
+            }
+            if(teacher.getTitle().equals("末位帮扶")){
+                teacher.setTitle("lastHelp");
+            }
+        }
         httpSession.setAttribute("teacherPosList",teacherPosList);
         mav.addObject("isEmpty", isEmpty);
         mav.addObject("page",page);
-        mav.setViewName("administrator/singleTeacherDelete");
+        mav.setViewName("administrator/teacherSearch");
         return mav;
     }
 
@@ -578,18 +600,21 @@ public class AdministratorController {
             mav.setViewName("administrator");
             return mav;
         }
-        if(state != null){
-            //防止乱码
-            try {
-                teacher.setTeacherName(new String(teacher.getTeacherName().getBytes("ISO-8859-1"),"utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if(teacher.getTeacherId() == "" && state != null){
+            String message = "请输入正确的信息";
+            mav.addObject("message",message);
+        } else if(state != null){
             //自动设置密码为身份证后六位
-            administratorService.insertTeacher(teacher);
             //返回页面
-            mav.setViewName("success");
-            return mav;
+            String successMessage;
+            boolean isSuccess =  administratorService.insertTeacher(teacher);
+            if(!isSuccess){
+                successMessage = "教师信息已存在！";
+            } else {
+                //返回页面
+                successMessage = "添加教师信息成功！";
+            }
+            mav.addObject("successMessage",successMessage);
         }
         mav.setViewName("administrator/singleTeacherInsert");
         return mav;
@@ -623,48 +648,20 @@ public class AdministratorController {
             teacherInfoList = administratorService.selectAllTeacherInfo();
             totalCount = administratorService.selectTeacherCount();
         }else if(state != null) {
-            //修改教师信息
-            //防止乱码
-            if(teacher.getTeacherName() != null){
-                try {
-                    teacher.setTeacherName(new String(teacher.getTeacherName().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+            //教学新星teachingStar 进步最快fastestProgress 末位帮扶lastHelp
+            if(teacher.getTitle().equals("teachingStar")){
+                teacher.setTitle("教学新星");
             }
-            if(teacher.getTitle() != null){
-                try {
-                    teacher.setTitle(new String(teacher.getTitle().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+            if(teacher.getTitle().equals("fastestProgress")){
+                teacher.setTitle("进步最快");
             }
-            if(teacher.getHelpTeacherName() != null){
-                try {
-                    teacher.setHelpTeacherName(new String(teacher.getHelpTeacherName().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(teacher.getAccepterTeacherName() != null){
-                try {
-                    teacher.setAccepterTeacherName(new String(teacher.getAccepterTeacherName().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+            if(teacher.getTitle().equals("lastHelp")){
+                teacher.setTitle("末位帮扶");
             }
             administratorService.updateSingleTeacher(teacher,oldTeacherId);
             teacherInfoList = administratorService.selectAllTeacherInfo();
             totalCount = administratorService.selectTeacherCount();
         }else{
-            //防止乱码
-            if(teacher.getTitle() != null ){
-                try {
-                    teacher.setTitle(new String(teacher.getTitle().getBytes("ISO-8859-1"),"utf-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
             teacherInfoList = administratorService.selectTeacherByCondition(teacher);
             totalCount = administratorService.selectTeacherCountByCondition(teacher);
         }
@@ -687,10 +684,24 @@ public class AdministratorController {
         if(teacherInfoList.isEmpty()){
             isEmpty = true;
         }
+        //教学新星teachingStar 进步最快fastestProgress 末位帮扶lastHelp
+        if(teacher.getTitle() != null){
+            if(teacher.getTitle().equals("教学新星")){
+                teacher.setTitle("teachingStar");
+            }
+            if(teacher.getTitle().equals("进步最快")){
+                teacher.setTitle("fastestProgress");
+            }
+            if(teacher.getTitle().equals("末位帮扶")){
+                teacher.setTitle("lastHelp");
+            }
+        }
+        String update = "update";
+        mav.addObject("update",update);
         httpSession.setAttribute("teacherPosList",teacherPosList);
         mav.addObject("isEmpty", isEmpty);
         mav.addObject("page",page);
-        mav.setViewName("administrator/singleTeacherUpdate");
+        mav.setViewName("administrator/teacherSearch");
         return mav;
     }
 
@@ -705,19 +716,22 @@ public class AdministratorController {
             mav.setViewName("administrator");
             return mav;
         }
-        if(state != null){
-            //防止乱码
-            try {
-                course.setCourseName(new String(course.getCourseName().getBytes("ISO-8859-1"),"utf-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+        if(course.getCourseId() == "" && state != null){
+            String message = "请输入正确的信息";
+            mav.addObject("message",message);
+        }else if(state != null){
             //1.根据课号前四位获取年级，通过年级和班级查询所有学生号student(studentId)
             //2.student_course插入学号和课程号
-            administratorService.insertSingleCourse(course);
             //返回页面
-            mav.setViewName("success");
-            return mav;
+            String successMessage;
+            boolean isSuccess =  administratorService.insertSingleCourse(course);
+            if(!isSuccess){
+                successMessage = "课程信息已存在！";
+            } else {
+                //返回页面
+                successMessage = "添加课程信息成功！";
+            }
+            mav.addObject("successMessage",successMessage);
         }
         mav.setViewName("administrator/singleCourseInsert");
         return mav;

@@ -23,13 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -189,23 +187,27 @@ public class TeacherController {
         return modelAndView;
     }
 
+    //插入评价请求
     @RequestMapping("/insertListenClass")
-    public String insertListen(String teacherId,String isListeneredTeacherId,String courseName){
-        if(teacherService.submitListen(teacherId,isListeneredTeacherId,courseName)){
-            return "success";
+    public String insertListen(String isListeneredTeacherId,String courseName,Model model,HttpSession session){
+
+        if(teacherService.submitListen((String)session.getAttribute("teacherId"),isListeneredTeacherId,courseName)){
+            return "teacher/admin";
         }
-        return "wrong";
+        model.addAttribute("teachers",removeCurrentTeacher((String)session.getAttribute("teacherId")));
+        model.addAttribute("msg",false);
+        return "teacher/ClassRequestInsert";
     }
 
-    //确认已经听课老师
+    //得到申请信息
     @RequestMapping("/confirm")
-    public String confirmClassListen(HttpSession session,Model model){
+    public String confirmClassListen(HttpSession session,Model model ){
         String teacherId = (String)session.getAttribute("teacherId");
         model.addAttribute("confimMessage",teacherService.confirm(teacherId));
-        return "confirm";
+        return "teacher/confirm";
     }
-    //设置需要老师评价的记录
-    @RequestMapping("/confirmRequest")
+    //保存评价请求
+    @RequestMapping("/saveRequest")
     public String addTeacherEvaluateRecord(String courseId,String evaluateTeacherId,int classRequestRecordId,HttpSession session,Model model){
         Evaluate evaluate  = new Evaluate();
         evaluate.setCourseId(courseId);
@@ -216,13 +218,43 @@ public class TeacherController {
         teacherService.evaluateTeacher(evaluate);
         String teacherId = (String)session.getAttribute("teacherId");
         model.addAttribute("confimMessage",teacherService.confirm(teacherId));
-        return "confirm";
+        return "teacher/admin";
     }
     //获取老师待评价的课程
     @RequestMapping("/getNeedToEvaluateCourseByTeacher")
     public String getNeedToEvaluateCourseByTeacher(Model model,HttpSession session){
         String teacherId = (String)session.getAttribute("teacherId");
         model.addAttribute("tempMessage",teacherService.getNeedToEvaluateMessage(teacherId));
-        return "teachNeedToEvaluateCourse";
+        return "teacher/teachNeedToEvaluateCourse";
+    }
+    //申请听课
+    @RequestMapping("/applicatinListen")
+    public String applicationListen(Model model,HttpSession session){
+        List<Teacher> teachers = teacherService.getAllTeacherName();
+        model.addAttribute("teachers",removeCurrentTeacher((String)session.getAttribute("teacherId")));
+        return "teacher/ClassRequestInsert";
+    }
+    //得到教师所教授的课程 (还不会异步，目前直接刷新界面）
+    @RequestMapping("/getCourse")
+    public String getCourseByTeacherId(Model model,String isListeneredTeacherId,HttpSession session){
+        model.addAttribute("courses",teacherService.getCourseByTeahcer(isListeneredTeacherId));
+
+        model.addAttribute("teachers",removeCurrentTeacher((String)session.getAttribute("teacherId")));
+        model.addAttribute("selectTeacher",teacherService.getSingleTeacherInfo(isListeneredTeacherId));
+        return "teacher/ClassRequestInsert";
+    }
+
+    //选择评价老师时，移除自身
+    public List<Teacher> removeCurrentTeacher(String teacherAccount){
+        List<Teacher> teachers = teacherService.getAllTeacherName();
+        Iterator<Teacher> iterable = teachers.iterator();
+        //移除自身
+        while(iterable.hasNext()){
+            if(iterable.next().getTeacherId().equals(teacherAccount)){
+                iterable.remove();
+            }
+        }
+
+        return teachers;
     }
 }

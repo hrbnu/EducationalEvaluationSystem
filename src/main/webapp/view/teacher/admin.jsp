@@ -81,19 +81,19 @@
                             <div class="li-item"><em class="scm li-ico ic3"></em>同行评价<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="#" class="dd-item">当前学期可评价课程<span class="scm dd-ar"></span></a>
+                                    <a href="<%=appPath%>/teacher/getNeedToEvaluateCourseByTeacher" class="dd-item">当前学期可评价课程<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
                                         <li class="J_menuItem" href="index_v6.html" data-index="6">当前学期可评价课程</li>
                                     </ul>
                                 </dd>
                                 <dd>
-                                    <a href="#" class="dd-item">提交听课申请<span class="scm dd-ar"></span></a>
+                                    <a href="<%=appPath%>/teacher/applicatinListen" class="dd-item">提交听课申请<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
                                         <li class="J_menuItem" href="index_v7.html" data-index="7">提交听课申请</li>
                                     </ul>
                                 </dd>
                                 <dd>
-                                    <a href="#" class="dd-item">审核听课申请<span class="scm dd-ar"></span></a>
+                                    <a href="<%=appPath%>/teacher/confirm" class="dd-item">审核听课申请<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
                                         <li class="J_menuItem" href="index_v8.html" data-index="8">审核听课申请</li>
                                     </ul>
@@ -226,7 +226,7 @@
                     </div>
                 </div>
                 <div class="ad-main-comment J_mainContent" id="ad-iframe">
-                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index_v1.html" frameborder="1" data-id="index_v1.html" seamless></iframe>
+                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<%=appPath%>/teacher/getNeedToEvaluateCourseByTeacher" frameborder="1" data-id="index_v1.html" seamless></iframe>
                 </div>
     		</div>
     	</div>

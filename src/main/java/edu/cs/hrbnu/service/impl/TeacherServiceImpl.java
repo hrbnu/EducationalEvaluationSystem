@@ -323,4 +323,19 @@ public class TeacherServiceImpl implements TeacherService {
         }
        return teacherAndCourseCombines;
     }
+
+    @Override
+    public Teacher getSingleTeacherInfo(String teacherId) {
+        try{
+            return teacherMapper.selectSingleTeacherInfo(teacherId);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void saveClassListen(int classListenId) {
+        classRequestRecordMapper.updateRequest(classListenId);
+    }
 }
