@@ -68,4 +68,10 @@
     	select * from student_course where student_course.history = 0 and
        student_course.studentId = #{studentId}
     </select>
+
+    <update id="updateCourseTimeByStudentIdAndCourseId" parameterType="StudentCourse">
+    update student_course
+    set courseTime = courseTime + 1
+    where studentId=#{studentId} and courseId=#{courseId}
+    </update>
 </mapper>

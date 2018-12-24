@@ -12,10 +12,10 @@
     </head>
     <body>
     	<div id="admin">
-    		<div class="ad-menu" id="ad-menu">
+    		<div class="ad-menu" id="ad-menu    ">
                 <div class="ad-logo">
                 <div class="ad-welcom">
-                                <div class="ad-wel-img"><img src="/image/min_logo.png" height="100" width="100"></div>
+                                <div class="ad-wel-img"><img src="/view/image/min_logo.png" style="height:100px;width:100px;" ></div>
                                 <div class="ad-wel-text">
                                     <div class="font-wel">欢迎您！<strong>${sessionScope.TeacherInfo.teacherName}</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>
@@ -81,21 +81,21 @@
                             <div class="li-item"><em class="scm li-ico ic3"></em>同行评价<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="<%=appPath%>/teacher/getNeedToEvaluateCourseByTeacher" class="dd-item">当前学期可评价课程<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">当前学期可评价课程<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v6.html" data-index="6">当前学期可评价课程</li>
+                                        <li class="J_menuItem" href="<%=appPath%>/teacher/getNeedToEvaluateCourseByTeacher" data-index="6">当前学期可评价课程</li>
                                     </ul>
                                 </dd>
                                 <dd>
-                                    <a href="<%=appPath%>/teacher/applicatinListen" class="dd-item">提交听课申请<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">提交听课申请<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v7.html" data-index="7">提交听课申请</li>
+                                        <li class="J_menuItem" href="<%=appPath%>/teacher/applicatinListen" data-index="7">提交听课申请</li>
                                     </ul>
                                 </dd>
                                 <dd>
-                                    <a href="<%=appPath%>/teacher/confirm" class="dd-item">审核听课申请<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">审核听课申请<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v8.html" data-index="8">审核听课申请</li>
+                                        <li class="J_menuItem" href="<%=appPath%>/teacher/confirm" data-index="8">审核听课申请</li>
                                     </ul>
                                 </dd>
                                 <dd>

@@ -191,7 +191,7 @@
                             <textarea name="otherContent" class="Message" placeholder="文字性评价内容"></textarea>
                         </div>
                         <div class="x2">
-                            <input name="提交" type="submit"/>
+                            <input value="提交" name="提交" type="submit"/>
                         </div>
                     </div>
 

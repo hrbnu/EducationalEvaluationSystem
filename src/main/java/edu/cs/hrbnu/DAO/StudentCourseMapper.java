@@ -21,4 +21,7 @@ public interface StudentCourseMapper {
     void insertStudentCourses(List<StudentCourse> studentCourse) throws Exception;
     //修改单条学生学号
     void updateSingleStudentId(HashMap<String,Object> map) throws Exception;
+
+    //更新评价次数
+    int updateCourseTimeByStudentIdAndCourseId(StudentCourse studentCourse) throws Exception;
 }
