@@ -192,7 +192,7 @@ public class TeacherController {
     public String insertListen(String isListeneredTeacherId,String courseName,Model model,HttpSession session){
 
         if(teacherService.submitListen((String)session.getAttribute("teacherId"),isListeneredTeacherId,courseName)){
-            return "teacher/admin";
+            return "teacher/requestInsertSuccess";
         }
         model.addAttribute("teachers",removeCurrentTeacher((String)session.getAttribute("teacherId")));
         model.addAttribute("msg",false);
@@ -218,7 +218,7 @@ public class TeacherController {
         teacherService.evaluateTeacher(evaluate);
         String teacherId = (String)session.getAttribute("teacherId");
         model.addAttribute("confimMessage",teacherService.confirm(teacherId));
-        return "teacher/admin";
+        return "teacher/confirmSuccess";
     }
     //获取老师待评价的课程
     @RequestMapping("/getNeedToEvaluateCourseByTeacher")
