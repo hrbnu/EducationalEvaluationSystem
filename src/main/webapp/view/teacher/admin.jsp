@@ -15,7 +15,7 @@
     		<div class="ad-menu" id="ad-menu    ">
                 <div class="ad-logo">
                 <div class="ad-welcom">
-                                <div class="ad-wel-img"><img src="/view/image/min_logo.png" style="height:100px;width:100px;" ></div>
+                                <div class="ad-wel-img"><img src="/view/image/logo.png" style="height:100px;width:100px;" ></div>
                                 <div class="ad-wel-text">
                                     <div class="font-wel">欢迎您！<strong>${sessionScope.TeacherInfo.teacherName}</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>

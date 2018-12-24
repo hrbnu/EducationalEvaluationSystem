@@ -15,7 +15,7 @@
     		<div class="ad-menu" id="ad-menu">
                 <div class="ad-logo">
                 <div class="ad-welcom">
-                                <div class="ad-wel-img"><img src="/image/min_logo.png" height="100" width="100"></div>
+                                <div class="ad-wel-img"><img src="/image/logo.png" height="100" width="100"></div>
                                 <div class="ad-wel-text">
                                     <div class="font-wel">欢迎您！<strong>${sessionScope.StudentInfo.name}</strong></div>
                                     <div class="font-wel"><a href="javascript:;"><strong>个人学生</strong></a></div>
@@ -28,15 +28,15 @@
                             <div class="li-item"><em class="scm li-ico ic1"></em>课程评价<span class="scm arrow"></span></div>
                             <dl>
                                 <dd>
-                                    <a href="<%=appPath%>/student/getCurrentCourse" class="dd-item dd-item-active">当前学期可评价课程<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item dd-item-active">当前学期可评价课程<span class="scm dd-ar"></span></a>
                                      <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v0.html" data-index="0">当前学期可评价课程</li>
+                                        <li class="J_menuItem" href="<%=appPath%>/student/getCurrentCourse" data-index="0">当前学期可评价课程</li>
                                     </ul>
                                 </dd>
                                 <dd>
-                                    <a href="<%=appPath%>/student/getHistoryCourse" class="dd-item">历史评价<span class="scm dd-ar"></span></a>
+                                    <a href="#" class="dd-item">历史评价<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v4.html" data-index="4">历史评价</li>
+                                        <li class="J_menuItem" href="<%=appPath%>/student/getHistoryCourse" data-index="4">历史评价</li>
                                     </ul>
                                 </dd>
                             </dl>
@@ -138,14 +138,14 @@
                         <a href="javascript:;" class="scm jian-a sub-sel pre j_tabBg J_tabLeft"></a>
                         <div class="ad-sub-wraper page-tabs J_menuTabs">
                             <ul class="ad-sub-list page-tabs-content">
-                                <li class="active J_menuTab" data-id="index_v1.html">当前学期课评价课程</li>
+                                <li class="active J_menuTab" data-id="<%=appPath%>/student/getCurrentCourse">当前学期课评价课程</li>
                             </ul>
                         </div>
                         <a href="javascript:;" class="scm jian-a next j_tabBg J_tabRight"></a>
                     </div>
                 </div>
                 <div class="ad-main-comment J_mainContent" id="ad-iframe">
-                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<%=appPath%>/student/getCurrentCourse" frameborder="1" data-id="index_v1.html" seamless></iframe>
+                    <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<%=appPath%>/student/getCurrentCourse" frameborder="1" data-id="<%=appPath%>/student/getCurrentCourse" seamless></iframe>
                 </div>
     		</div>
     	</div>
