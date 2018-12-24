@@ -24,6 +24,8 @@ public class TeacherServiceImpl implements TeacherService {
     private CourseMapper courseMapper;
     @Autowired
     private ClassRequestRecordMapper classRequestRecordMapper;
+    @Autowired
+    private StudentCourseMapper studentCourseMapper;
 
     @Override
     public Teacher login(String teacherId, String password) {
@@ -201,6 +203,17 @@ public class TeacherServiceImpl implements TeacherService {
             e.printStackTrace();
         }
         return course;
+    }
+
+    @Override
+    public int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId, int courseTime) {
+        try {
+            studentCourseMapper.updateCourseTimeByStudentIdAndCourseId(studentId, courseId, courseTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
     /*===================================*/
