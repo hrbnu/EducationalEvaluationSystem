@@ -133,7 +133,7 @@
             </div>
             <br />
         </div>
-        <input class="btn btn-look btn-xs" data-toggle="modal" data-target="#reviseUser"style="float: right;" name="提交" type="submit"/>
+        <input class="btn btn-look btn-xs" data-toggle="modal" data-target="#reviseUser"style="float: right;" value="提交" name="提交" type="submit"/>
     </form>
 </div>
 </body>
