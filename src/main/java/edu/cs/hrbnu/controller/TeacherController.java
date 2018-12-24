@@ -98,7 +98,7 @@ public class TeacherController {
         if (teacherService.evaluateTeacher(evaluate) == 0){
             return new ModelAndView("wrong");
         }else {
-            return new ModelAndView("success");
+            return new ModelAndView("redirect:/teacher/getNeedToEvaluateCourseByTeacher");
         }
     }
     

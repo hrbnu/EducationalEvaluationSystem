@@ -49,7 +49,7 @@ public class StudentController {
             return new ModelAndView("wrong");
         }else {
             studentService.updateCourseTimeByStudentIdAndCourseId(studentId, courseId);
-            return new ModelAndView("success");
+            return new ModelAndView("redirect:/student/getCurrentCourse");
         }
     }
 
