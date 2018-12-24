@@ -48,7 +48,8 @@ public class StudentController {
         if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent) == 0){
             return new ModelAndView("wrong");
         }else {
-            return new ModelAndView("success");
+            studentService.updateCourseTimeByStudentIdAndCourseId(studentId, courseId);
+            return new ModelAndView("redirect:/student/getCurrentCourse");
         }
     }
 

@@ -24,6 +24,8 @@ public class TeacherServiceImpl implements TeacherService {
     private CourseMapper courseMapper;
     @Autowired
     private ClassRequestRecordMapper classRequestRecordMapper;
+    @Autowired
+    private StudentCourseMapper studentCourseMapper;
 
     @Override
     public Teacher login(String teacherId, String password) {
