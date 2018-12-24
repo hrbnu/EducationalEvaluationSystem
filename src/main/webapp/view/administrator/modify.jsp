@@ -89,7 +89,7 @@
             <input type="text" name="ElectivestudentWeight" >%+
             <input type="text" name="ElectiveteacherWeight" >%+
             <input type="text" name="ElectiveleaderWeight" >%+
-            <input type="text" name="ElectivemyselfWeight" >%+
+            <input type="text" name="ElectivemyselfWeight" >%
         </div>
         <div class="submit">
             <input class="btn btn-look btn-xs" type="submit" value="确认">
