@@ -46,7 +46,7 @@ public class TeacherController {
         } else {
             String resetMessage = "工号或身份证号错误";
             modelAndView.addObject("resetMessage",resetMessage);
-            modelAndView.setViewName("teacher");
+            modelAndView.setViewName("teacher/reset");
         }
         return modelAndView;
     }

@@ -90,7 +90,7 @@ public class StudentController {
         } else {
             String resetMessage = "学号或身份证号错误";
             modelAndView.addObject("resetMessage",resetMessage);
-            modelAndView.setViewName("student");
+            modelAndView.setViewName("student/reset");
         }
         return modelAndView;
     }
@@ -104,7 +104,7 @@ public class StudentController {
         } else {
             String updateMessage = "学号或密码错误";
             modelAndView.addObject("updateMessage",updateMessage);
-            modelAndView.setViewName("student");
+            modelAndView.setViewName("student/updatePassword");
         }
         return modelAndView;
     }

@@ -64,13 +64,13 @@
                                 <dd>
                                     <a href="#" class="dd-item">更改密码<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v2.html" data-index="2">更改密码</li>
+                                        <li class="J_menuItem" href="/view/student/updatePassword.jsp" data-index="2">更改密码</li>
                                     </ul>
                                 </dd>
                                 <dd>
                                     <a href="#" class="dd-item">重置密码<span class="scm dd-ar"></span></a>
                                 	<ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v3.html" data-index="3">重置密码</li>
+                                        <li class="J_menuItem" href="/view/student/reset.jsp" data-index="3">重置密码</li>
                                     </ul>
                                 </dd>
                             </dl>

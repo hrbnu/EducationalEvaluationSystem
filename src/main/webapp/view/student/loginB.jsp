@@ -46,7 +46,7 @@
 				<div class="clearfix"></div> 
 				<li class="login-sub">
 					<input type="submit" name="Submit" value="登录" />
-                    <input type="reset" name="Reset" value="重置" />
+                    <input type="button" name="Reset" onclick="window.location.href='reset.jsp'" value="重置" />
 				</li>
 				<font color="red">${loginMessage}<br></font>
            </form>
