@@ -205,17 +205,6 @@ public class TeacherServiceImpl implements TeacherService {
         return course;
     }
 
-    @Override
-    public int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId, int courseTime) {
-        try {
-            studentCourseMapper.updateCourseTimeByStudentIdAndCourseId(studentId, courseId, courseTime);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return 1;
-    }
-
     /*===================================*/
 
     @Override

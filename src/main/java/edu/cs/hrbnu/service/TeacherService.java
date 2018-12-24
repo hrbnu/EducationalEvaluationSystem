@@ -75,8 +75,6 @@ public interface TeacherService {
 
     Course getCourseById(String courseId);
 
-    int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId, int courseTime);
-
     /*===================================*/
 
 	/**

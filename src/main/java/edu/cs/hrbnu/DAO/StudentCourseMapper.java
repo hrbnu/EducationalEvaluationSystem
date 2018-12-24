@@ -23,5 +23,5 @@ public interface StudentCourseMapper {
     void updateSingleStudentId(HashMap<String,Object> map) throws Exception;
 
     //更新评价次数
-    int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId, int courseTime) throws Exception;
+    int updateCourseTimeByStudentIdAndCourseId(StudentCourse studentCourse) throws Exception;
 }
