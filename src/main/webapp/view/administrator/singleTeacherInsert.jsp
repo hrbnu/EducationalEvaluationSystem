@@ -57,14 +57,16 @@
 <body>
 <div id="mima">
     <form action="${pageContext.request.contextPath }/admin/insertSingleTeacher" method="post">
+        <fieldset>
         <c:if test="${message != null}">
-            <font size="2" color="red">${message}</font>
+            <label>
+                <font size="3" color="red">${message}</font>
+            </label>
         </c:if>
         <c:if test="${successMessage != null}">
             <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
-        <fieldset>
             <p>
                 <label for="teacherName" >姓名：</label>
                 <input type="text" id="teacherName" name="teacherName" align="left">

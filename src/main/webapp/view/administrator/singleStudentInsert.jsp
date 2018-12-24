@@ -31,7 +31,6 @@
             margin-left: 30%;
         }
         fieldset{
-
             border: none;
             border-radius: 2px;
             margin-bottom: 12px;
@@ -57,15 +56,18 @@
 <body>
 <div id="mima">
     <form action="${pageContext.request.contextPath }/admin/insertSingleStudent" onsubmit="return validate()" method="post">
+        <fieldset>
         <c:if test="${message != null}">
-            <font size="2" color="red">${message}</font>
+            <label>
+                <font size="3" color="red">${message}</font>
+            </label>
         </c:if>
         <c:if test="${successMessage != null}">
             <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
         <div class="input_div">
-            <fieldset>
+
                 <p>
                     <label for="name" >姓名：</label>
                     <input type="text" id="name" name="name" align="left">
@@ -96,8 +98,9 @@
                 <p>
                     <input type="submit" value="确认添加" id="submit" align="left">
                 </p>
-            </fieldset>
+
         </div>
+        </fieldset>
         </c:if>
     </form>
 </div>

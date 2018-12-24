@@ -57,8 +57,11 @@
 <body>
 <div id="mima">
     <form action="${pageContext.request.contextPath }/admin/insertSingleCourse" onsubmit="return validate()" method="post">
+        <fieldset>
         <c:if test="${message != null}">
-            <font size="2" color="red">${message}</font>
+            <label>
+                <font size="3" color="red">${message}</font>
+            </label>
         </c:if>
         <c:if test="${successMessage != null}">
             <font size="5" color="red">${successMessage}</font>
