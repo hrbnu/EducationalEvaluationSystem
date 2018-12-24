@@ -14,11 +14,11 @@
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
     <style type="text/css">
         #mima{
-            padding-top: 50px;
-            margin-top: 100px;
+            padding-top: 10px;
+            margin-top: 50px;
             height: 250px;
             width: 52%;
-            margin-left: 36%;
+            margin-left: 25%;
             font-size: 14px
         }
 
@@ -28,7 +28,28 @@
             border: none;
             padding: 6px 35px;
             color: #FFFFFF;
-            margin-left: 8%;
+            margin-left: 30%;
+        }
+        fieldset{
+
+            border: none;
+            border-radius: 2px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            padding: 0 .625em;
+        }
+
+        label{
+            cursor: pointer;
+            display: inline-block;
+            padding: 3px 6px;
+            text-align: right;
+            width: 150px;
+            vertical-align: top;
+        }
+
+        input{
+            font-size: inherit;
         }
     </style>
 </head>
@@ -43,15 +64,32 @@
             <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
-            <p>姓名：<input type="text" name="teacherName"></p>
-            <P>工号：<input type="text" name="teacherId"></P>
-            <P>身份证号：<input type="text" name="idCard"></P>
-            <P>教师身份：
-                <input type="checkbox" name="teacherType">教师
-                <input type="checkbox" name="monitorType">督导
-                <input type="checkbox" name="leaderType">领导</P>
-            <p><input type="hidden" name="state" value="confirm"></p>
-            <p><input type="submit" value="确认添加" id="submit"/>
+        <fieldset>
+            <p>
+                <label for="teacherName" >姓名：</label>
+                <input type="text" id="teacherName" name="teacherName" align="left">
+            </p>
+            <P>
+                <label for="teacherId" >工号：</label>
+                <input type="text" id="teacherId" name="teacherId" align="left">
+            </P>
+            <P>
+                <label for="idCard" >身份证号：</label>
+                <input type="text" id="idCard" name="idCard" align="left">
+            </P>
+            <P>
+                <label for="teacherType" >教师身份：</label>
+                <input type="checkbox" id="teacherType" name="teacherType" align="left">教师
+                <input type="checkbox" id="monitorType" name="monitorType" align="left">督导
+                <input type="checkbox" id="leaderType" name="leaderType" align="left">领导
+            </P>
+            <p>
+                <input type="hidden" name="state" value="confirm" align="left">
+            </p>
+            <p>
+                <input type="submit" value="确认添加" id="submit" align="left">
+            </p>
+        </fieldset>
         </c:if>
     </form>
 </div>

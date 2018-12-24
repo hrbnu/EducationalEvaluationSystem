@@ -14,11 +14,11 @@
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
     <style type="text/css">
         #mima{
-            padding-top: 50px;
-            margin-top: 100px;
+            padding-top: 10px;
+            margin-top: 50px;
             height: 250px;
             width: 52%;
-            margin-left: 36%;
+            margin-left: 25%;
             font-size: 14px
         }
 
@@ -28,7 +28,28 @@
             border: none;
             padding: 6px 35px;
             color: #FFFFFF;
-            margin-left: 8%;
+            margin-left: 30%;
+        }
+        fieldset{
+
+            border: none;
+            border-radius: 2px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            padding: 0 .625em;
+        }
+
+        label{
+            cursor: pointer;
+            display: inline-block;
+            padding: 3px 6px;
+            text-align: right;
+            width: 150px;
+            vertical-align: top;
+        }
+
+        input{
+            font-size: inherit;
         }
     </style>
 </head>
@@ -43,19 +64,54 @@
             <font size="5" color="red">${successMessage}</font>
         </c:if>
         <c:if test="${successMessage == null}">
-        <table>
-            <p>课程名：<input type="text" name="courseName"></p>
-            <P>课程号：<input type="text" name="courseId"></P>
-            <P>学分：<input id="score" type="text" name="score"></P>
-            <P>课程属性：<input type="text" name="classification"></P>
-            <P>教师工号：<input type="text" name="teacherId"></P>
-            <P>当前课程所属学期：<input id="semester" type="text" name="semester"></P>
-            <P>课程所属班级：<input type="text" name="courseClass"></P>
-            <P>课程开始时间：<input type="text" name="startTime"></P>
-            <P>课程结束时间：<input type="text" name="endTime"></P>
-            <P>总课时数：<input id="learnTime" type="text" name="learnTime"></P>
-            <p><input type="hidden" name="state" value="confirm"></p>
-            <p><input type="submit" value="确认添加" id="submit"/>
+        <fieldset>
+            <p>
+                <label for="courseName" >课程名：</label>
+                <input type="text" id="courseName" name="courseName" align="left">
+            </p>
+            <P>
+                <label for="courseId" >课程号：</label>
+                <input type="text" id="courseId" name="courseId" align="left">
+            </P>
+            <P>
+                <label for="score" >学分：</label>
+                <input id="score" type="text" name="score" align="left">
+            </P>
+            <P>
+                <label for="classification" >课程属性：</label>
+                <input type="text" id="classification" name="classification" align="left">
+            </P>
+            <P>
+                <label for="teacherId" >教师工号：</label>
+                <input type="text" id="teacherId" name="teacherId" align="left">
+            </P>
+            <P>
+                <label for="semester" >当前课程所属学期：</label>
+                <input id="semester" type="text" name="semester" align="left">
+            </P>
+            <P>
+                <label for="courseClass" >课程所属班级：</label>
+                <input type="text" id="courseClass" name="courseClass" align="left">
+            </P>
+            <P>
+                <label for="startTime" >课程开始时间：</label>
+                <input type="text" id="startTime" name="startTime" align="left">
+            </P>
+            <P>
+                <label for="endTime" >课程结束时间：</label>
+                <input type="text" id="endTime" name="endTime" align="left">
+            </P>
+            <P>
+                <label for="learnTime" >总课时数：</label>
+                <input id="learnTime" type="text" name="learnTime" align="left">
+            </P>
+            <p>
+                <input type="hidden" name="state" value="confirm" align="left">
+            </p>
+            <p>
+                <input type="submit" value="确认添加" id="submit" align="left">
+            </p>
+        </fieldset>
         </c:if>
     </form>
 </div>
