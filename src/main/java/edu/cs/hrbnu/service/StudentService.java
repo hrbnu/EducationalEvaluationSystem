@@ -57,4 +57,8 @@ public interface StudentService {
      * 投诉
      * */
 	int complaint(String studentId, String courseId, String complaintContent);
+
+	/*
+	* 更新评价次数*/
+	int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId);
 }	
