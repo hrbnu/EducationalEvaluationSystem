@@ -110,7 +110,7 @@ public class StudentController {
     }
 
     @RequestMapping("/login")
-    public ModelAndView login(String studentId, String password, ModelMap modelMap){
+    public ModelAndView login(String studentId, String password, ModelMap modelMap,HttpSession session){
         Student student = studentService.login(studentId,password);
         ModelAndView modelAndView = new ModelAndView();
         if(student == null){
@@ -118,7 +118,7 @@ public class StudentController {
             modelAndView.addObject("loginMessage",loginMessage);
             modelAndView.setViewName("student/loginB");
         }else{
-
+            session.setAttribute("studentId", studentId);
             modelMap.addAttribute("StudentInfo",student);
             modelAndView.setViewName("student/admin");
         }
@@ -146,11 +146,13 @@ public class StudentController {
     }
 
 
+
     @RequestMapping("/getCurrentCourse")
     public String getCurrentCourse(HttpServletRequest request, Model model){
         String studentId = (String)request.getSession().getAttribute("studentId");
+        System.out.println(studentId);
         model.addAttribute("currentCourse", studentService.getEvaluateCurrentCourse(studentId));
-        return "currentCourse";
+        return "student/currentCourseEvaluate";
 
     }
 
@@ -158,7 +160,7 @@ public class StudentController {
     public String getHistoryCourse(Model model,HttpServletRequest request){
         String studentId = (String)request.getSession().getAttribute("studentId");
         model.addAttribute("historyCourse", studentService.getEvaluateHistoryCourses(studentId));
-        return "historyCourse";
+        return "student/historyCourseEvaluate";
     }
 
 }

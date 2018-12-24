@@ -107,4 +107,8 @@ public interface TeacherService {
 	void updateLastLoginTime(String currentLoginTime,String teacherId);
 	//获取需要去评价的课程信息
 	List<TeacherAndCourseCombine> getNeedToEvaluateMessage(String teacherId);
+	//得到单个老师的信息
+	Teacher getSingleTeacherInfo(String teacherId);
+	//保存听课申请
+	void saveClassListen(int classListenId);
 }
