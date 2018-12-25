@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ComplaintMapper {
     int insertComplaintContent(Complaint complaint) throws Exception;
+    List<Complaint> getComplaintByStudentId(String studentId) throws Exception;
     List<Complaint> getAllComplaint() throws Exception;
     List<Complaint> getComplaintByCourseId(String courseId) throws Exception;
     //删除单条学生投诉信息

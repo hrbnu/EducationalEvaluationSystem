@@ -1,7 +1,6 @@
 package edu.cs.hrbnu.controller;
 
-import edu.cs.hrbnu.model.EvaluateProblem;
-import edu.cs.hrbnu.model.Student;
+import edu.cs.hrbnu.model.*;
 import edu.cs.hrbnu.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -156,6 +155,27 @@ public class StudentController {
         return "student/currentCourseEvaluate";
 
     }
+
+    /*yaque
+    ================*/
+    @RequestMapping("/getCurrentCourseToComplain")
+    public String getCurrentCourseToComplain(HttpServletRequest request, Model model){
+        String studentId = (String)request.getSession().getAttribute("studentId");
+        System.out.println(studentId);
+        List<Complaint> complaintList = studentService.getComplaintByStudentId(studentId);
+        List<StudentCourseTemp> studentCourseTempList = studentService.getEvaluateCurrentCourse(studentId);
+        for (StudentCourseTemp studentCourseTemp : studentCourseTempList) {
+            for (Complaint complaint : complaintList) {
+                if (studentCourseTemp.getStudentCourse().getCourseId().equals(complaint.getCourseId())) {
+                    studentCourseTempList.remove(studentCourseTemp);
+                }
+            }
+        }
+        model.addAttribute("currentCourseToComplain",studentCourseTempList);
+        return "student/currentCourseComplain";
+    }
+
+    /*================*/
 
     @RequestMapping("/getHistoryCourse")
     public String getHistoryCourse(Model model,HttpServletRequest request){

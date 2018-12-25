@@ -1,9 +1,6 @@
 package edu.cs.hrbnu.service;
 
-import edu.cs.hrbnu.model.Course;
-import edu.cs.hrbnu.model.EvaluateProblem;
-import edu.cs.hrbnu.model.Student;
-import edu.cs.hrbnu.model.StudentCourseTemp;
+import edu.cs.hrbnu.model.*;
 
 import java.util.List;
 
@@ -61,4 +58,6 @@ public interface StudentService {
 	/*
 	* 更新评价次数*/
 	int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId);
+
+	List<Complaint> getComplaintByStudentId(String studentId);
 }	

@@ -218,4 +218,15 @@ public class StudentServiceImpl implements StudentService{
         }
         return 1;
     }
+
+    /*yaque的私有方法 勿动。*/
+    public List<Complaint> getComplaintByStudentId(String studentId) {
+        List<Complaint> complaintList = null;
+        try {
+            complaintList = complaintMapper.getComplaintByStudentId(studentId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return complaintList;
+    }
 }
