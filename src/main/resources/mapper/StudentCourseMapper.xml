@@ -60,7 +60,7 @@
     </update>
 
     <select id="getHistoryCourseIdByStudentId" parameterType="String" resultMap="studentCourseResultMap">
-       select * from student_course where student_course.history = 1 and
+       select * from student_course where student_course.history = 0 and
        student_course.studentId = #{studentId}
     </select>
 
