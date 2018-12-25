@@ -112,7 +112,7 @@
                             </div>
                             <div class="col-xs-2">
                                 <c:if test="${course.studentCourse.courseTime+1<=(course.course.learnTime/10+1)}">
-                                    <a href="<%=basePath%>/student/evalu?studentId=${sessionScope.get("studentId")}&courseId=${course.course.courseId}">评价</a>
+                                    <a href="<%=basePath%>/student/evalu?studentId=${sessionScope.get("studentId")}&courseId=${course.course.courseId}&flag=1">评价</a>
                                 </c:if>
                                 <c:if test="${course.studentCourse.courseTime>(course.course.learnTime/10+1)}">
                                     评价已满
