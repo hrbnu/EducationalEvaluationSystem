@@ -24,4 +24,6 @@ public interface StudentCourseMapper {
 
     //更新评价次数
     int updateCourseTimeByStudentIdAndCourseId(StudentCourse studentCourse) throws Exception;
+    //更新历史评价次数
+    int updateHistoryByStudentIdAndCourseId(StudentCourse studentCourse) throws Exception;
 }

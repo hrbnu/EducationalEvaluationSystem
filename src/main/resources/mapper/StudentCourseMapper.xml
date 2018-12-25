@@ -74,4 +74,9 @@
     set courseTime = courseTime + 1
     where studentId=#{studentId} and courseId=#{courseId}
     </update>
+    <update id="updateHistoryByStudentIdAndCourseId" parameterType="StudentCourse">
+    update student_course
+    set history = history + 1
+    where studentId=#{studentId} and courseId=#{courseId}
+    </update>
 </mapper>

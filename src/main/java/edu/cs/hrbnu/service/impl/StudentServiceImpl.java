@@ -204,7 +204,7 @@ public class StudentServiceImpl implements StudentService{
         return 1;
     }
 
-    /*yaque的私有方法 勿动。用于向数据库中写入一次学生的投诉*/
+    /*yaque的私有方法 勿动。用于更新评价次数*/
     @Override
     public int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId) {
         StudentCourse studentCourse = new StudentCourse();
@@ -212,6 +212,20 @@ public class StudentServiceImpl implements StudentService{
         studentCourse.setCourseId(courseId);
         try {
             studentCourseMapper.updateCourseTimeByStudentIdAndCourseId(studentCourse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    public int updateHistoryByStudentIdAndCourseId(String studentId, String courseId) {
+        StudentCourse studentCourse = new StudentCourse();
+        studentCourse.setStudentId(studentId);
+        studentCourse.setCourseId(courseId);
+        try {
+            studentCourseMapper.updateHistoryByStudentIdAndCourseId(studentCourse);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

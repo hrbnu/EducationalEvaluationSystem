@@ -59,5 +59,8 @@ public interface StudentService {
 	* 更新评价次数*/
 	int updateCourseTimeByStudentIdAndCourseId(String studentId, String courseId);
 
+	/*更新历史评次数*/
+	int updateHistoryByStudentIdAndCourseId(String studentId, String courseId);
+
 	List<Complaint> getComplaintByStudentId(String studentId);
 }	

@@ -24,7 +24,8 @@ public class StudentController {
     private StudentService studentService;
 
     /*学生的评分相关
-    *test ip: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001&flag=1*/
+    *test ip: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001&flag=1
+    *history: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001&flag=5*/
     @RequestMapping("/evalu")
     public ModelAndView evaluation(Model model, String studentId, String courseId, String flag) {
         model.addAttribute("studentId", studentId);
@@ -46,16 +47,21 @@ public class StudentController {
         for (EvaluateProblem evaluateProblem:listEvaluateProblem) {
             thisCourseScore = thisCourseScore + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
         }
-        if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent, flag) == 0){
-            model.addAttribute("message", "评价失败");
-            model.addAttribute("url", "/student/getCurrentCourse");
-            return new ModelAndView("showMessage");
-        }else {
-            studentService.updateCourseTimeByStudentIdAndCourseId(studentId, courseId);
-            model.addAttribute("message", "评价成功");
-            model.addAttribute("url", "/student/getCurrentCourse");
-            return new ModelAndView("showMessage");
+        if (flag.equals("1") || flag.equals("5")) {
+            if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent, flag) == 1){
+                if (flag.equals("5")) {
+                    studentService.updateHistoryByStudentIdAndCourseId(studentId, courseId);
+                }else{
+                    studentService.updateCourseTimeByStudentIdAndCourseId(studentId, courseId);
+                }
+                model.addAttribute("message", "评价成功");
+                model.addAttribute("url", "/student/getCurrentCourse");
+                return new ModelAndView("showMessage");
+            }
         }
+        model.addAttribute("message", "失败成功");
+        model.addAttribute("url", "/student/getCurrentCourse");
+        return new ModelAndView("showMessage");
     }
 
     /*学生的投诉
