@@ -73,7 +73,7 @@ public class StudentController {
         if (studentService.complaint(studentId, courseId, complaintContent) == 0) {
             return new ModelAndView("wrong");
         }else {
-            return new ModelAndView("success");
+            return new ModelAndView("redirect:/student/getCurrentCourseToComplain");
         }
 
     }
@@ -161,13 +161,13 @@ public class StudentController {
     @RequestMapping("/getCurrentCourseToComplain")
     public String getCurrentCourseToComplain(HttpServletRequest request, Model model){
         String studentId = (String)request.getSession().getAttribute("studentId");
-        System.out.println(studentId);
         List<Complaint> complaintList = studentService.getComplaintByStudentId(studentId);
         List<StudentCourseTemp> studentCourseTempList = studentService.getEvaluateCurrentCourse(studentId);
-        for (StudentCourseTemp studentCourseTemp : studentCourseTempList) {
+        System.out.println(studentCourseTempList.size() + "  " +complaintList.size());
+        for (int i = 0; i < studentCourseTempList.size(); i ++) {
             for (Complaint complaint : complaintList) {
-                if (studentCourseTemp.getStudentCourse().getCourseId().equals(complaint.getCourseId())) {
-                    studentCourseTempList.remove(studentCourseTemp);
+                if (studentCourseTempList.get(i).getStudentCourse().getCourseId().equals(complaint.getCourseId())) {
+                    studentCourseTempList.remove(i);
                 }
             }
         }

@@ -106,23 +106,25 @@
         </div>
     </div>
     <div class="tablebody">
-        <c:if test="${currentCourseToComplain.size()==0}">当前没有可投诉课程</c:if>
-        <c:forEach items="${currentCourseToComplain}" var="course">
-            <div class="row">
-                <div class="col-xs-2 ">
-                        ${course.course.semester}
+        <c:if test='${currentCourseToComplain.size() == 0}'><center><h1>当前没有可投诉课程</h1></center></c:if>
+        <c:if test="${currentCourseToComplain.size() > 0}">
+            <c:forEach items="${currentCourseToComplain}" var="course">
+                <div class="row">
+                    <div class="col-xs-2 ">
+                            ${course.course.semester}
+                    </div>
+                    <div class="col-xs-2">
+                            ${course.teacher.teacherName}
+                    </div>
+                    <div class="col-xs-1">
+                            ${course.course.courseName}
+                    </div>
+                    <div class="col-xs-2">
+                        <a href="<%=basePath%>/student/complaint?studentId=${sessionScope.get("studentId")}&courseId=${course.course.courseId}">投诉</a>
+                    </div>
                 </div>
-                <div class="col-xs-2">
-                        ${course.teacher.teacherName}
-                </div>
-                <div class="col-xs-1">
-                        ${course.course.courseName}
-                </div>
-                <div class="col-xs-2">
-                    <a href="<%=basePath%>/student/complaint?studentId=${sessionScope.get("studentId")}&courseId=${course.course.courseId}">投诉</a>
-                </div>
-            </div>
-        </c:forEach>
+            </c:forEach>
+        </c:if>
     </div>
 
 </div>
