@@ -50,12 +50,6 @@
                                         <li class="J_menuItem" href="index_v5.html" data-index="5">当前学期可投诉课程</li>
                                     </ul>
                                 </dd>
-                                <dd>
-                                    <a href="#" class="dd-item">历史投诉<span class="scm dd-ar"></span></a>
-                                    <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v6.html" data-index="6">历史投诉</li>
-                                    </ul>
-                                </dd>
                             </dl>
                         </li>
                         <li>
