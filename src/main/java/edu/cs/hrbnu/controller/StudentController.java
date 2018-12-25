@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -183,15 +185,19 @@ public class StudentController {
         String studentId = (String)request.getSession().getAttribute("studentId");
         List<Complaint> complaintList = studentService.getComplaintByStudentId(studentId);
         List<StudentCourseTemp> studentCourseTempList = studentService.getEvaluateCurrentCourse(studentId);
-        System.out.println(studentCourseTempList.size() + "  " +complaintList.size());
-        for (int i = 0; i < studentCourseTempList.size(); i ++) {
+        List<StudentCourseTemp> studentCourseTempListCant = new ArrayList<>();
+        for (StudentCourseTemp studentCourseTemp : studentCourseTempList) {
             for (Complaint complaint : complaintList) {
-                if (studentCourseTempList.get(i).getStudentCourse().getCourseId().equals(complaint.getCourseId())) {
-                    studentCourseTempList.remove(i);
+                if (studentCourseTemp.getStudentCourse().getCourseId().equals(complaint.getCourseId())) {
+                    StudentCourseTemp studentCourseTempNew = studentCourseTemp;
+                    studentCourseTempList.remove(studentCourseTemp);
+                    studentCourseTempListCant.add(studentCourseTempNew);
                 }
             }
         }
-        model.addAttribute("currentCourseToComplain",studentCourseTempList);
+        System.out.println(studentCourseTempList.size() + "  " + complaintList.size() + "   " + studentCourseTempListCant.size());
+        model.addAttribute("currentCourseToComplain", studentCourseTempList);
+        model.addAttribute("studentCourseTempListCant", studentCourseTempListCant);
         return "student/currentCourseComplain";
     }
 
