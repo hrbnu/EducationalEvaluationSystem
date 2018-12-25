@@ -111,13 +111,7 @@
                                     ${course.course.courseName}
                             </div>
                             <div class="col-xs-2">
-                                <c:if test="${course.studentCourse.courseTime+1<=1}">
-                                    <a href="<%=basePath%>/student/evalu?studentId=${sessionScope.get("studentId")}&courseId=${course.course.courseId}">评价</a>
-
-                                </c:if>
-                                <c:if test="${course.studentCourse.courseTime+1>1}">
-                                    当前课程评价次数已满
-                                </c:if>
+                                <a href="<%=basePath%>/student/evalu?studentId=${sessionScope.get("studentId")}&courseId=${course.course.courseId}&flag=5">评价</a>
                             </div>
                         </div>
                         </c:forEach>
