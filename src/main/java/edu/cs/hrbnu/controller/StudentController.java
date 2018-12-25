@@ -24,11 +24,12 @@ public class StudentController {
     private StudentService studentService;
 
     /*学生的评分相关
-    *test ip: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001*/
+    *test ip: http://localhost:8080/student/evalu?studentId=2016040222&courseId=201603001&flag=1*/
     @RequestMapping("/evalu")
-    public ModelAndView evaluation(Model model, String studentId, String courseId) {
+    public ModelAndView evaluation(Model model, String studentId, String courseId, String flag) {
         model.addAttribute("studentId", studentId);
         model.addAttribute("courseId", courseId);
+        model.addAttribute("flag", flag);
         List<EvaluateProblem> listEvaluateProblem = studentService.getEvaluateProblem();
         model.addAttribute("listEvaluateProblem", listEvaluateProblem);
         return new ModelAndView("student/evalu");
@@ -38,13 +39,14 @@ public class StudentController {
     public ModelAndView evaluationScoreCaculate(@RequestParam("otherContent")String evaluateContent,
                                                 HttpServletRequest request, Model model,
                                                 @RequestParam("studentId") String studentId,
-                                                @RequestParam("courseId") String courseId) {
+                                                @RequestParam("courseId") String courseId,
+                                                @RequestParam("flag") String flag) {
         double thisCourseScore = 0.0;
         List<EvaluateProblem> listEvaluateProblem = studentService.getEvaluateProblem();
         for (EvaluateProblem evaluateProblem:listEvaluateProblem) {
             thisCourseScore = thisCourseScore + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
         }
-        if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent) == 0){
+        if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent, flag) == 0){
             model.addAttribute("message", "评价失败");
             model.addAttribute("url", "/student/getCurrentCourse");
             return new ModelAndView("showMessage");
@@ -76,11 +78,11 @@ public class StudentController {
                                         Model model) {
 //        System.out.println(studentId + courseId);
         if (studentService.complaint(studentId, courseId, complaintContent) == 0) {
-            model.addAttribute("message", "评价成功");
+            model.addAttribute("message", "投诉成功");
             model.addAttribute("url", "/student/getCurrentCourseToComplain");
             return new ModelAndView("showMessage");
         }else {
-            model.addAttribute("message", "评价成功");
+            model.addAttribute("message", "投诉成功");
             model.addAttribute("url", "/student/getCurrentCourseToComplain");
             return new ModelAndView("showMessage");
         }

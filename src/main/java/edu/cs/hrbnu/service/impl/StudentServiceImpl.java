@@ -170,12 +170,12 @@ public class StudentServiceImpl implements StudentService{
 
     /*yaque 私有方法，勿动。用于向数据库中写入一次学生的评价*/
     @Override
-    public int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent) {
+    public int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent, String flag) {
         Evaluate evaluate = new Evaluate();
         evaluate.setCourseId(courseId);
         evaluate.setEvaluateContent(evaluateContent);
         evaluate.setEvaluateScore(courseScores);
-        evaluate.setFlag("1");
+        evaluate.setFlag(flag);
         evaluate.setFlagId(studentId);
         try {
             evaluateMapper.insertEvaluate(evaluate);

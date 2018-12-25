@@ -46,9 +46,9 @@ public interface StudentService {
 	List<EvaluateProblem> getEvaluateProblem();
 
 	/**
-	 * 评价当前课程
+	 * 评价当前课程和历史课程
 	 */
-	int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent);
+	int evaluateCurrentCourse(String studentId, String courseId, double courseScores, String evaluateContent, String flag);
 	
 	/**
      * 投诉
