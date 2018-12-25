@@ -18,7 +18,7 @@
         from complaint
     </select>
 
-    <select id="getComplaintByCourseIdAndStudentId" parameterType="java.lang.String" resultMap="complaintResultMap">
+    <select id="getComplaintByStudentId" parameterType="java.lang.String" resultMap="complaintResultMap">
         select *
         from complaint
         where studentId=#{studentId}
