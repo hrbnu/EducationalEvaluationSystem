@@ -51,12 +51,15 @@ public class StudentController {
             if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent, flag) == 1){
                 if (flag.equals("5")) {
                     studentService.updateHistoryByStudentIdAndCourseId(studentId, courseId);
+                    model.addAttribute("message", "评价历史课程成功");
+                    model.addAttribute("url", "/student/getHistoryCourse");
+                    return new ModelAndView("showMessage");
                 }else{
                     studentService.updateCourseTimeByStudentIdAndCourseId(studentId, courseId);
+                    model.addAttribute("message", "评价当前课程成功");
+                    model.addAttribute("url", "/student/getCurrentCourse");
+                    return new ModelAndView("showMessage");
                 }
-                model.addAttribute("message", "评价成功");
-                model.addAttribute("url", "/student/getCurrentCourse");
-                return new ModelAndView("showMessage");
             }
         }
         model.addAttribute("message", "失败成功");
