@@ -166,6 +166,7 @@ public class TeacherController {
             Date lastLoginTimed = teacher.getLastLoginTime();
             String lastLoginTime = simpleDateFormat.format(lastLoginTimed);
             List<Complaint> complaints = teacherService.alertComplaint(teacherId,lastLoginTime,currentLoginTime);
+            System.out.println(complaints.size());
             modelMap.addAttribute("complaints",complaints);
             session.setAttribute("teacherId",teacherId);
             teacherService.updateLastLoginTime(currentLoginTime,teacherId);

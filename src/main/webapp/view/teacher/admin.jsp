@@ -1,4 +1,6 @@
 <%@ page import="edu.cs.hrbnu.model.Teacher" %>
+<%@ page import="edu.cs.hrbnu.model.Complaint" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% String appPath = request.getContextPath(); %><!DOCTYPE html>
@@ -187,7 +189,10 @@
                             <div class="ad-notice">
                                 <ul>
                                     <li>
-                                        <a href="javascript:;" class="scm nt1"><span class="scm nt-count dot">12</span></a>
+                                        <a href="/view/teacher/unbrowsedComplaints.jsp" class="scm nt1"><span class="scm nt-count dot"><%
+                                            List<Complaint> complaints = (List<Complaint>)request.getSession().getAttribute("complaints");
+                                            out.print(complaints.size());
+                                        %></span></a>
                                     </li>
                                     <li>
                                         <a href="javascript:;" class="scm nt2"><span class="scm nt-count dot">12</span></a>

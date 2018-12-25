@@ -81,16 +81,19 @@
     </select>
 
     <resultMap id="Complaints" type="Complaint" >
+        <result column="courseId" property="courseId"/>
         <result column="message" property="message"/>
         <result column="complaintTime" property="complaintTime"/>
         <association property="course" javaType="Course">
             <result column="courseName" property="courseName"/>
+            <result column="courseId" property="courseId"/>
+            <result column="semester" property="semester"/>
         </association>
 
     </resultMap>
 
     <select id="getUnbrowsedComplaintsByCourseId" parameterType="String" resultMap="Complaints">
-        select cs.courseName,ct.message,ct.complaintTime
+        select cs.courseId,cs.semester,cs.courseName,ct.message,ct.complaintTime
         from complaint ct
         LEFT OUTER JOIN course cs
         ON ct.courseId=cs.courseId
