@@ -77,6 +77,7 @@
     <form action="${path}/student/evaluScoreCaculate" method="get">
         <input type="hidden" name="studentId" value="${studentId}" />
         <input type="hidden" name="courseId" value="${courseId}" />
+        <input type="hidden" name="flag" value="${flag}" />
         <div class="row tableHeader">
             <div class="col-xs-2 ">
                 序号
