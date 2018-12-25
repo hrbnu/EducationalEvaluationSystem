@@ -37,7 +37,8 @@
 
 <%
     //转向语句
-    response.setHeader("Refresh", "3;URL=/student/getCurrentCourse");
+
+    response.setHeader("Refresh", "3;URL=" + request.getAttribute("url"));
 %>
 </body>
 </html>

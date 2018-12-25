@@ -45,10 +45,14 @@ public class StudentController {
             thisCourseScore = thisCourseScore + Double.valueOf(request.getParameter(String.valueOf(evaluateProblem.getId())));
         }
         if (studentService.evaluateCurrentCourse(studentId, courseId, thisCourseScore, evaluateContent) == 0){
-            return new ModelAndView("wrong");
+            model.addAttribute("message", "评价失败");
+            model.addAttribute("url", "/student/getCurrentCourse");
+            return new ModelAndView("showMessage");
         }else {
             studentService.updateCourseTimeByStudentIdAndCourseId(studentId, courseId);
-            return new ModelAndView("redirect:/student/getCurrentCourse");
+            model.addAttribute("message", "评价成功");
+            model.addAttribute("url", "/student/getCurrentCourse");
+            return new ModelAndView("showMessage");
         }
     }
 
@@ -68,12 +72,17 @@ public class StudentController {
     @RequestMapping("/submitComplaint")
     public ModelAndView submitComplaint(@RequestParam("complaintContent")String complaintContent,
                                         @RequestParam("studentId") String studentId,
-                                        @RequestParam("courseId") String courseId) {
+                                        @RequestParam("courseId") String courseId,
+                                        Model model) {
 //        System.out.println(studentId + courseId);
         if (studentService.complaint(studentId, courseId, complaintContent) == 0) {
-            return new ModelAndView("wrong");
+            model.addAttribute("message", "评价成功");
+            model.addAttribute("url", "/student/getCurrentCourseToComplain");
+            return new ModelAndView("showMessage");
         }else {
-            return new ModelAndView("redirect:/student/getCurrentCourseToComplain");
+            model.addAttribute("message", "评价成功");
+            model.addAttribute("url", "/student/getCurrentCourseToComplain");
+            return new ModelAndView("showMessage");
         }
 
     }
