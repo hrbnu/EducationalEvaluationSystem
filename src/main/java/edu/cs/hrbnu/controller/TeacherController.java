@@ -96,9 +96,13 @@ public class TeacherController {
         evaluate.setFlag(flag);
         evaluate.setFlagId(teacherId);
         if (teacherService.evaluateTeacher(evaluate) == 0){
-            return new ModelAndView("wrong");
+            model.addAttribute("message", "评价失败");
+            model.addAttribute("url", "/teacher/getNeedToEvaluateCourseByTeacher");
+            return new ModelAndView("showMessage");
         }else {
-            return new ModelAndView("redirect:/teacher/getNeedToEvaluateCourseByTeacher");
+            model.addAttribute("message", "评价成功");
+            model.addAttribute("url", "/teacher/getNeedToEvaluateCourseByTeacher");
+            return new ModelAndView("showMessage");
         }
     }
     
