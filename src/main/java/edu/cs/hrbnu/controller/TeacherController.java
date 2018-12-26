@@ -264,4 +264,13 @@ public class TeacherController {
 
         return teachers;
     }
+
+    @RequestMapping("getCurrentMyselfEvaluate")
+    public String getCurrentMyselfEvaluate(Model model,HttpSession session){
+        String teacherId = (String)session.getAttribute("teacherId");
+        model.addAttribute("evaluate",teacherService.getCurrentMyselfEvaluate(teacherId));
+        if(teacherService.getCurrentMyselfEvaluate(teacherId).size()!=0)
+        System.out.println("测试");
+        return "teacher/teacherMyselfEvaluate";
+    }
 }

@@ -19,7 +19,9 @@
         from course
         where courseId=#{id}
     </select>
-
+    <select id="getCurrentMyselfEvaluate" resultMap="courseResultMap">
+        select * from course where teacherId = #{teacherId}
+    </select>
     <select id="getAllCourses" resultMap="courseResultMap">
     	select *
     	from course
@@ -65,4 +67,5 @@
         values (#{courseId},#{courseName},#{teacherId},#{semester},#{score},#{classification},
                 #{courseClass},#{startTime},#{endTime},#{learnTime})
     </insert>
+
 </mapper>

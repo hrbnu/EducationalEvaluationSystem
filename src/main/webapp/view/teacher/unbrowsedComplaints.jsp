@@ -165,7 +165,7 @@
 
 
 </div>
-<a href="admin.html"><button class="btn btn-look btn-xs btna" data-toggle="modal" data-target="#reviseUser">返回首页</button></a>
+<a href="/view/teacher/admin.jsp"><button class="btn btn-look btn-xs btna" data-toggle="modal" data-target="#reviseUser">返回首页</button></a>
 <script type="text/javascript">
     function jump(){
         window.location.href="complaintInfo.jsp";

@@ -340,4 +340,9 @@ public class TeacherServiceImpl implements TeacherService {
     public void saveClassListen(int classListenId) {
         classRequestRecordMapper.updateRequest(classListenId);
     }
+
+    @Override
+    public List<Course> getCurrentMyselfEvaluate(String teahcerId) {
+        return courseMapper.getCurrentMyselfEvaluate(teahcerId);
+    }
 }

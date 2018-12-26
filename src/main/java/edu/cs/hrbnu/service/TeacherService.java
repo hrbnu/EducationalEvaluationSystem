@@ -111,4 +111,6 @@ public interface TeacherService {
 	Teacher getSingleTeacherInfo(String teacherId);
 	//保存听课申请
 	void saveClassListen(int classListenId);
+
+	List<Course> getCurrentMyselfEvaluate(String teahcerId);
 }

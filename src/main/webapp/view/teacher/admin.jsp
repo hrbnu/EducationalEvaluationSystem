@@ -48,18 +48,6 @@
                                         <li class="J_menuItem" href="/teacher/courseform/${sessionScope.teacherId}" data-index="1">当前学期课程评价详情</li>
                                     </ul>
                                 </dd>
-                                <dd>
-                                    <a href="#" class="dd-item">历史学期评价结果<span class="scm dd-ar"></span></a>
-                                    <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v2.html" data-index="2">历史学期评价结果</li>
-                                    </ul>
-                                </dd>
-                                <dd>
-                                    <a href="#" class="dd-item">我的投诉<span class="scm dd-ar"></span></a>
-                                    <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v3.html" data-index="3">我的投诉</li>
-                                    </ul>
-                                </dd>
                             </dl>
                         </li>
                         <li>
@@ -68,10 +56,10 @@
                                 <dd>
                                     <a href="#" class="dd-item">当前学期可评价课程<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
-                                        <li class="J_menuItem" href="index_v4.html" data-index="4">当前学期可评价课程</li>
+                                        <li class="J_menuItem" href="<%=appPath%>/teacher/getCurrentMyselfEvaluate" data-index="4">当前学期可评价课程</li>
                                     </ul>
                                 </dd>
-                                <dd>	
+                                <dd>
                                     <a href="#" class="dd-item">历史评价<span class="scm dd-ar"></span></a>
                                     <ul class="ad-item-list">
                                         <li class="J_menuItem" href="index_v5.html" data-index="5">历史评价</li>

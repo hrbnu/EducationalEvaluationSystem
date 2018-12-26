@@ -21,4 +21,6 @@ public interface CourseMapper {
     void updateTeacherId(String oldTeacherId) throws Exception;
     //插入单条课程信息
     void insertSingleCourse(Course course) throws Exception;
+
+    List<Course> getCurrentMyselfEvaluate(String teacherId);
 }
